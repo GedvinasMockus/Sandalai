@@ -25,3 +25,41 @@ D:\University\objektinis programavimas\7 semestras\objektinis programų projekta
 D:\University\objektinis programavimas\7 semestras\objektinis programų projektavimas\Game\SwordsAndSandals\SwordsAndSandals\obj\Debug\net6.0\ref\SwordsAndSandals.dll
 D:\University\objektinis programavimas\7 semestras\objektinis programų projektavimas\Game\SwordsAndSandals\SwordsAndSandals\bin\Debug\net6.0\Content\Character\Ninja\Kunoichi\Idle.xnb
 D:\University\objektinis programavimas\7 semestras\objektinis programų projektavimas\Game\SwordsAndSandals\SwordsAndSandals\bin\Debug\net6.0\Content\Background\Battleground\PNG\Battleground4\Bright\back_trees.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Background\Battleground\PNG\Battleground4\Bright\back_trees.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Character\Ninja\Kunoichi\Idle.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\SwordsAndSandals.exe
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\SwordsAndSandals.deps.json
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\SwordsAndSandals.runtimeconfig.json
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\SwordsAndSandals.dll
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\SwordsAndSandals.pdb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\MonoGame.Framework.dll
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\runtimes\linux-x64\native\libSDL2-2.0.so.0
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\runtimes\linux-x64\native\libopenal.so.1
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\runtimes\osx\native\libSDL2.dylib
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\runtimes\osx\native\libopenal.1.dylib
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\runtimes\win-x64\native\SDL2.dll
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\runtimes\win-x64\native\soft_oal.dll
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\runtimes\win-x86\native\SDL2.dll
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\runtimes\win-x86\native\soft_oal.dll
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\obj\Debug\net6.0\SwordsAndSandals.csproj.AssemblyReference.cache
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\obj\Debug\net6.0\SwordsAndSandals.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\obj\Debug\net6.0\SwordsAndSandals.AssemblyInfoInputs.cache
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\obj\Debug\net6.0\SwordsAndSandals.AssemblyInfo.cs
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\obj\Debug\net6.0\SwordsAndSandals.csproj.CoreCompileInputs.cache
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\obj\Debug\net6.0\SwordsAndSandals.csproj.CopyComplete
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\obj\Debug\net6.0\SwordsAndSandals.dll
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\obj\Debug\net6.0\refint\SwordsAndSandals.dll
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\obj\Debug\net6.0\SwordsAndSandals.pdb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\obj\Debug\net6.0\SwordsAndSandals.genruntimeconfig.cache
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\obj\Debug\net6.0\ref\SwordsAndSandals.dll
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Character\Ninja\Ninja_Monk\Attack_1.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Character\Ninja\Ninja_Monk\Attack_2.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Character\Ninja\Ninja_Monk\Blade.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Character\Ninja\Ninja_Monk\Cast.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Character\Ninja\Ninja_Monk\Dead.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Character\Ninja\Ninja_Monk\Hurt.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Character\Ninja\Ninja_Monk\Idle.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Character\Ninja\Ninja_Monk\Jump.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Character\Ninja\Ninja_Monk\Kunai.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Character\Ninja\Ninja_Monk\Run.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Character\Ninja\Ninja_Monk\Walk.xnb

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\University\\objektinis programavimas\\7 semestras\\objektinis programų projektavimas\\Game\\SwordsAndSandals\\SwordsAndSandals\\SwordsAndSandals.csproj": {}
+    "C:\\Users\\Ernis\\Documents\\Sandalai\\SwordsAndSandals\\SwordsAndSandals.csproj": {}
   },
   "projects": {
-    "D:\\University\\objektinis programavimas\\7 semestras\\objektinis programų projektavimas\\Game\\SwordsAndSandals\\SwordsAndSandals\\SwordsAndSandals.csproj": {
+    "C:\\Users\\Ernis\\Documents\\Sandalai\\SwordsAndSandals\\SwordsAndSandals.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\University\\objektinis programavimas\\7 semestras\\objektinis programų projektavimas\\Game\\SwordsAndSandals\\SwordsAndSandals\\SwordsAndSandals.csproj",
+        "projectUniqueName": "C:\\Users\\Ernis\\Documents\\Sandalai\\SwordsAndSandals\\SwordsAndSandals.csproj",
         "projectName": "SwordsAndSandals",
-        "projectPath": "D:\\University\\objektinis programavimas\\7 semestras\\objektinis programų projektavimas\\Game\\SwordsAndSandals\\SwordsAndSandals\\SwordsAndSandals.csproj",
-        "packagesPath": "C:\\Users\\Povilas\\.nuget\\packages\\",
-        "outputPath": "D:\\University\\objektinis programavimas\\7 semestras\\objektinis programų projektavimas\\Game\\SwordsAndSandals\\SwordsAndSandals\\obj\\",
+        "projectPath": "C:\\Users\\Ernis\\Documents\\Sandalai\\SwordsAndSandals\\SwordsAndSandals.csproj",
+        "packagesPath": "C:\\Users\\Ernis\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Ernis\\Documents\\Sandalai\\SwordsAndSandals\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "E:\\Programs\\VisualStudio\\SharedComponents\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Povilas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Ernis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -59,8 +59,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -69,7 +68,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }
