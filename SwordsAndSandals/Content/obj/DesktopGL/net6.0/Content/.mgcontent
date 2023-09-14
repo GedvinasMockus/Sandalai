@@ -1,14 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Profile>Reach</Profile>
-  <Platform>DesktopGL</Platform>
-  <Config />
-  <SourceFiles>
-    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/SwordsAndSandals/Content/Background/Battleground/PNG/Battleground4/Bright/back_trees.png</File>
-    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Idle.png</File>
-  </SourceFiles>
-  <DestFiles>
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-  </DestFiles>
-</SourceFileCollection>
+<?xml version="1.0" encoding="utf-8"?><SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Profile>Reach</Profile><Platform>DesktopGL</Platform><Config /><SourceFiles><File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Background/Battleground/PNG/Battleground4/Bright/back_trees.png</File><File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Idle.png</File><File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Attack_1.png</File><File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Attack_2.png</File><File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Blade.png</File><File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Cast.png</File><File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Dead.png</File><File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Hurt.png</File><File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Idle.png</File><File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Jump.png</File><File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Kunai.png</File><File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Run.png</File><File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Walk.png</File></SourceFiles><DestFiles><File xsi:nil="true" /><File xsi:nil="true" /><File xsi:nil="true" /><File xsi:nil="true" /><File xsi:nil="true" /><File xsi:nil="true" /><File xsi:nil="true" /><File xsi:nil="true" /><File xsi:nil="true" /><File xsi:nil="true" /><File xsi:nil="true" /><File xsi:nil="true" /><File xsi:nil="true" /></DestFiles></SourceFileCollection>

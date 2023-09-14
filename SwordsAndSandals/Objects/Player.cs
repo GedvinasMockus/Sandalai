@@ -1,10 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SwordsAndSandals.Objects
 {
@@ -27,7 +24,7 @@ namespace SwordsAndSandals.Objects
             this.scale = scale;
         }
 
-        public Player(Texture2D texture, Vector2 position, float scale ,int width, int height)
+        public Player(Texture2D texture, Vector2 position, float scale, int width, int height)
         {
             this.texture = texture;
             this.position = position;
@@ -38,7 +35,11 @@ namespace SwordsAndSandals.Objects
 
         public void Draw(SpriteBatch batch)
         {
-            batch.Draw(texture, new Vector2(position.X, position.Y - frameHeight / 2), new Rectangle(0, 0, frameWidth, frameHeight), Color.White, 0.0f, new Vector2(frameWidth/2,frameHeight/2), scale, SpriteEffects.None, 1);
+            //Matrix m = Matrix.CreateScale(scale) * Matrix.CreateTranslation((float)(-frameWidth / 2), (float)(-frameHeight / 2), 0) * Matrix.CreateTranslation(position.X, position.Y, 0);
+            //batch.Begin(transformMatrix: m);
+            //batch.Draw(texture, new Vector2(0, 0), Color.White);
+            //batch.End();
+            batch.Draw(texture, new Vector2(position.X, position.Y), new Rectangle(0, 0, frameWidth, frameHeight), Color.White, 0.0f, new Vector2(frameWidth / 2, frameHeight), scale, SpriteEffects.None, 1);
         }
 
         public void Update(GameTime gameTime)
