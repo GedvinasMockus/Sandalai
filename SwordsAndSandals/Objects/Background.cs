@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace SwordsAndSandals.Objects
 {
-    public class Background : IDrawable
+    public class Background
     {
-        public Texture2D texture { get; }
         public Vector2 position { get; set; }
+
+        private Texture2D texture;
         public Background(Texture2D texture, Vector2 position)
         {
             this.texture = texture;
