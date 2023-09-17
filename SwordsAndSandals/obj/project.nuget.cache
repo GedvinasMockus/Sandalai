@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "OUK9xf4J8Cb0q0qvgHcNeDaqM3FjoYMyakGvVSMkxodTuujOwp6406FKpR8S01rZxV9lRX64N38evUM/Adj7pA==",
+  "dgSpecHash": "Y6+ZeqmxcTt+VbL+OFMMNpZEXN202+cgSbhSm2MFLJRZRj1zNpLLZx0qWC5SXYNhyQv4cfGYWaFKiSD+48unZA==",
   "success": true,
-  "projectFilePath": "D:\\University\\objektinis programavimas\\7 semestras\\objektinis programų projektavimas\\Game\\SwordsAndSandals\\SwordsAndSandals\\SwordsAndSandals.csproj",
+  "projectFilePath": "C:\\Users\\Ernis\\Documents\\Sandalai\\SwordsAndSandals\\SwordsAndSandals.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Povilas\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
-    "C:\\Users\\Povilas\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
+    "C:\\Users\\Ernis\\.nuget\\packages\\microsoft.aspnet.signalr.client\\2.4.3\\microsoft.aspnet.signalr.client.2.4.3.nupkg.sha512",
+    "C:\\Users\\Ernis\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
+    "C:\\Users\\Ernis\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512",
+    "C:\\Users\\Ernis\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512"
   ],
   "logs": []
 }

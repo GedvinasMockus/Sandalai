@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,7 +15,7 @@ namespace SwordsAndSandals.Objects
         private int frameHeight;
         private float scale;
         private Dictionary<string, Ability> abilities;
-
+        private int centerY;
 
         public Player(Texture2D texture, Vector2 position, float scale, Dictionary<string, Ability> availableAbilities)
         {
@@ -27,7 +27,7 @@ namespace SwordsAndSandals.Objects
             this.abilities = availableAbilities;
         }
 
-        public Player(Texture2D texture, Vector2 position, float scale, int width, int height, Dictionary<string, Ability> availableAbilities)
+        public Player(Texture2D texture, Vector2 position, float scale, int width, int height, Dictionary<string, Ability> availableAbilities, int centerY)
         {
             this.texture = texture;
             this.position = position;
@@ -35,16 +35,23 @@ namespace SwordsAndSandals.Objects
             frameHeight = height;
             this.scale = scale;
             this.abilities = availableAbilities;
+            this.centerY = centerY;
         }
 
         public void Draw(SpriteBatch batch)
         {
-            batch.Draw(texture, new Vector2(position.X, position.Y - scale * frameHeight/2), new Rectangle(0, 0, frameWidth, frameHeight), Color.White, 0.0f, new Vector2(frameWidth / 2, frameHeight / 2), scale, SpriteEffects.None, 1);
+            batch.Draw(texture, new Vector2(position.X, position.Y - scale * frameHeight / 2), new Rectangle(0, 0, frameWidth, frameHeight), Color.White, 0.0f, new Vector2(frameWidth / 2, frameHeight / 2), scale, SpriteEffects.None, 1);
 
+            int numIcons = abilities.Count;
+            float radius = scale * (frameWidth - centerY) * (float)Math.Sqrt(2);
+            float angleIncrement = MathHelper.TwoPi / numIcons;
             int index = 0;
-            foreach(var v in abilities.Values)
+            foreach (var v in abilities.Values)
             {
-                v.position = new Vector2(position.X + scale * (frameWidth/2 - frameWidth * (index & 1)), position.Y - v.texture.Height * v.scale * (index/2) - v.texture.Height/2 * v.scale);
+                float angle = index * angleIncrement;
+                float xOffset = -(float)Math.Sin(angle) * (radius);
+                float yOffset = -(float)Math.Cos(angle) * (radius);
+                v.position = new Vector2(position.X + xOffset, position.Y + yOffset - (frameHeight - centerY) * scale);
                 v.Draw(batch);
                 index++;
             }
@@ -52,7 +59,7 @@ namespace SwordsAndSandals.Objects
 
         public void Update(GameTime gameTime)
         {
-            foreach(var v in abilities.Values)
+            foreach (var v in abilities.Values)
             {
                 v.Update(gameTime);
             }
