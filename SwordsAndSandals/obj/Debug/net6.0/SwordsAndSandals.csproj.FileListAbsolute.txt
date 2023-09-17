@@ -115,3 +115,46 @@ D:\University\objektinis programavimas\7 semestras\objektinis programų projekta
 D:\University\objektinis programavimas\7 semestras\objektinis programų projektavimas\Game\SwordsAndSandals\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_39.xnb
 D:\University\objektinis programavimas\7 semestras\objektinis programų projektavimas\Game\SwordsAndSandals\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_40.xnb
 D:\University\objektinis programavimas\7 semestras\objektinis programų projektavimas\Game\SwordsAndSandals\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_41.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_01.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_02.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_03.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_04.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_05.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_06.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_07.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_08.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_09.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_10.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_11.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_12.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_13.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_14.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_15.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_16.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_17.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_18.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_19.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_20.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_21.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_22.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_23.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_24.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_25.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_26.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_27.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_28.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_29.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_30.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_31.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_32.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_33.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_34.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_35.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_36.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_37.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_38.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_39.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_40.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Content\Icons\Icon_41.xnb
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Microsoft.AspNet.SignalR.Client.dll
+C:\Users\Ernis\Documents\Sandalai\SwordsAndSandals\bin\Debug\net6.0\Newtonsoft.Json.dll
