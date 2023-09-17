@@ -44,7 +44,7 @@ namespace SwordsAndSandals.Objects
             int index = 0;
             foreach(var v in abilities.Values)
             {
-                v.position = new Vector2(position.X + scale * (frameWidth/2 - frameWidth * (index & 1)), position.Y - v.texture.Height * v.scale * (index/2) - v.texture.Height/2 * v.scale);
+                v.Position = new Vector2(position.X + scale * (frameWidth/2 - frameWidth * (index & 1)), position.Y - v.renderHeight * v.renderScale * (index/2) - v.renderHeight / 2 * v.renderScale);
                 v.Draw(batch);
                 index++;
             }
