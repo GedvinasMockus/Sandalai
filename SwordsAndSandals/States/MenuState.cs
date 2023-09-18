@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects;
 using SwordsAndSandals.States;
 
+using System;
+using System.Collections.Generic;
+
 namespace SwordsAndSandals
 {
     public class MenuState : State
     {
         private List<Component> _components;
-        private int _screenWidth, _screenHeight;
         private Background background;
-        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager, int screenWidth, int screenHeight) : base(game, graphicsDevice, contentManager)
+        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager, int screenWidth, int screenHeight) : base(game, graphicsDevice, contentManager, screenWidth, screenHeight)
         {
-            _screenWidth = screenWidth;
-            _screenHeight = screenHeight;
             var buttonTexture = _content.Load<Texture2D>("Views/Button");
             var buttonFont = _content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(_content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"), new Vector2(0, 0));

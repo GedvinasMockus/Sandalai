@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects;
+
+using System;
+using System.Collections.Generic;
 
 namespace SwordsAndSandals
 {
     public class SettingsState : State
     {
         private List<Component> _components;
-        private int _screenWidth, _screenHeight;
         private Background background;
         private TextBox textBox;
-        public SettingsState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager, int screenWidth, int screenHeight) : base(game, graphicsDevice, contentManager)
+        public SettingsState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager, int screenWidth, int screenHeight) : base(game, graphicsDevice, contentManager, screenWidth, screenHeight)
         {
-            _screenWidth = screenWidth;
-            _screenHeight = screenHeight;
             var buttonTexture = _content.Load<Texture2D>("Views/Button");
             var buttonFont = _content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(_content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"), new Vector2(0, 0));
@@ -36,8 +33,6 @@ namespace SwordsAndSandals
                 Text = "Back",
             };
             backButton.Click += BackButton_Click;
-
-
             _components = new List<Component>() {
                 backButton
             };
