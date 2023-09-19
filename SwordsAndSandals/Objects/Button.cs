@@ -8,7 +8,7 @@ namespace SwordsAndSandals.Objects
 {
     public class Button
     {
-        public EventHandler Click;
+        public event EventHandler onClick;
         public float Layer { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Origin
@@ -35,6 +35,7 @@ namespace SwordsAndSandals.Objects
             Position = new Vector2(-1, -1);
             isHovering = false;
             this.Scale = scale;
+            PenColor = Color.Black;
         }
 
         public Button(Texture2D texture, float scale, SpriteEffects flip)
@@ -44,6 +45,7 @@ namespace SwordsAndSandals.Objects
             isHovering = false;
             this.flip = flip;
             this.Scale = scale;
+            PenColor = Color.Black;
         }
 
         public Button(Texture2D texture, SpriteFont font, string text, float scale, SpriteEffects flip)
@@ -55,6 +57,7 @@ namespace SwordsAndSandals.Objects
             isHovering = false;
             this.flip = flip;
             this.Scale = scale;
+            PenColor = Color.Black;
         }
 
         public void Draw(SpriteBatch batch)
@@ -87,7 +90,7 @@ namespace SwordsAndSandals.Objects
                 isHovering = true;
                 if(current.LeftButton == ButtonState.Released && previous.LeftButton == ButtonState.Pressed)
                 {
-                    Click?.Invoke(this, new EventArgs());
+                    onClick?.Invoke(this, EventArgs.Empty);
                 }
             }
         }

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SwordsAndSandals.JsonTemplates;
 using SwordsAndSandals.Objects;
+using SwordsAndSandals.Objects.Abilities;
 using SwordsAndSandals.Utils;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,7 @@ namespace SwordsAndSandals
         private const int _screenWidth = 1920;
         private const int _groundLevel = 11 * _screenHeight / 17;
 
-        private Player player1;
-        private Player player2;
+        private Player player;
         private Background background;
         private Dictionary<string, Texture2D> icons;
 
@@ -43,59 +43,34 @@ namespace SwordsAndSandals
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            List<IconTemplate> templates = JsonUtils.ReadJson<List<IconTemplate>>("../../../Content/Icons/Icons.json");
-            icons = new Dictionary<string, Texture2D>();
-            foreach(var i in templates)
+            icons = new Dictionary<string, Texture2D>
             {
-                icons.Add(i.Name, Content.Load<Texture2D>(i.Path));
-            }
-            Dictionary<string, Ability> availableAbilities1 = new Dictionary<string, Ability>()
-            {
+                {"Jump", Content.Load<Texture2D>("Icons/Icon_02")},
+                {"Sleep", Content.Load<Texture2D>("Icons/Icon_05")},
+                {"Heal", Content.Load<Texture2D>("Icons/Icon_11")},
+                {"Melee_attack", Content.Load<Texture2D>("Icons/Icon_15")},
+                {"Shield", Content.Load<Texture2D>("Icons/Icon_18")},
+                {"Run", Content.Load<Texture2D>("Icons/Icon_29")},
+                {"Shoot", Content.Load<Texture2D>("Icons/Icon_34")},
 
-                {"Run_right", new Ability(icons["Run"], 2.0f) },
-                {"Run_left", new Ability(icons["Run"], 2.0f ,SpriteEffects.FlipHorizontally) },
-                {"Melee_attack_right", new Ability(icons["Melee_attack"], 2.0f) },
-                {"Melee_attack_left", new Ability(icons["Melee_attack"], 2.0f, SpriteEffects.FlipHorizontally) },
-                { "Jump", new Ability(icons["Jump"], 2.0f) },
-                { "Sleep", new Ability(icons["Sleep"], 2.0f) },
-                { "Heal", new Ability(icons["Heal"], 2.0f) },
-                {"Shield", new Ability(icons["Shield"], 2.0f) },
             };
-            player1 = new Player(Content.Load<Texture2D>("Character/Ninja/Kunoichi/idle"), new Vector2(_screenWidth / 6, _groundLevel), 3.0f, 128, 128, availableAbilities1);
-            availableAbilities1 = null;
-            Dictionary<string, Ability> availableAbilities2 = new Dictionary<string, Ability>()
-            {
-
-                {"Run_right", new Ability(icons["Run"], 2.0f) },
-                {"Run_left", new Ability(icons["Run"], 2.0f ,SpriteEffects.FlipHorizontally) },
-                {"Melee_attack_right", new Ability(icons["Melee_attack"], 2.0f) },
-                {"Melee_attack_left", new Ability(icons["Melee_attack"], 2.0f, SpriteEffects.FlipHorizontally) },
-                { "Jump", new Ability(icons["Jump"], 2.0f) },
-                { "Sleep", new Ability(icons["Sleep"], 2.0f) },
-                { "Heal", new Ability(icons["Heal"], 2.0f) },
-                {"Shield", new Ability(icons["Shield"], 2.0f) },
-            };
-            player2 = new Player(Content.Load<Texture2D>("Character/Ninja/Ninja_Monk/Idle"), new Vector2(5 * _screenWidth / 6, _groundLevel), 4.0f, 96, 96, availableAbilities2);
-            availableAbilities2 = null;
+            player = new Player(Content.Load<Texture2D>("Character/Ninja/Kunoichi/idle"), new Vector2(_screenWidth / 6, _groundLevel), 3.0f, 128, 128);
+            player.AddAbility("Run_right", new Run(300f, 100f), icons["Run"], 2.0f, SpriteEffects.None);
+            player.AddAbility("Run_left", new Run(300f, -100f), icons["Run"], 2.0f, SpriteEffects.FlipHorizontally);
+            player.AddAbility("Melee_attack_right", new Ability(), icons["Melee_attack"], 2.0f, SpriteEffects.None);
+            player.AddAbility("Melee_attack_left", new Ability(), icons["Melee_attack"], 2.0f, SpriteEffects.FlipHorizontally);
+            player.AddAbility("Jump", new Ability(), icons["Jump"], 2.0f, SpriteEffects.None);
+            player.AddAbility("Sleep", new Ability(), icons["Sleep"], 2.0f, SpriteEffects.None);
+            player.AddAbility("Heal", new Ability(), icons["Heal"], 2.0f, SpriteEffects.None);
+            player.AddAbility("Shield", new Ability(), icons["Shield"], 2.0f, SpriteEffects.None);
             background = new Background(Content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"), new Vector2(0, 0));
-            //Debug.WriteLine("Height: " + player.texture.Height);
-            //Debug.WriteLine("Width: " + player.texture.Width);
-            //Debug.WriteLine("Position: " + player.position.Y);
-            //Debug.WriteLine("Position: " + player.position.X);
-            //Debug.WriteLine("Height2: " + player2.texture.Height);
-            //Debug.WriteLine("Width2: " + player2.texture.Width);
-            //Debug.WriteLine("Position2: " + player2.position.Y);
-            //Debug.WriteLine("Position2: " + player2.position.X);
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            player1.Update(gameTime);
-            player2.Update(gameTime);
-            // TODO: Add your update logic here
-
+            player.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -105,8 +80,7 @@ namespace SwordsAndSandals
 
             _spriteBatch.Begin();
             background.Draw(_spriteBatch);
-            player1.Draw(_spriteBatch);
-            player2.Draw(_spriteBatch);
+            player.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);
