@@ -1,8 +1,8 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
+using System;
 
 namespace SwordsAndSandals
 {
@@ -12,11 +12,12 @@ namespace SwordsAndSandals
         private SpriteFont _font;
         private bool _isHovering;
         private MouseState _previousMouse;
-        private Texture2D _texture;
+        public Texture2D _texture { get; private set; }
+        private SpriteEffects flip;
         public event EventHandler Click;
-        public bool Clicked { get; private set; }
         public Color PenColour { get; set; }
         public Vector2 Position { get; set; }
+        public float Scale { get; private set; }
         public Rectangle Rectangle
         {
             get
@@ -24,13 +25,35 @@ namespace SwordsAndSandals
                 return new Rectangle((int)Position.X - _texture.Width, (int)Position.Y - _texture.Height, (int)(_texture.Width * 2), (int)(_texture.Height * 2));
             }
         }
-
+        public Vector2 Origin
+        {
+            get
+            {
+                return new Vector2(_texture.Width / 2, _texture.Height / 2);
+            }
+        }
+        public float Layer { get; set; }
         public string Text { get; set; }
 
-        public Button(Texture2D texture, SpriteFont font)
+        public Button(Texture2D texture, float scale, SpriteEffects flip)
         {
-            _texture = texture;
-            _font = font;
+            this._texture = texture;
+            Position = new Vector2(-1, -1);
+            _isHovering = false;
+            this.flip = flip;
+            this.Scale = scale;
+            PenColour = Color.Black;
+        }
+
+        public Button(Texture2D texture, SpriteFont font, string text, float scale, SpriteEffects flip)
+        {
+            this._texture = texture;
+            Position = new Vector2(-1, -1);
+            this._font = font;
+            this.Text = text;
+            _isHovering = false;
+            this.flip = flip;
+            this.Scale = scale;
             PenColour = Color.Black;
         }
 
@@ -39,7 +62,7 @@ namespace SwordsAndSandals
             var colour = Color.White;
             if (_isHovering)
                 colour = Color.Gray;
-            spriteBatch.Draw(_texture, Rectangle, colour);
+            spriteBatch.Draw(_texture, Position, null, colour, 0.0f, Origin, Scale, flip, Layer);
             if (!string.IsNullOrEmpty(Text))
             {
                 var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
@@ -65,3 +88,4 @@ namespace SwordsAndSandals
         }
     }
 }
+

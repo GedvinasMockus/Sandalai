@@ -27,10 +27,9 @@ namespace SwordsAndSandals
                 PenColour = Color.Orange,
                 OutlineColor = Color.Black
             };
-            var backButton = new Button(buttonTexture, buttonFont)
+            var backButton = new Button(buttonTexture, buttonFont, "Back", 2f, SpriteEffects.None)
             {
                 Position = new Vector2(screenWidth / 6, 7 * screenHeight / 8),
-                Text = "Back",
             };
             backButton.Click += BackButton_Click;
             _components = new List<Component>() {

@@ -21,24 +21,21 @@ namespace SwordsAndSandals
             background = new Background(_content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"), new Vector2(0, 0));
             var positionX = screenWidth / 2;
             var positionY = screenHeight / 2;
-            var newGameButton = new Button(buttonTexture, buttonFont)
+            var newGameButton = new Button(buttonTexture, buttonFont, "New Game", 2f, SpriteEffects.None)
             {
                 Position = new Vector2(positionX, positionY + 100),
-                Text = "New Game",
             };
             newGameButton.Click += NewGameButton_Click;
 
-            var settingsButton = new Button(buttonTexture, buttonFont)
+            var settingsButton = new Button(buttonTexture, buttonFont, "Settings", 2f, SpriteEffects.None)
             {
                 Position = new Vector2(positionX, positionY + 200),
-                Text = "Settings",
             };
             settingsButton.Click += SettingButton_Click;
 
-            var exitButton = new Button(buttonTexture, buttonFont)
+            var exitButton = new Button(buttonTexture, buttonFont, "Exit", 2f, SpriteEffects.None)
             {
                 Position = new Vector2(positionX, positionY + 300),
-                Text = "Exit",
             };
             exitButton.Click += ExitButton_Click;
             _components = new List<Component>() {
