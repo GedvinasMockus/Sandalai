@@ -1,7 +1,9 @@
-﻿
-using Microsoft.AspNet.SignalR.Client;
+﻿using Microsoft.AspNet.SignalR.Client;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using System;
+using System.Diagnostics;
 
 namespace SwordsAndSandals
 {
@@ -11,10 +13,9 @@ namespace SwordsAndSandals
         private SpriteBatch _spriteBatch;
         private const int _screenHeight = 1080;
         private const int _screenWidth = 1920;
-
-        private string groupId;
         private State _currentState;
         private State _nextState;
+        private HubConnection _connection;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -24,15 +25,14 @@ namespace SwordsAndSandals
 
         protected override void Initialize()
         {
-            using (var connection = new HubConnection("http://192.168.1.182:8081"))
+            _connection = new HubConnection("http://192.168.1.182:8081");
+            IHubProxy lobbyHubProxy = _connection.CreateHubProxy("MainHub");
+            lobbyHubProxy.On<string>("Send", (message) =>
             {
-                IHubProxy spawnHubProxy = connection.CreateHubProxy("SpawnHub");
-                spawnHubProxy.On<string>("AssignGroup", groupId =>
-                {
-                    this.groupId = groupId;
-                });
-                connection.Start();
-            }
+                Debug.WriteLine(message);
+            });
+            _connection.Start().Wait();
+            lobbyHubProxy.Invoke("Send", "Bananas");
             _graphics.PreferredBackBufferWidth = _screenWidth;
             _graphics.PreferredBackBufferHeight = _screenHeight;
             _graphics.ApplyChanges();
@@ -67,6 +67,11 @@ namespace SwordsAndSandals
         public void ChangeState(State state)
         {
             _nextState = state;
+        }
+        protected override void OnExiting(object sender, EventArgs args)
+        {
+            _connection.Stop();
+            base.OnExiting(sender, args);
         }
     }
 }
