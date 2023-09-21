@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNet.SignalR;
 
-using Microsoft.AspNet.SignalR;
+using System;
+using System.Threading.Tasks;
 
 namespace SignalR.Sandalai
 {
@@ -16,6 +16,7 @@ namespace SignalR.Sandalai
         public override Task OnConnected()
         {
             Console.WriteLine("New user connected");
+            Console.WriteLine(Context.ConnectionId);
             bool groupFound = false;
             foreach (var group in _spawn.GetAllGroups())
             {
