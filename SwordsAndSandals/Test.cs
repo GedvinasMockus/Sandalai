@@ -62,7 +62,7 @@ namespace SwordsAndSandals
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            _texture.Draw(spriteBatch);
+            //_texture.Draw(spriteBatch);
         }
 
     }
