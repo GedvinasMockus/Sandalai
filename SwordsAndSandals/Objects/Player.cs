@@ -25,8 +25,9 @@ namespace SwordsAndSandals.Objects
         private Dictionary<string, Button> buttons = new Dictionary<string, Button>();
         private Dictionary<string, EventHandler> handlers = new Dictionary<string, EventHandler>();
         private Ability currentAbility;
+        private SpriteEffects effect;
 
-        public Player(Texture2D texture, Vector2 position, float scale, int centerY)
+        public Player(Texture2D texture, Vector2 position, float scale, int centerY, SpriteEffects effect)
         {
             this.texture = texture;
             this.position = position;
@@ -37,7 +38,9 @@ namespace SwordsAndSandals.Objects
             frameHeight = texture.Height;
             currentAbility = null;
             velocity = new Vector2(0, 0);
+            this.effect = effect;
         }
+
         public void AddAbility(string name, Ability ability, Texture2D bTexture, float scale, SpriteEffects flip)
         {
             abilities.Add(name, ability);
@@ -69,7 +72,7 @@ namespace SwordsAndSandals.Objects
         public void Draw(GameTime gameTime, SpriteBatch batch)
         {
             Rectangle sourceRectangle = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
-            batch.Draw(texture, new Vector2(position.X, position.Y - scale * frameHeight / 2), sourceRectangle, Color.White, 0.0f, new Vector2(frameWidth / 2, frameHeight / 2), scale, SpriteEffects.None, 1);
+            batch.Draw(texture, new Vector2(position.X, position.Y - scale * frameHeight / 2), sourceRectangle, Color.White, 0.0f, new Vector2(frameWidth / 2, frameHeight / 2), scale, effect, 1);
 
             int numIcons = abilities.Count;
             float radius = scale * (frameWidth - centerY) * (float)Math.Sqrt(2);
