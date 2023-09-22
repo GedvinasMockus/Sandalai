@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Owin.Hosting;
 
-using Microsoft.Owin.Hosting;
+using System;
 
 namespace SignalR.Sandalai
 {
@@ -16,4 +16,5 @@ namespace SignalR.Sandalai
             }
         }
     }
+
 }

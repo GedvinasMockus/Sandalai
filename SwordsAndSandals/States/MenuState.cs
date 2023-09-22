@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.AspNet.SignalR.Client;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -14,11 +15,13 @@ namespace SwordsAndSandals
     {
         private List<Component> _components;
         private Background background;
-        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager, int screenWidth, int screenHeight) : base(game, graphicsDevice, contentManager, screenWidth, screenHeight)
+        private IHubProxy hub;
+        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager, int screenWidth, int screenHeight, IHubProxy hub) : base(game, graphicsDevice, contentManager, screenWidth, screenHeight)
         {
             var buttonTexture = _content.Load<Texture2D>("Views/Button");
             var buttonFont = _content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(_content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"), new Vector2(0, 0));
+            this.hub = hub;
             var positionX = screenWidth / 2;
             var positionY = screenHeight / 2;
             var newGameButton = new Button(buttonTexture, buttonFont, "New Game", 2f, SpriteEffects.None)
@@ -48,12 +51,14 @@ namespace SwordsAndSandals
 
         private void SettingButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new SettingsState(_game, _graphicsDevice, _content, _screenWidth, _screenHeight));
+            _game.ChangeState(new SettingsState(_game, _graphicsDevice, _content, _screenWidth, _screenHeight, hub));
         }
 
         private void NewGameButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _content, _screenWidth, _screenHeight));
+            //_game.ChangeState(new GameState(_game, _graphicsDevice, _content, _screenWidth, _screenHeight));
+
+            _game.ChangeState(new LoadingScreenState(_game, _graphicsDevice, _content, _screenWidth, _screenHeight, hub));
         }
 
         private void ExitButton_Click(object sender, EventArgs e)

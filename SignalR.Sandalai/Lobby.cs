@@ -1,19 +1,41 @@
-﻿using System.Collections.Generic;
+﻿using SignalR.Sandalai.Objects;
+
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SignalR.Sandalai
 {
     public class Lobby
     {
-        private List<string> MyUsers;
+        private Dictionary<string, Player> MyUsers;
+        private static object Obj = new object();
+        private static volatile Lobby instance;
         private Lobby()
         {
-            MyUsers = new List<string>();
+            MyUsers = new Dictionary<string, Player>();
+        }
+        public static Lobby Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (Obj)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new Lobby();
+                        }
+                    }
+                }
+                return instance;
+            }
         }
         public void AddUser(string userId)
         {
             lock (MyUsers)
             {
-                MyUsers.Add(userId);
+                MyUsers.Add(userId, new Player(userId));
             }
         }
         public void RemoveUser(string userId)
@@ -23,13 +45,23 @@ namespace SignalR.Sandalai
                 MyUsers.Remove(userId);
             }
         }
-        public static Lobby GetInstance()
+        public Player FindAnotherUser(string userId)
         {
-            return LobbySingleton.instance;
+            Player anotherUser;
+            lock (MyUsers)
+            {
+                anotherUser = MyUsers.FirstOrDefault(pair => !pair.Key.Equals(userId)).Value;
+            }
+            return anotherUser;
         }
-        private static class LobbySingleton
+        public Player GetUser(string userId)
         {
-            public static readonly Lobby instance = new Lobby();
+            Player player;
+            lock (MyUsers)
+            {
+                player = MyUsers[userId];
+            }
+            return player;
         }
     }
 

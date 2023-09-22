@@ -11,9 +11,6 @@ namespace SwordsAndSandals
         protected GraphicsDevice _graphicsDevice;
         protected Game1 _game;
         protected int _screenWidth, _screenHeight;
-        private Game1 game;
-        private GraphicsDevice graphicsDevice;
-        private ContentManager contentManager;
 
         public State(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager, int screenWidth, int screenHeight)
         {
