@@ -12,33 +12,41 @@ namespace SwordsAndSandals.States
 {
     public class LoadingScreenState : State
     {
-        private List<Component> _components;
+        private List<Component> components;
+        private List<Button> buttons;
         private Background background;
-        private TextBox textBox;
-        private Spinner spinner;
         private IHubProxy hub;
-        public LoadingScreenState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager, int screenWidth, int screenHeight, IHubProxy hub) : base(game, graphicsDevice, contentManager, screenWidth, screenHeight)
+
+        private int screenWidth;
+        private int screenHeight;
+        public LoadingScreenState(GraphicsDeviceManager graphicsDevice, IHubProxy hub) : base(graphicsDevice)
         {
             this.hub = hub;
             hub.Invoke("AddToLobby");
             hub.Invoke("FindOpponent");
-            var buttonTexture = _content.Load<Texture2D>("Views/Button");
-            var buttonFont = _content.Load<SpriteFont>("Fonts/vinque");
+            screenWidth = graphicsDevice.PreferredBackBufferWidth;
+            screenHeight = graphicsDevice.PreferredBackBufferHeight;
+        }
 
-            background = new Background(_content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"), new Vector2(0, 0));
-            var positionX = screenWidth / 2;
-            var positionY = screenHeight / 2;
-            spinner = new Spinner(_content.Load<Texture2D>("Objects/Gear"), Color.DarkOrange, new Vector2(positionX, screenHeight / 3), 1f, 1f);
-            var leaveLobby = new Button(buttonTexture, buttonFont, "Leave lobby", 2f, SpriteEffects.None)
+        private void LeaveLobby_Click(object sender, EventArgs e)
+        {
+            hub.Invoke("RemoveFromLobby");
+            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub));
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
+            Texture2D spinnerTexture = content.Load<Texture2D>("Objects/Gear");
+            SpriteFont font = content.Load<SpriteFont>("Fonts/vinque");
+            background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
+            Spinner spinner = new Spinner(spinnerTexture, Color.DarkOrange,new Vector2(screenWidth/2, screenHeight / 3),1.0f,1.0f);
+            Button leaveLobby = new Button(buttonTexture, font, "Leave lobby", 2f, SpriteEffects.None)
             {
-                Position = new Vector2(positionX, positionY + 100),
+                Position = new Vector2(screenWidth / 2, screenHeight / 2 + 100)
             };
             leaveLobby.Click += LeaveLobby_Click;
-            _components = new List<Component>() {
-                leaveLobby,
-                spinner
-            };
-            textBox = new TextBox(buttonFont)
+            TextBox text = new TextBox(font)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 8),
                 Text = "Waiting for opponent",
@@ -46,37 +54,48 @@ namespace SwordsAndSandals.States
                 PenColour = Color.Orange,
                 OutlineColor = Color.Black
             };
+            components = new List<Component>()
+            {
+                spinner,
+                text
+            };
+            buttons = new List<Button>()
+            {
+                leaveLobby
+            };
+
         }
 
-        private void LeaveLobby_Click(object sender, EventArgs e)
-        {
-            hub.Invoke("RemoveFromLobby");
-            _game.ChangeState(new MenuState(_game, _graphicsDevice, _content, _screenWidth, _screenHeight, hub));
-        }
-
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             background.Draw(spriteBatch);
-            foreach (var component in _components)
+            foreach (var component in components)
             {
-                component.Draw(gameTime, spriteBatch);
+                component.Draw(spriteBatch);
             }
-            textBox.Draw(gameTime, spriteBatch);
+            foreach(var b in buttons)
+            {
+                b.Draw(spriteBatch);
+            }
             spriteBatch.End();
-        }
-
-        public override void PostUpdate(GameTime gameTime)
-        {
-
         }
 
         public override void Update(GameTime gameTime)
         {
-            foreach (var component in _components)
+            foreach (var component in components)
             {
                 component.Update(gameTime);
             }
+            foreach (var b in buttons)
+            {
+                b.Update(gameTime);
+            }
+        }
+
+        public override void UnloadContent()
+        {
+            
         }
     }
 }

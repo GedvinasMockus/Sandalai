@@ -10,18 +10,15 @@ namespace SwordsAndSandals.Objects
 {
     public class Background
     {
-        public Vector2 position { get; set; }
-
         private Texture2D texture;
-        public Background(Texture2D texture, Vector2 position)
+        public Background(Texture2D texture)
         {
             this.texture = texture;
-            this.position = position;
         }
 
         public void Draw(SpriteBatch batch)
         {
-            batch.Draw(texture, position, Color.White);
+            batch.Draw(texture, Vector2.Zero, Color.White);
         }
     }
 }

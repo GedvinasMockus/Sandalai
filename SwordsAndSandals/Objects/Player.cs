@@ -69,7 +69,7 @@ namespace SwordsAndSandals.Objects
             buttons.Remove(name);
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch batch)
+        public void Draw(SpriteBatch batch)
         {
             Rectangle sourceRectangle = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
             batch.Draw(texture, new Vector2(position.X, position.Y - scale * frameHeight / 2), sourceRectangle, Color.White, 0.0f, new Vector2(frameWidth / 2, frameHeight / 2), scale, effect, 1);
@@ -84,7 +84,7 @@ namespace SwordsAndSandals.Objects
                 float xOffset = -(float)Math.Sin(angle) * (radius);
                 float yOffset = -(float)Math.Cos(angle) * (radius);
                 b.Position = new Vector2(position.X + xOffset, position.Y + yOffset - (frameHeight - centerY) * scale);
-                b.Draw(gameTime, batch);
+                b.Draw(batch);
                 index++;
             }
         }
