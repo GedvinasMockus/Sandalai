@@ -12,6 +12,9 @@ namespace SwordsAndSandals.Objects
     {
         public Vector2 position { get; set; }
         public Vector2 velocity { get; set; }
+
+        public event EventHandler<AbilityUsedEventArgs> AbilityUsed;
+
         private Texture2D texture;
         private int frameWidth;
         private int frameHeight;
@@ -40,18 +43,20 @@ namespace SwordsAndSandals.Objects
             velocity = new Vector2(0, 0);
             this.effect = effect;
         }
+        public void AddAbility(string name, Ability ability)
+        {
+            abilities.Add(name, ability);
+        }
 
         public void AddAbility(string name, Ability ability, Texture2D bTexture, float scale, SpriteEffects flip)
         {
             abilities.Add(name, ability);
             Action<object, EventArgs> fun = (o, e) =>
             {
-                if (currentAbility == null)
-                {
-                    currentAbility = ability;
-                    currentAbility.active = true;
-                    currentAbility.done = false;
-                }
+                AbilityUsedEventArgs args = new AbilityUsedEventArgs();
+                args.Name = name;
+                AbilityUsed?.Invoke(this, args);
+                UseAbility(name);
             };
             EventHandler handler = new EventHandler(fun);
             handlers.Add(name, handler);
@@ -61,12 +66,20 @@ namespace SwordsAndSandals.Objects
             button.Click += handler;
             buttons.Add(name, button);
         }
+
         public void RemoveAbility(string name)
         {
             abilities.Remove(name);
             buttons[name].Click -= handlers[name];
             handlers.Remove(name);
             buttons.Remove(name);
+        }
+
+        public void UseAbility(string name)
+        {
+            currentAbility = abilities[name];
+            currentAbility.active = true;
+            currentAbility.done = false;
         }
 
         public void Draw(SpriteBatch batch)

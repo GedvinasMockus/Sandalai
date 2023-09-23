@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.States;
 
 using System;
+using System.Diagnostics;
 
 namespace SwordsAndSandals
 {
@@ -16,6 +17,7 @@ namespace SwordsAndSandals
         private const int _screenWidth = 1920;
         private HubConnection _connection;
         private IHubProxy lobbyHubProxy;
+        private GameState currentGame;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -29,7 +31,15 @@ namespace SwordsAndSandals
             lobbyHubProxy = _connection.CreateHubProxy("MainHub");
             lobbyHubProxy.On<System.Numerics.Vector2, System.Numerics.Vector2, int, int>("FoundOpponent", (pos1, pos2, flip1, flip2) =>
             {
-                StateManager.Instance.ChangeState(new GameState(_graphics, lobbyHubProxy, new Vector2(pos1.X * _screenWidth, pos1.Y * _screenHeight), new Vector2(pos2.X * _screenWidth, pos2.Y * _screenHeight), flip1, flip2));
+                currentGame = new GameState(_graphics, lobbyHubProxy, new Vector2(pos1.X * _screenWidth, pos1.Y * _screenHeight), new Vector2(pos2.X * _screenWidth, pos2.Y * _screenHeight), flip1, flip2);
+                StateManager.Instance.ChangeState(currentGame);
+            });
+            lobbyHubProxy.On<string>("AbilityUsed", (name) =>
+            {
+                if(currentGame != null)
+                {
+                    currentGame.opponent.UseAbility(name);
+                }
             });
             _connection.Start().Wait();
             _graphics.PreferredBackBufferWidth = _screenWidth;
