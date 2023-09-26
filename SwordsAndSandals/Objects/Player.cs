@@ -48,19 +48,17 @@ namespace SwordsAndSandals.Objects
             abilities.Add(name, ability);
         }
 
-        public void AddAbility(string name, Ability ability, Texture2D bTexture, float scale, SpriteEffects flip)
+        public void AddAbilityButton(string name, Texture2D bTexture, float bScale, SpriteEffects bFlip)
         {
-            abilities.Add(name, ability);
-            Action<object, EventArgs> fun = (o, e) =>
+            EventHandler handler = (o, e) =>
             {
                 AbilityUsedEventArgs args = new AbilityUsedEventArgs();
                 args.Name = name;
                 AbilityUsed?.Invoke(this, args);
                 UseAbility(name);
             };
-            EventHandler handler = new EventHandler(fun);
             handlers.Add(name, handler);
-            Button button = new Button(bTexture, scale, flip);
+            Button button = new Button(bTexture, bScale, bFlip);
             int index = buttons.Count;
             button.Position = new Vector2(position.X + button.Scale * (frameWidth / 2 - frameWidth * (index & 1)), position.Y - button._texture.Height * button.Scale * (index / 2) - button.Scale * button._texture.Height / 2);
             button.Click += handler;
@@ -70,9 +68,13 @@ namespace SwordsAndSandals.Objects
         public void RemoveAbility(string name)
         {
             abilities.Remove(name);
-            buttons[name].Click -= handlers[name];
-            handlers.Remove(name);
-            buttons.Remove(name);
+            Button button;
+            if (buttons.TryGetValue(name, out button))
+            {
+                button.Click -= handlers[name];
+                handlers.Remove(name);
+                buttons.Remove(name);
+            }
         }
 
         public void UseAbility(string name)
