@@ -31,7 +31,7 @@ namespace SwordsAndSandals.States
         private void LeaveLobby_Click(object sender, EventArgs e)
         {
             hub.Invoke("RemoveFromLobby");
-            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub));
+            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub, null));
         }
 
         public override void LoadContent(ContentManager content)
@@ -40,16 +40,16 @@ namespace SwordsAndSandals.States
             Texture2D spinnerTexture = content.Load<Texture2D>("Objects/Gear");
             SpriteFont font = content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
-            Spinner spinner = new Spinner(spinnerTexture, Color.DarkOrange,new Vector2(screenWidth/2, screenHeight / 3),1.0f,1.0f);
+            Spinner spinner = new Spinner(spinnerTexture, Color.DarkOrange, new Vector2(screenWidth / 2, screenHeight / 3), 1.0f, 1.0f);
             Button leaveLobby = new Button(buttonTexture, font, "Leave lobby", 2f, SpriteEffects.None)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 100)
             };
             leaveLobby.Click += LeaveLobby_Click;
-            TextBox text = new TextBox(font)
+            Text text = new Text(font)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 8),
-                Text = "Waiting for opponent",
+                TextString = "Waiting for opponent",
                 TextSize = 2f,
                 PenColour = Color.Orange,
                 OutlineColor = Color.Black
@@ -74,7 +74,7 @@ namespace SwordsAndSandals.States
             {
                 component.Draw(spriteBatch);
             }
-            foreach(var b in buttons)
+            foreach (var b in buttons)
             {
                 b.Draw(spriteBatch);
             }
@@ -95,7 +95,7 @@ namespace SwordsAndSandals.States
 
         public override void UnloadContent()
         {
-            
+
         }
     }
 }

@@ -39,7 +39,7 @@ namespace SwordsAndSandals.States
 
         private void LogoutButton_Click(object sender, System.EventArgs e)
         {
-            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub));
+            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub, null));
         }
 
         private void OnAbilityUsed(object sender, AbilityUsedEventArgs e)
@@ -84,7 +84,7 @@ namespace SwordsAndSandals.States
             };
             logoutButton.Click += LogoutButton_Click;
             buttons = new List<Button>()
-            { 
+            {
                 logoutButton
             };
         }
@@ -114,7 +114,7 @@ namespace SwordsAndSandals.States
 
         public override void UnloadContent()
         {
-            
+
         }
     }
 }

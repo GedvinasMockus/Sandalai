@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.States;
 
 using System;
-using System.Diagnostics;
 
 namespace SwordsAndSandals
 {
@@ -18,6 +17,7 @@ namespace SwordsAndSandals
         private HubConnection _connection;
         private IHubProxy lobbyHubProxy;
         private GameState currentGame;
+        private GameWindow gw;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -27,7 +27,7 @@ namespace SwordsAndSandals
 
         protected override void Initialize()
         {
-            _connection = new HubConnection("http://localhost:8081");
+            _connection = new HubConnection("http://192.168.1.182:8081");
             lobbyHubProxy = _connection.CreateHubProxy("MainHub");
             lobbyHubProxy.On<System.Numerics.Vector2, System.Numerics.Vector2, int, int>("FoundOpponent", (pos1, pos2, flip1, flip2) =>
             {
@@ -36,7 +36,7 @@ namespace SwordsAndSandals
             });
             lobbyHubProxy.On<string>("AbilityUsed", (name) =>
             {
-                if(currentGame != null)
+                if (currentGame != null)
                 {
                     currentGame.opponent.UseAbility(name);
                 }
@@ -52,7 +52,7 @@ namespace SwordsAndSandals
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             StateManager.Instance.SetContentManager(Content);
-            StateManager.Instance.ChangeState(new MenuState(_graphics, lobbyHubProxy));
+            StateManager.Instance.ChangeState(new MenuState(_graphics, lobbyHubProxy, Window));
         }
 
         protected override void Update(GameTime gameTime)

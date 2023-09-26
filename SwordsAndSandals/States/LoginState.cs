@@ -4,92 +4,98 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects;
-using SwordsAndSandals.States;
 
 using System;
 using System.Collections.Generic;
 
-namespace SwordsAndSandals
+namespace SwordsAndSandals.States
 {
-    public class SettingsState : State
+    public class LoginState : State
     {
-        private List<Component> components;
-        private List<Button> buttons;
-        private Background background;
         private IHubProxy hub;
+        private List<Button> buttons;
+        private List<Component> components;
+        private Background background;
+        private GameWindow gw;
 
         private int screenWidth;
         private int screenHeight;
-        public SettingsState(GraphicsDeviceManager graphicsDevice, IHubProxy hub) : base(graphicsDevice)
+        public LoginState(GraphicsDeviceManager graphicsDevice, IHubProxy hub, GameWindow gw) : base(graphicsDevice)
         {
             this.hub = hub;
+            this.gw = gw;
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
         }
-
         private void BackButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub, null));
+            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub, gw));
         }
 
         public override void LoadContent(ContentManager content)
         {
             Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
-            SpriteFont buttonFont = content.Load<SpriteFont>("Fonts/vinque");
+            Texture2D inputBoxTexture = content.Load<Texture2D>("Views/InputBox");
+            Texture2D cursorTexture = content.Load<Texture2D>("Views/Cursor");
+            SpriteFont font = content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
-            Text text = new Text(buttonFont)
+            Text text = new Text(font)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 8),
-                TextString = "Edit settings",
+                TextString = "Login",
                 TextSize = 2f,
                 PenColour = Color.Orange,
                 OutlineColor = Color.Black,
             };
-            Button backbutton = new Button(buttonTexture, buttonFont, "Back", 2f, SpriteEffects.None)
+            Button backbutton = new Button(buttonTexture, font, "Back", 2f, SpriteEffects.None)
             {
                 Position = new Vector2(screenWidth / 6, 7 * screenHeight / 8),
             };
+            TextBox username = new TextBox(new Vector2(screenWidth / 2, screenHeight / 2), new Vector2(screenWidth / 2, screenHeight / 2), new Vector2(screenWidth / 2, screenHeight / 2), gw, inputBoxTexture, cursorTexture, font, Color.White, 1.5f, 1.5f);
+            TextBox password = new TextBox(new Vector2(screenWidth / 2, screenHeight / 2 + 100), new Vector2(screenWidth / 2, screenHeight / 2), new Vector2(screenWidth / 2, screenHeight / 2), gw, inputBoxTexture, cursorTexture, font, Color.White, 1.5f, 1.5f);
             backbutton.Click += BackButton_Click;
-            components = new List<Component>()
-            {
-                text,
-            };
             buttons = new List<Button>()
             {
                 backbutton
             };
+            components = new List<Component>()
+            {
+                text,
+                username,
+                password
+            };
         }
+
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             background.Draw(spriteBatch);
-            foreach (var component in components)
-            {
-                component.Draw(spriteBatch);
-            }
             foreach (var b in buttons)
             {
                 b.Draw(spriteBatch);
+            }
+            foreach (var component in components)
+            {
+                component.Draw(spriteBatch);
             }
             spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
         {
-            foreach (var component in components)
-            {
-                component.Update(gameTime);
-            }
             foreach (var b in buttons)
             {
                 b.Update(gameTime);
             }
+            foreach (var component in components)
+            {
+                component.Update(gameTime);
+            }
         }
-
         public override void UnloadContent()
         {
-
+            // throw new NotImplementedException();
         }
     }
 }

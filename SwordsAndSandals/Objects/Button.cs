@@ -75,9 +75,8 @@ namespace SwordsAndSandals
         {
             _previousMouse = _currentMouse;
             _currentMouse = Mouse.GetState();
-            var mouseRectangle = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
             _isHovering = false;
-            if (mouseRectangle.Intersects(Rectangle))
+            if (Rectangle.Contains(_currentMouse.Position))
             {
                 _isHovering = true;
                 if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
