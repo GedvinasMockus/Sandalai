@@ -12,84 +12,109 @@ namespace SwordsAndSandals.States
 {
     public class GameState : State
     {
-        private int _groundLevel;
-        private Player player;
-        private Player playerOpponent;
+        public Player player { get; private set; }
+        private Vector2 playerSpawnPos;
+        private int playerFlip;
+
+        public Player opponent { get; private set; }
+        private Vector2 opponentSpawnPos;
+        private int opponentFlip;
+
         private Background background;
-        private Dictionary<string, Texture2D> icons;
-        private List<Component> _components;
+        private List<Button> buttons;
         private IHubProxy hub;
-        public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager, int screenWidth, int screenHeight, Vector2 pos1, Vector2 pos2, IHubProxy hub, int flip1, int flip2) : base(game, graphicsDevice, contentManager, screenWidth, screenHeight)
+
+        private int screenWidth;
+        private int screenHeight;
+        public GameState(GraphicsDeviceManager graphicsDevice, IHubProxy hub, Vector2 pos1, Vector2 pos2, int flip1, int flip2) : base(graphicsDevice)
         {
             this.hub = hub;
-            background = new Background(_content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"), new Vector2(0, 0));
-            icons = new Dictionary<string, Texture2D>
-            {
-                {"Jump", _content.Load<Texture2D>("Icons/Icon_02")},
-                {"Sleep", _content.Load<Texture2D>("Icons/Icon_05")},
-                {"Heal", _content.Load<Texture2D>("Icons/Icon_11")},
-                {"Melee_attack", _content.Load<Texture2D>("Icons/Icon_15")},
-                {"Shield", _content.Load<Texture2D>("Icons/Icon_18")},
-                {"Run", _content.Load<Texture2D>("Icons/Icon_29")},
-                {"Shoot", _content.Load<Texture2D>("Icons/Icon_34")},
-            };
-            player = new Player(_content.Load<Texture2D>("Character/Ninja/Kunoichi/idle"), pos1, 3.0f, 95, (SpriteEffects)flip1);
-            player.AddAbility("Jump", new Ability(), icons["Jump"], 2.0f, SpriteEffects.None);
-            player.AddAbility("Melee_attack_left", new Ability(), icons["Melee_attack"], 2.0f, SpriteEffects.FlipHorizontally);
-            player.AddAbility("Run_left", new Run(300f, -100f), icons["Run"], 2.0f, SpriteEffects.FlipHorizontally);
-            player.AddAbility("Shield", new Ability(), icons["Shield"], 2.0f, SpriteEffects.None);
-            player.AddAbility("Sleep", new Ability(), icons["Sleep"], 2.0f, SpriteEffects.None);
-            player.AddAbility("Heal", new Ability(), icons["Heal"], 2.0f, SpriteEffects.None);
-            player.AddAbility("Run_right", new Run(300f, 100f), icons["Run"], 2.0f, SpriteEffects.None);
-            player.AddAbility("Melee_attack_right", new Ability(), icons["Melee_attack"], 2.0f, SpriteEffects.None);
-
-            playerOpponent = new Player(_content.Load<Texture2D>("Character/Ninja/Kunoichi/idle"), pos2, 3.0f, 95, (SpriteEffects)flip2);
-            var positionX = screenWidth / 8;
-            var positionY = screenHeight / 12;
-            var buttonTexture = _content.Load<Texture2D>("Views/Button");
-            var buttonFont = _content.Load<SpriteFont>("Fonts/vinque");
-            var logoutButton = new Button(buttonTexture, buttonFont, "Logout", 2f, SpriteEffects.None)
-            {
-                Position = new Vector2(positionX, positionY),
-            };
-            logoutButton.Click += LogoutButton_Click;
-            _components = new List<Component>() {
-                logoutButton
-            };
-
+            playerSpawnPos = pos1;
+            playerFlip = flip1;
+            opponentSpawnPos = pos2;
+            opponentFlip = flip2;
+            screenWidth = graphicsDevice.PreferredBackBufferWidth;
+            screenHeight = graphicsDevice.PreferredBackBufferHeight;
         }
 
         private void LogoutButton_Click(object sender, System.EventArgs e)
         {
-            _game.ChangeState(new MenuState(_game, _graphicsDevice, _content, _screenWidth, _screenHeight, hub));
+            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub));
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        private void OnAbilityUsed(object sender, AbilityUsedEventArgs e)
+        {
+            hub.Invoke("AbilityUsed", e.Name);
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
+            player = new Player(content.Load<Texture2D>("Character/Ninja/Kunoichi/idle"), playerSpawnPos, 3.0f, 95, (SpriteEffects)playerFlip);
+            player.AddAbility("Jump", new Ability());
+            player.AddAbilityButton("Jump", content.Load<Texture2D>("Icons/Icon_02"), 2.0f, SpriteEffects.None);
+            player.AddAbility("Melee_attack_left", new Ability());
+            player.AddAbilityButton("Melee_attack_left", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.FlipHorizontally);
+            player.AddAbility("Run_left", new Run(300f, -100f));
+            player.AddAbilityButton("Run_left", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.FlipHorizontally);
+            player.AddAbility("Shield", new Ability());
+            player.AddAbilityButton("Shield", content.Load<Texture2D>("Icons/Icon_18"), 2.0f, SpriteEffects.None);
+            player.AddAbility("Sleep", new Ability());
+            player.AddAbilityButton("Sleep", content.Load<Texture2D>("Icons/Icon_05"), 2.0f, SpriteEffects.None);
+            player.AddAbility("Heal", new Ability());
+            player.AddAbilityButton("Heal", content.Load<Texture2D>("Icons/Icon_11"), 2.0f, SpriteEffects.None);
+            player.AddAbility("Run_right", new Run(300f, 100f));
+            player.AddAbilityButton("Run_right", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.None);
+            player.AddAbility("Melee_attack_right", new Ability());
+            player.AddAbilityButton("Melee_attack_right", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.None);
+            player.AbilityUsed += OnAbilityUsed;
+            opponent = new Player(content.Load<Texture2D>("Character/Ninja/Kunoichi/idle"), opponentSpawnPos, 3.0f, 95, (SpriteEffects)opponentFlip);
+            opponent.AddAbility("jump", new Ability());
+            opponent.AddAbility("Melee_attack_left", new Ability());
+            opponent.AddAbility("Run_left", new Run(300f, -100f));
+            opponent.AddAbility("Shield", new Ability());
+            opponent.AddAbility("Sleep", new Ability());
+            opponent.AddAbility("Heal", new Ability());
+            opponent.AddAbility("Run_right", new Run(300f, 100f));
+            opponent.AddAbility("Melee_attack_right", new Ability());
+
+            Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Logout", 2f, SpriteEffects.None)
+            {
+                Position = new Vector2(screenWidth / 8, screenHeight / 12)
+            };
+            logoutButton.Click += LogoutButton_Click;
+            buttons = new List<Button>()
+            { 
+                logoutButton
+            };
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             background.Draw(spriteBatch);
-            player.Draw(gameTime, spriteBatch);
-            playerOpponent.Draw(gameTime, spriteBatch);
-            foreach (var component in _components)
+            player.Draw(spriteBatch);
+            opponent.Draw(spriteBatch);
+            foreach (var b in buttons)
             {
-                component.Draw(gameTime, spriteBatch);
+                b.Draw(spriteBatch);
             }
             spriteBatch.End();
-        }
-
-        public override void PostUpdate(GameTime gameTime)
-        {
-
         }
 
         public override void Update(GameTime gameTime)
         {
             player.Update(gameTime);
-            playerOpponent.Update(gameTime);
-            foreach (var component in _components)
+            opponent.Update(gameTime);
+            foreach (var b in buttons)
             {
-                component.Update(gameTime);
+                b.Update(gameTime);
             }
+        }
+
+        public override void UnloadContent()
+        {
+            
         }
     }
 }

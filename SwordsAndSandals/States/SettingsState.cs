@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects;
-
+using SwordsAndSandals.States;
 using System;
 using System.Collections.Generic;
 
@@ -12,62 +12,83 @@ namespace SwordsAndSandals
 {
     public class SettingsState : State
     {
-        private List<Component> _components;
+        private List<Component> components;
+        private List<Button> buttons;
         private Background background;
-        private TextBox textBox;
         private IHubProxy hub;
-        public SettingsState(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager, int screenWidth, int screenHeight, IHubProxy hub) : base(game, graphicsDevice, contentManager, screenWidth, screenHeight)
+
+        private int screenWidth;
+        private int screenHeight;
+        public SettingsState(GraphicsDeviceManager graphicsDevice, IHubProxy hub) : base(graphicsDevice)
         {
-            var buttonTexture = _content.Load<Texture2D>("Views/Button");
-            var buttonFont = _content.Load<SpriteFont>("Fonts/vinque");
-            background = new Background(_content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"), new Vector2(0, 0));
             this.hub = hub;
-            textBox = new TextBox(buttonFont)
+            screenWidth = graphicsDevice.PreferredBackBufferWidth;
+            screenHeight = graphicsDevice.PreferredBackBufferHeight;
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub));
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
+            SpriteFont buttonFont = content.Load<SpriteFont>("Fonts/vinque");
+            background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
+            TextBox text = new TextBox(buttonFont)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 8),
                 Text = "Edit settings",
                 TextSize = 2f,
                 PenColour = Color.Orange,
-                OutlineColor = Color.Black
+                OutlineColor = Color.Black,
             };
-            var backButton = new Button(buttonTexture, buttonFont, "Back", 2f, SpriteEffects.None)
+            Button backbutton = new Button(buttonTexture, buttonFont, "Back", 2f, SpriteEffects.None)
             {
                 Position = new Vector2(screenWidth / 6, 7 * screenHeight / 8),
             };
-            backButton.Click += BackButton_Click;
-            _components = new List<Component>() {
-                backButton
+            backbutton.Click += BackButton_Click;
+            components = new List<Component>()
+            {
+                text,
+            };
+            buttons = new List<Button>()
+            {
+                backbutton
             };
         }
 
-        private void BackButton_Click(object sender, EventArgs e)
-        {
-            _game.ChangeState(new MenuState(_game, _graphicsDevice, _content, _screenWidth, _screenHeight, hub));
-        }
-
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             background.Draw(spriteBatch);
-            foreach (var component in _components)
+            foreach (var component in components)
             {
-                component.Draw(gameTime, spriteBatch);
+                component.Draw(spriteBatch);
             }
-            textBox.Draw(gameTime, spriteBatch);
+            foreach(var b in buttons)
+            {
+                b.Draw(spriteBatch);
+            }
             spriteBatch.End();
-        }
-
-        public override void PostUpdate(GameTime gameTime)
-        {
-
         }
 
         public override void Update(GameTime gameTime)
         {
-            foreach (var component in _components)
+            foreach (var component in components)
             {
                 component.Update(gameTime);
             }
+            foreach(var b in buttons)
+            {
+                b.Update(gameTime);
+            }
+        }
+
+        public override void UnloadContent()
+        {
+            
         }
     }
 }

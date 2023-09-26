@@ -21,7 +21,7 @@ namespace SwordsAndSandals
             TextSize = 1.0f;
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             float textWidth = _font.MeasureString(Text).X * TextSize;
             float textHeight = _font.MeasureString(Text).Y * TextSize;

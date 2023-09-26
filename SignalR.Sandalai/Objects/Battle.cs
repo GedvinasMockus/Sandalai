@@ -9,6 +9,7 @@ namespace SignalR.Sandalai.Objects
         private const float Pos1x = 1f / 6;
         private const float Pos2x = 5f / 6;
         private const float PosGround = 11f / 17;
+        private const float Move = 0.15625f;
         public Vector2 Position1 { get; set; }
         public Vector2 Position2 { get; set; }
         public FlipEnum Flip1 { get; set; }
