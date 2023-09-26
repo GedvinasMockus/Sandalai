@@ -12,6 +12,9 @@ namespace SwordsAndSandals.Objects
     {
         public Vector2 position { get; set; }
         public Vector2 velocity { get; set; }
+
+        public event EventHandler<AbilityUsedEventArgs> AbilityUsed;
+
         private Texture2D texture;
         private int frameWidth;
         private int frameHeight;
@@ -40,36 +43,48 @@ namespace SwordsAndSandals.Objects
             velocity = new Vector2(0, 0);
             this.effect = effect;
         }
-
-        public void AddAbility(string name, Ability ability, Texture2D bTexture, float scale, SpriteEffects flip)
+        public void AddAbility(string name, Ability ability)
         {
             abilities.Add(name, ability);
-            Action<object, EventArgs> fun = (o, e) =>
+        }
+
+        public void AddAbilityButton(string name, Texture2D bTexture, float bScale, SpriteEffects bFlip)
+        {
+            EventHandler handler = (o, e) =>
             {
-                if (currentAbility == null)
-                {
-                    currentAbility = ability;
-                    currentAbility.active = true;
-                    currentAbility.done = false;
-                }
+                AbilityUsedEventArgs args = new AbilityUsedEventArgs();
+                args.Name = name;
+                AbilityUsed?.Invoke(this, args);
+                UseAbility(name);
             };
-            EventHandler handler = new EventHandler(fun);
             handlers.Add(name, handler);
-            Button button = new Button(bTexture, scale, flip);
+            Button button = new Button(bTexture, bScale, bFlip);
             int index = buttons.Count;
             button.Position = new Vector2(position.X + button.Scale * (frameWidth / 2 - frameWidth * (index & 1)), position.Y - button._texture.Height * button.Scale * (index / 2) - button.Scale * button._texture.Height / 2);
             button.Click += handler;
             buttons.Add(name, button);
         }
+
         public void RemoveAbility(string name)
         {
             abilities.Remove(name);
-            buttons[name].Click -= handlers[name];
-            handlers.Remove(name);
-            buttons.Remove(name);
+            Button button;
+            if (buttons.TryGetValue(name, out button))
+            {
+                button.Click -= handlers[name];
+                handlers.Remove(name);
+                buttons.Remove(name);
+            }
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch batch)
+        public void UseAbility(string name)
+        {
+            currentAbility = abilities[name];
+            currentAbility.active = true;
+            currentAbility.done = false;
+        }
+
+        public void Draw(SpriteBatch batch)
         {
             Rectangle sourceRectangle = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
             batch.Draw(texture, new Vector2(position.X, position.Y - scale * frameHeight / 2), sourceRectangle, Color.White, 0.0f, new Vector2(frameWidth / 2, frameHeight / 2), scale, effect, 1);
@@ -84,7 +99,7 @@ namespace SwordsAndSandals.Objects
                 float xOffset = -(float)Math.Sin(angle) * (radius);
                 float yOffset = -(float)Math.Cos(angle) * (radius);
                 b.Position = new Vector2(position.X + xOffset, position.Y + yOffset - (frameHeight - centerY) * scale);
-                b.Draw(gameTime, batch);
+                b.Draw(batch);
                 index++;
             }
         }

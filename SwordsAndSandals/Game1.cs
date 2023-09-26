@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.States;
 
 using System;
+using System.Diagnostics;
 
 namespace SwordsAndSandals
 {
@@ -14,10 +15,9 @@ namespace SwordsAndSandals
         private SpriteBatch _spriteBatch;
         private const int _screenHeight = 1080;
         private const int _screenWidth = 1920;
-        private State _currentState;
-        private State _nextState;
         private HubConnection _connection;
         private IHubProxy lobbyHubProxy;
+        private GameState currentGame;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -27,11 +27,19 @@ namespace SwordsAndSandals
 
         protected override void Initialize()
         {
-            _connection = new HubConnection("http://192.168.1.182:8081");
+            _connection = new HubConnection("http://localhost:8081");
             lobbyHubProxy = _connection.CreateHubProxy("MainHub");
             lobbyHubProxy.On<System.Numerics.Vector2, System.Numerics.Vector2, int, int>("FoundOpponent", (pos1, pos2, flip1, flip2) =>
             {
-                ChangeState(new GameState(this, _graphics.GraphicsDevice, Content, _screenWidth, _screenHeight, new Vector2(pos1.X * _screenWidth, pos1.Y * _screenHeight), new Vector2(pos2.X * _screenWidth, pos2.Y * _screenHeight), lobbyHubProxy, flip1, flip2));
+                currentGame = new GameState(_graphics, lobbyHubProxy, new Vector2(pos1.X * _screenWidth, pos1.Y * _screenHeight), new Vector2(pos2.X * _screenWidth, pos2.Y * _screenHeight), flip1, flip2);
+                StateManager.Instance.ChangeState(currentGame);
+            });
+            lobbyHubProxy.On<string>("AbilityUsed", (name) =>
+            {
+                if(currentGame != null)
+                {
+                    currentGame.opponent.UseAbility(name);
+                }
             });
             _connection.Start().Wait();
             _graphics.PreferredBackBufferWidth = _screenWidth;
@@ -43,31 +51,22 @@ namespace SwordsAndSandals
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _currentState = new MenuState(this, _graphics.GraphicsDevice, Content, _screenWidth, _screenHeight, lobbyHubProxy);
+            StateManager.Instance.SetContentManager(Content);
+            StateManager.Instance.ChangeState(new MenuState(_graphics, lobbyHubProxy));
         }
 
         protected override void Update(GameTime gameTime)
         {
-
-            if (_nextState != null)
-            {
-                _currentState = _nextState;
-                _nextState = null;
-            }
-            _currentState.Update(gameTime);
-            _currentState.PostUpdate(gameTime);
+            if (StateManager.Instance.NotInAState()) this.Exit();
+            StateManager.Instance.Update(gameTime);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.SkyBlue);
-            _currentState.Draw(gameTime, _spriteBatch);
+            StateManager.Instance.Draw(_spriteBatch);
             base.Draw(gameTime);
-        }
-        public void ChangeState(State state)
-        {
-            _nextState = state;
         }
         protected override void OnExiting(object sender, EventArgs args)
         {
