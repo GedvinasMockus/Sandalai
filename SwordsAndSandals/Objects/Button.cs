@@ -22,7 +22,7 @@ namespace SwordsAndSandals
         {
             get
             {
-                return new Rectangle((int)Position.X - _texture.Width, (int)Position.Y - _texture.Height, (int)(_texture.Width * 2), (int)(_texture.Height * 2));
+                return new Rectangle((int)(Position.X - _texture.Width * Scale), (int)(Position.Y - _texture.Height * Scale), (int)(_texture.Width * 2 * Scale), (int)(_texture.Height * 2 * Scale));
             }
         }
         public Vector2 Origin
@@ -75,9 +75,8 @@ namespace SwordsAndSandals
         {
             _previousMouse = _currentMouse;
             _currentMouse = Mouse.GetState();
-            var mouseRectangle = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
             _isHovering = false;
-            if (mouseRectangle.Intersects(Rectangle))
+            if (Rectangle.Contains(_currentMouse.Position))
             {
                 _isHovering = true;
                 if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)

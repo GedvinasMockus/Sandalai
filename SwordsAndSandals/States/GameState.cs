@@ -49,34 +49,34 @@ namespace SwordsAndSandals.States
 
         public override void LoadContent(ContentManager content)
         {
-            background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
-            player = new Player(content.Load<Texture2D>("Character/Ninja/Kunoichi/idle"), playerSpawnPos, 3.0f, 95, (SpriteEffects)playerFlip);
-            player.AddAbility("Jump", new Ability());
-            player.AddAbilityButton("Jump", content.Load<Texture2D>("Icons/Icon_02"), 2.0f, SpriteEffects.None);
-            player.AddAbility("Melee_attack_left", new Ability());
-            player.AddAbilityButton("Melee_attack_left", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.FlipHorizontally);
-            player.AddAbility("Run_left", new Run(300f, -100f));
-            player.AddAbilityButton("Run_left", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.FlipHorizontally);
-            player.AddAbility("Shield", new Ability());
-            player.AddAbilityButton("Shield", content.Load<Texture2D>("Icons/Icon_18"), 2.0f, SpriteEffects.None);
-            player.AddAbility("Sleep", new Ability());
-            player.AddAbilityButton("Sleep", content.Load<Texture2D>("Icons/Icon_05"), 2.0f, SpriteEffects.None);
-            player.AddAbility("Heal", new Ability());
-            player.AddAbilityButton("Heal", content.Load<Texture2D>("Icons/Icon_11"), 2.0f, SpriteEffects.None);
-            player.AddAbility("Run_right", new Run(300f, 100f));
-            player.AddAbilityButton("Run_right", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.None);
-            player.AddAbility("Melee_attack_right", new Ability());
-            player.AddAbilityButton("Melee_attack_right", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.None);
-            player.AbilityUsed += OnAbilityUsed;
-            opponent = new Player(content.Load<Texture2D>("Character/Ninja/Kunoichi/idle"), opponentSpawnPos, 3.0f, 95, (SpriteEffects)opponentFlip);
-            opponent.AddAbility("jump", new Ability());
-            opponent.AddAbility("Melee_attack_left", new Ability());
-            opponent.AddAbility("Run_left", new Run(300f, -100f));
-            opponent.AddAbility("Shield", new Ability());
-            opponent.AddAbility("Sleep", new Ability());
-            opponent.AddAbility("Heal", new Ability());
-            opponent.AddAbility("Run_right", new Run(300f, 100f));
-            opponent.AddAbility("Melee_attack_right", new Ability());
+            //background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
+            //player = new Player(content.Load<Texture2D>("Character/Ninja/Kunoichi/idle"), playerSpawnPos, 3.0f, 95, (SpriteEffects)playerFlip);
+            //player.AddAbility("Jump", new Ability());
+            //player.AddAbilityButton("Jump", content.Load<Texture2D>("Icons/Icon_02"), 2.0f, SpriteEffects.None);
+            //player.AddAbility("Melee_attack_left", new Ability());
+            //player.AddAbilityButton("Melee_attack_left", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.FlipHorizontally);
+            //player.AddAbility("Run_left", new Run(300f, -100f));
+            //player.AddAbilityButton("Run_left", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.FlipHorizontally);
+            //player.AddAbility("Shield", new Ability());
+            //player.AddAbilityButton("Shield", content.Load<Texture2D>("Icons/Icon_18"), 2.0f, SpriteEffects.None);
+            //player.AddAbility("Sleep", new Ability());
+            //player.AddAbilityButton("Sleep", content.Load<Texture2D>("Icons/Icon_05"), 2.0f, SpriteEffects.None);
+            //player.AddAbility("Heal", new Ability());
+            //player.AddAbilityButton("Heal", content.Load<Texture2D>("Icons/Icon_11"), 2.0f, SpriteEffects.None);
+            //player.AddAbility("Run_right", new Run(300f, 100f));
+            //player.AddAbilityButton("Run_right", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.None);
+            //player.AddAbility("Melee_attack_right", new Ability());
+            //player.AddAbilityButton("Melee_attack_right", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.None);
+            //player.AbilityUsed += OnAbilityUsed;
+            //opponent = new Player(content.Load<Texture2D>("Character/Ninja/Kunoichi/idle"), opponentSpawnPos, 3.0f, 95, (SpriteEffects)opponentFlip);
+            //opponent.AddAbility("jump", new Ability());
+            //opponent.AddAbility("Melee_attack_left", new Ability());
+            //opponent.AddAbility("Run_left", new Run(300f, -100f));
+            //opponent.AddAbility("Shield", new Ability());
+            //opponent.AddAbility("Sleep", new Ability());
+            //opponent.AddAbility("Heal", new Ability());
+            //opponent.AddAbility("Run_right", new Run(300f, 100f));
+            //opponent.AddAbility("Melee_attack_right", new Ability());
 
             Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Logout", 2f, SpriteEffects.None)
             {

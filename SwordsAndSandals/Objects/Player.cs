@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects.Abilities;
@@ -8,37 +9,33 @@ using System.Collections.Generic;
 
 namespace SwordsAndSandals.Objects
 {
-    public class Player
+    public abstract class Player
     {
         public Vector2 position { get; set; }
         public Vector2 velocity { get; set; }
 
         public event EventHandler<AbilityUsedEventArgs> AbilityUsed;
 
-        private Texture2D texture;
-        private int frameWidth;
-        private int frameHeight;
-        private float scale;
-        private int centerY;
-        private int totalFrames;
-        private int currentFrame = 0;
-        private float animationSpeed = 0.1f;
-        private float animationTimer = 0f;
-        private Dictionary<string, Ability> abilities = new Dictionary<string, Ability>();
-        private Dictionary<string, Button> buttons = new Dictionary<string, Button>();
-        private Dictionary<string, EventHandler> handlers = new Dictionary<string, EventHandler>();
-        private Ability currentAbility;
-        private SpriteEffects effect;
+        protected Texture2D texture;
+        protected int frameWidth;
+        protected int frameHeight;
+        protected float scale;
+        protected int centerY;
+        protected int totalFrames;
+        protected int currentFrame = 0;
+        protected float animationSpeed = 0.1f;
+        protected float animationTimer = 0f;
+        protected Dictionary<string, Ability> abilities = new Dictionary<string, Ability>();
+        protected Dictionary<string, Button> buttons = new Dictionary<string, Button>();
+        protected Dictionary<string, EventHandler> handlers = new Dictionary<string, EventHandler>();
+        protected Ability currentAbility;
+        protected SpriteEffects effect;
 
-        public Player(Texture2D texture, Vector2 position, float scale, int centerY, SpriteEffects effect)
+        public Player(Vector2 position, float scale, int centerY, SpriteEffects effect)
         {
-            this.texture = texture;
             this.position = position;
             this.scale = scale;
             this.centerY = centerY;
-            this.totalFrames = texture.Width / texture.Height;
-            frameWidth = texture.Width / this.totalFrames;
-            frameHeight = texture.Height;
             currentAbility = null;
             velocity = new Vector2(0, 0);
             this.effect = effect;
@@ -59,8 +56,6 @@ namespace SwordsAndSandals.Objects
             };
             handlers.Add(name, handler);
             Button button = new Button(bTexture, bScale, bFlip);
-            int index = buttons.Count;
-            button.Position = new Vector2(position.X + button.Scale * (frameWidth / 2 - frameWidth * (index & 1)), position.Y - button._texture.Height * button.Scale * (index / 2) - button.Scale * button._texture.Height / 2);
             button.Click += handler;
             buttons.Add(name, button);
         }
@@ -126,5 +121,8 @@ namespace SwordsAndSandals.Objects
                 }
             }
         }
+        public abstract void LoadTexture(ContentManager content);
+        public abstract void LoadAbilites(ContentManager content);
+        public abstract void LoadAbilityButtons(ContentManager content);
     }
 }

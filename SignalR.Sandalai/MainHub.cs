@@ -50,7 +50,6 @@ namespace SignalR.Sandalai
         public void AbilityUsed(string name)
         {
             Battle battle = battleList.Find((b) => b.Player1.ConnectionId == Context.ConnectionId || b.Player2.ConnectionId == Context.ConnectionId);
-            Console.WriteLine(name);
             if (battle.Player1.ConnectionId == Context.ConnectionId)
             {
                 Clients.Client(battle.Player2.ConnectionId).AbilityUsed(name);
