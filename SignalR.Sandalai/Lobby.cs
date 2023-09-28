@@ -31,11 +31,11 @@ namespace SignalR.Sandalai
                 return instance;
             }
         }
-        public void AddUser(string userId)
+        public void AddUser(string userId, string className)
         {
             lock (MyUsers)
             {
-                MyUsers.Add(userId, new Player(userId));
+                MyUsers.Add(userId, new Player(userId, className));
             }
         }
         public void RemoveUser(string userId)

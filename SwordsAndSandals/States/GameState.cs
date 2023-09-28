@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects;
 using SwordsAndSandals.Objects.Abilities;
-
+using SwordsAndSandals.Objects.Classes;
 using System.Collections.Generic;
 
 namespace SwordsAndSandals.States
@@ -13,10 +13,12 @@ namespace SwordsAndSandals.States
     public class GameState : State
     {
         public Player player { get; private set; }
+        private PlayerFactory p1Factory;
         private Vector2 playerSpawnPos;
         private int playerFlip;
 
         public Player opponent { get; private set; }
+        private PlayerFactory p2Factory;
         private Vector2 opponentSpawnPos;
         private int opponentFlip;
 
@@ -26,7 +28,7 @@ namespace SwordsAndSandals.States
 
         private int screenWidth;
         private int screenHeight;
-        public GameState(GraphicsDeviceManager graphicsDevice, IHubProxy hub, Vector2 pos1, Vector2 pos2, int flip1, int flip2) : base(graphicsDevice)
+        public GameState(GraphicsDeviceManager graphicsDevice, IHubProxy hub, Vector2 pos1, Vector2 pos2, int flip1, int flip2, string className1, string className2) : base(graphicsDevice)
         {
             this.hub = hub;
             playerSpawnPos = pos1;
@@ -35,10 +37,26 @@ namespace SwordsAndSandals.States
             opponentFlip = flip2;
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
+            p1Factory = GetPlayerFactory(className1);
+            p2Factory = GetPlayerFactory(className2);
+        }
+
+        public PlayerFactory GetPlayerFactory(string className)
+        {
+            switch(className)
+            {
+                case "Kunoichi":
+                    return new KunoichiFactory();
+                case "Samurai":
+                    return new SamuraiFactory();
+                default:
+                    return new SkeletonFactory();
+            }
         }
 
         private void LogoutButton_Click(object sender, System.EventArgs e)
         {
+            hub.Invoke("LeaveBattle");
             StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub));
         }
 
@@ -49,36 +67,12 @@ namespace SwordsAndSandals.States
 
         public override void LoadContent(ContentManager content)
         {
-            //background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
-            //player = new Player(content.Load<Texture2D>("Character/Ninja/Kunoichi/idle"), playerSpawnPos, 3.0f, 95, (SpriteEffects)playerFlip);
-            //player.AddAbility("Jump", new Ability());
-            //player.AddAbilityButton("Jump", content.Load<Texture2D>("Icons/Icon_02"), 2.0f, SpriteEffects.None);
-            //player.AddAbility("Melee_attack_left", new Ability());
-            //player.AddAbilityButton("Melee_attack_left", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.FlipHorizontally);
-            //player.AddAbility("Run_left", new Run(300f, -100f));
-            //player.AddAbilityButton("Run_left", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.FlipHorizontally);
-            //player.AddAbility("Shield", new Ability());
-            //player.AddAbilityButton("Shield", content.Load<Texture2D>("Icons/Icon_18"), 2.0f, SpriteEffects.None);
-            //player.AddAbility("Sleep", new Ability());
-            //player.AddAbilityButton("Sleep", content.Load<Texture2D>("Icons/Icon_05"), 2.0f, SpriteEffects.None);
-            //player.AddAbility("Heal", new Ability());
-            //player.AddAbilityButton("Heal", content.Load<Texture2D>("Icons/Icon_11"), 2.0f, SpriteEffects.None);
-            //player.AddAbility("Run_right", new Run(300f, 100f));
-            //player.AddAbilityButton("Run_right", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.None);
-            //player.AddAbility("Melee_attack_right", new Ability());
-            //player.AddAbilityButton("Melee_attack_right", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.None);
-            //player.AbilityUsed += OnAbilityUsed;
-            //opponent = new Player(content.Load<Texture2D>("Character/Ninja/Kunoichi/idle"), opponentSpawnPos, 3.0f, 95, (SpriteEffects)opponentFlip);
-            //opponent.AddAbility("jump", new Ability());
-            //opponent.AddAbility("Melee_attack_left", new Ability());
-            //opponent.AddAbility("Run_left", new Run(300f, -100f));
-            //opponent.AddAbility("Shield", new Ability());
-            //opponent.AddAbility("Sleep", new Ability());
-            //opponent.AddAbility("Heal", new Ability());
-            //opponent.AddAbility("Run_right", new Run(300f, 100f));
-            //opponent.AddAbility("Melee_attack_right", new Ability());
+            background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
+            player = p1Factory.CreatePlayer(content, playerSpawnPos, (SpriteEffects)playerFlip, true);
+            player.AbilityUsed += OnAbilityUsed;
+            opponent = p2Factory.CreatePlayer(content, opponentSpawnPos, (SpriteEffects)opponentFlip, false);
 
-            Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Logout", 2f, SpriteEffects.None)
+            Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Leave battle", 2f, SpriteEffects.None)
             {
                 Position = new Vector2(screenWidth / 8, screenHeight / 12)
             };
@@ -93,8 +87,8 @@ namespace SwordsAndSandals.States
         {
             spriteBatch.Begin();
             background.Draw(spriteBatch);
-            player.Draw(spriteBatch);
             opponent.Draw(spriteBatch);
+            player.Draw(spriteBatch);
             foreach (var b in buttons)
             {
                 b.Draw(spriteBatch);
