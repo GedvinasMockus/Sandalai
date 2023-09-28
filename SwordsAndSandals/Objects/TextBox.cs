@@ -86,7 +86,7 @@ namespace SwordsAndSandals.Objects
         {
             var c = e.Character;
             Regex r = new Regex(@"^[a-zA-Z0-9_\s+!#$%&()*,.\/\|\-{}<>]$");
-            if (r.IsMatch(c.ToString()))
+            if (r.IsMatch(c.ToString()) && (font.MeasureString(TextString).X + font.MeasureString(c.ToString()).X) * TextSize + TextureCursor.Width * CursorScale < (TextureInput.Width - 14) * InputScale)
             {
                 TextString.Append(c);
             }
