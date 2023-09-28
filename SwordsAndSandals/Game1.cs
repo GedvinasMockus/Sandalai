@@ -29,9 +29,9 @@ namespace SwordsAndSandals
         {
             _connection = new HubConnection("http://localhost:8081");
             lobbyHubProxy = _connection.CreateHubProxy("MainHub");
-            lobbyHubProxy.On<System.Numerics.Vector2, System.Numerics.Vector2, int, int>("FoundOpponent", (pos1, pos2, flip1, flip2) =>
+            lobbyHubProxy.On<System.Numerics.Vector2, System.Numerics.Vector2, int, int, string, string>("FoundOpponent", (pos1, pos2, flip1, flip2, className1, className2) =>
             {
-                currentGame = new GameState(_graphics, lobbyHubProxy, new Vector2(pos1.X * _screenWidth, pos1.Y * _screenHeight), new Vector2(pos2.X * _screenWidth, pos2.Y * _screenHeight), flip1, flip2);
+                currentGame = new GameState(_graphics, lobbyHubProxy, new Vector2(pos1.X * _screenWidth, pos1.Y * _screenHeight), new Vector2(pos2.X * _screenWidth, pos2.Y * _screenHeight), flip1, flip2, className1, className2);
                 StateManager.Instance.ChangeState(currentGame);
             });
             lobbyHubProxy.On<string>("AbilityUsed", (name) =>

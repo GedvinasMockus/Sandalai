@@ -31,9 +31,9 @@ namespace SwordsAndSandals
             StateManager.Instance.ChangeState(new SettingsState(_graphicsDevice, hub));
         }
 
-        private void NewGameButton_Click(object sender, EventArgs e)
+        private void CharacterSelection_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new LoadingScreenState(_graphicsDevice, hub));
+            StateManager.Instance.ChangeState(new CharacterSelectionState(_graphicsDevice, hub));
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
@@ -46,11 +46,11 @@ namespace SwordsAndSandals
             Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
             SpriteFont buttonFont = content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
-            Button newGameButton = new Button(buttonTexture, buttonFont, "New Game", 2f, SpriteEffects.None)
+            Button CharacterSelectionButton = new Button(buttonTexture, buttonFont, "Select character", 2f, SpriteEffects.None)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 100)
             };
-            newGameButton.Click += NewGameButton_Click;
+            CharacterSelectionButton.Click += CharacterSelection_Click;
             Button settingsButton = new Button(buttonTexture, buttonFont, "Settings", 2f, SpriteEffects.None)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 200)
@@ -63,7 +63,7 @@ namespace SwordsAndSandals
             exitButton.Click += ExitButton_Click;
             buttons = new List<Button>()
             {
-                newGameButton,
+                CharacterSelectionButton,
                 settingsButton,
                 exitButton
             };

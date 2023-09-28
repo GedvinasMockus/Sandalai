@@ -17,10 +17,10 @@ namespace SignalR.Sandalai
         {
             this.lobby = lobby;
         }
-        public void AddToLobby()
+        public void AddToLobby(string className)
         {
             Console.WriteLine("Connected");
-            lobby.AddUser(Context.ConnectionId);
+            lobby.AddUser(Context.ConnectionId, className);
             Console.WriteLine(Context.ConnectionId);
         }
         public void RemoveFromLobby()
@@ -42,15 +42,14 @@ namespace SignalR.Sandalai
                 {
                     battleList.Add(battle);
                 }
-                Clients.Client(battle.Player1.ConnectionId).FoundOpponent(battle.Position1, battle.Position2, (int)battle.Flip1, (int)battle.Flip2);
-                Clients.Client(battle.Player2.ConnectionId).FoundOpponent(battle.Position2, battle.Position1, (int)battle.Flip2, (int)battle.Flip1);
+                Clients.Client(battle.Player1.ConnectionId).FoundOpponent(battle.Position1, battle.Position2, (int)battle.Flip1, (int)battle.Flip2, battle.Player1.ClassName, battle.Player2.ClassName);
+                Clients.Client(battle.Player2.ConnectionId).FoundOpponent(battle.Position2, battle.Position1, (int)battle.Flip2, (int)battle.Flip1, battle.Player2.ClassName, battle.Player1.ClassName);
             }
         }
 
         public void AbilityUsed(string name)
         {
             Battle battle = battleList.Find((b) => b.Player1.ConnectionId == Context.ConnectionId || b.Player2.ConnectionId == Context.ConnectionId);
-            Console.WriteLine(name);
             if (battle.Player1.ConnectionId == Context.ConnectionId)
             {
                 Clients.Client(battle.Player2.ConnectionId).AbilityUsed(name);
@@ -61,26 +60,20 @@ namespace SignalR.Sandalai
             }
         }
 
-        //public override Task OnConnected()
+        //public void LeaveBattle()
         //{
-        //    Console.WriteLine("Connected");
-        //    lobby.AddUser(Context.ConnectionId);
-        //    Console.WriteLine(Context.ConnectionId);
-        //    return base.OnConnected();
-        //}
-        //public override Task OnDisconnected(bool stopCalled)
-        //{
-        //    Console.WriteLine("Disconnected");
-        //    lobby.RemoveUser(Context.ConnectionId);
-        //    Console.WriteLine(Context.ConnectionId);
-        //    return base.OnDisconnected(stopCalled);
-        //}
-        //public override Task OnReconnected()
-        //{
-        //    Console.WriteLine("Reconnected");
-        //    lobby.AddUser(Context.ConnectionId);
-        //    Console.WriteLine(Context.ConnectionId);
-        //    return base.OnReconnected();
+        //    Battle battle = battleList.Find((b) => b.Player1.ConnectionId == Context.ConnectionId || b.Player2.ConnectionId == Context.ConnectionId);
+        //    Clients.Caller.BattleLeft();
+        //    if (battle.Player1.ConnectionId != Context.ConnectionId)
+        //    {
+        //        Clients.Client(battle.Player1.ConnectionId).BackToLoading();
+        //        lobby.AddUser(battle.Player1.ConnectionId, battle.Player1.ClassName);
+        //    }
+        //    else
+        //    {
+        //        Clients.Client(battle.Player2.ConnectionId).BackToLoading();
+        //        lobby.AddUser(battle.Player2.ConnectionId, battle.Player2.ClassName);
+        //    }
         //}
     }
 }

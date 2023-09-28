@@ -157,7 +157,7 @@
 /processorParam:TextureFormat=Color
 /build:Character/Ninja/Kunoichi/Walk.png
 
-#begin Character/Ninja/Ninja_Monk/Attack_1.png
+#begin Character/Samurai/Samurai_Commander/Attack_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -167,9 +167,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Character/Ninja/Ninja_Monk/Attack_1.png
+/build:Character/Samurai/Samurai_Commander/Attack_1.png
 
-#begin Character/Ninja/Ninja_Monk/Attack_2.png
+#begin Character/Samurai/Samurai_Commander/Attack_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -179,9 +179,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Character/Ninja/Ninja_Monk/Attack_2.png
+/build:Character/Samurai/Samurai_Commander/Attack_2.png
 
-#begin Character/Ninja/Ninja_Monk/Blade.png
+#begin Character/Samurai/Samurai_Commander/Attack_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -191,9 +191,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Character/Ninja/Ninja_Monk/Blade.png
+/build:Character/Samurai/Samurai_Commander/Attack_3.png
 
-#begin Character/Ninja/Ninja_Monk/Cast.png
+#begin Character/Samurai/Samurai_Commander/Dead.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -203,9 +203,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Character/Ninja/Ninja_Monk/Cast.png
+/build:Character/Samurai/Samurai_Commander/Dead.png
 
-#begin Character/Ninja/Ninja_Monk/Dead.png
+#begin Character/Samurai/Samurai_Commander/Hurt.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -215,9 +215,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Character/Ninja/Ninja_Monk/Dead.png
+/build:Character/Samurai/Samurai_Commander/Hurt.png
 
-#begin Character/Ninja/Ninja_Monk/Hurt.png
+#begin Character/Samurai/Samurai_Commander/Idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -227,9 +227,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Character/Ninja/Ninja_Monk/Hurt.png
+/build:Character/Samurai/Samurai_Commander/Idle.png
 
-#begin Character/Ninja/Ninja_Monk/Idle.png
+#begin Character/Samurai/Samurai_Commander/Jump.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -239,9 +239,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Character/Ninja/Ninja_Monk/Idle.png
+/build:Character/Samurai/Samurai_Commander/Jump.png
 
-#begin Character/Ninja/Ninja_Monk/Jump.png
+#begin Character/Samurai/Samurai_Commander/Protect.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -251,9 +251,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Character/Ninja/Ninja_Monk/Jump.png
+/build:Character/Samurai/Samurai_Commander/Protect.png
 
-#begin Character/Ninja/Ninja_Monk/Kunai.png
+#begin Character/Samurai/Samurai_Commander/Run.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -263,9 +263,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Character/Ninja/Ninja_Monk/Kunai.png
+/build:Character/Samurai/Samurai_Commander/Run.png
 
-#begin Character/Ninja/Ninja_Monk/Run.png
+#begin Character/Samurai/Samurai_Commander/Walk.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -275,9 +275,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Character/Ninja/Ninja_Monk/Run.png
+/build:Character/Samurai/Samurai_Commander/Walk.png
 
-#begin Character/Ninja/Ninja_Monk/Walk.png
+#begin Character/Skeleton/Skeleton_Archer/Arrow.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -287,7 +287,127 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Character/Ninja/Ninja_Monk/Walk.png
+/build:Character/Skeleton/Skeleton_Archer/Arrow.png
+
+#begin Character/Skeleton/Skeleton_Archer/Attack_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/Skeleton/Skeleton_Archer/Attack_1.png
+
+#begin Character/Skeleton/Skeleton_Archer/Attack_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/Skeleton/Skeleton_Archer/Attack_2.png
+
+#begin Character/Skeleton/Skeleton_Archer/Attack_3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/Skeleton/Skeleton_Archer/Attack_3.png
+
+#begin Character/Skeleton/Skeleton_Archer/Dead.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/Skeleton/Skeleton_Archer/Dead.png
+
+#begin Character/Skeleton/Skeleton_Archer/Evasion.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/Skeleton/Skeleton_Archer/Evasion.png
+
+#begin Character/Skeleton/Skeleton_Archer/Hurt.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/Skeleton/Skeleton_Archer/Hurt.png
+
+#begin Character/Skeleton/Skeleton_Archer/Idle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/Skeleton/Skeleton_Archer/Idle.png
+
+#begin Character/Skeleton/Skeleton_Archer/Shot_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/Skeleton/Skeleton_Archer/Shot_1.png
+
+#begin Character/Skeleton/Skeleton_Archer/Shot_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/Skeleton/Skeleton_Archer/Shot_2.png
+
+#begin Character/Skeleton/Skeleton_Archer/Walk.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/Skeleton/Skeleton_Archer/Walk.png
 
 #begin Fonts/vinque.spritefont
 /importer:FontDescriptionImporter
@@ -295,6 +415,18 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Fonts/vinque.spritefont
+
+#begin Icons/arrow.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Icons/arrow.png
 
 #begin Icons/Icon_01.png
 /importer:TextureImporter

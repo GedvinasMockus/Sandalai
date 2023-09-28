@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SwordsAndSandals.Objects.Classes;
 
 namespace SwordsAndSandals.Objects.Abilities
 {
