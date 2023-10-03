@@ -18,17 +18,16 @@ namespace SwordsAndSandals.Objects.Classes
         }
         public override void LoadStartInfo(ContentManager content, SpriteEffects flip)
         {
-            AnimatedSprite animation = new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip);
-            dAnimation = animation;
-            cAnimation = animation;
-            AddAbility("Sleep", new Ability());
-            AddAbility("Ranged_attack_left", new Ability());
-            AddAbility("Melee_attack_left", new Ability());
-            AddAbility("Run_left", new Run(250f, -83.33f));
-            AddAbility("Evasion", new Ability());
-            AddAbility("Run_right", new Run(250f, 83.33f));
-            AddAbility("Melee_attack_right", new Ability());
-            AddAbility("Ranged_attack_right", new Ability());
+            AddAbility("Idle", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
+            currentAbility = abilities["Idle"];
+            AddAbility("Sleep", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
+            AddAbility("Ranged_attack_left", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
+            AddAbility("Melee_attack_left", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
+            AddAbility("Run_left", new Run(250f, -83.33f, new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Walk"), 3.0f, 0.1f, flip)));
+            AddAbility("Evasion", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
+            AddAbility("Run_right", new Run(250f, 83.33f, new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Walk"), 3.0f, 0.1f, flip)));
+            AddAbility("Melee_attack_right", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
+            AddAbility("Ranged_attack_right", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
         }
 
         public override void LoadButtons(ContentManager content)

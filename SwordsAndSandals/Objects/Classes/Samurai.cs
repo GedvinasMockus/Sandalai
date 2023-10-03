@@ -21,17 +21,16 @@ namespace SwordsAndSandals.Objects.Classes
 
         public override void LoadStartInfo(ContentManager content, SpriteEffects flip)
         {
-            AnimatedSprite animation = new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip);
-            dAnimation = animation;
-            cAnimation = animation;
-            AddAbility("Sleep", new Ability());
-            AddAbility("Jump_left", new Ability());
-            AddAbility("Melee_attack_left", new Ability());
-            AddAbility("Run_left", new Run(300f, -100f));
-            AddAbility("Shield", new Ability());
-            AddAbility("Run_right", new Run(300f, 100f));
-            AddAbility("Melle_attack_right", new Ability());
-            AddAbility("Jump_right", new Ability());
+            AddAbility("Idle", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip)));
+            currentAbility = abilities["Idle"];
+            AddAbility("Sleep", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip)));
+            AddAbility("Jump_left", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip)));
+            AddAbility("Melee_attack_left", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip)));
+            AddAbility("Run_left", new Run(300f, -100f, new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Run"), 3.0f, 0.2f, flip)));
+            AddAbility("Shield", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip)));
+            AddAbility("Run_right", new Run(300f, 100f, new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Run"), 3.0f, 0.2f, flip)));
+            AddAbility("Melle_attack_right", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip)));
+            AddAbility("Jump_right", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip)));
         }
 
         public override void LoadButtons(ContentManager content)

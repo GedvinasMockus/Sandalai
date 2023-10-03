@@ -14,11 +14,12 @@ namespace SwordsAndSandals.Objects
         public int frameWidth { get; private set; }
         public int frameHeight { get; private set; }
         public float scale { get; private set; }
+        public float CurrentAnimationSpeed { get; set; }
+        public float DefaultAnimationSpeed { get; private set; }
 
         private Texture2D texture;
         private int totalFrames;
         private int currentFrame;
-        private float animationSpeed;
         private float animationTimer;
 
         public AnimatedSprite(Texture2D texture, float scale, float animationSpeed, SpriteEffects flip)
@@ -29,7 +30,8 @@ namespace SwordsAndSandals.Objects
             frameHeight = texture.Height;
             this.scale = scale;
             currentFrame = 0;
-            this.animationSpeed = animationSpeed;
+            DefaultAnimationSpeed = animationSpeed;
+            CurrentAnimationSpeed = DefaultAnimationSpeed;
             animationTimer = 0.0f;
             this.flip = flip;
         }
@@ -43,11 +45,16 @@ namespace SwordsAndSandals.Objects
         public void Update(GameTime gameTime)
         {
             animationTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-            if(animationTimer >= animationSpeed)
+            if(animationTimer >= CurrentAnimationSpeed)
             {
                 currentFrame = (currentFrame + 1) % totalFrames;
-                animationTimer %= animationSpeed;
+                animationTimer %= CurrentAnimationSpeed;
             }
+        }
+
+        public void ResetAnimationSpeed()
+        {
+            CurrentAnimationSpeed = DefaultAnimationSpeed;
         }
 
     }
