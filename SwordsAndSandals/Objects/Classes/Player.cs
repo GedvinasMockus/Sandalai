@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects.Abilities;
-
+using SwordsAndSandals.Objects.Items.Weapons;
 using System;
 using System.Collections.Generic;
 
@@ -21,6 +21,9 @@ namespace SwordsAndSandals.Objects.Classes
         protected Dictionary<string, Button> buttons = new Dictionary<string, Button>();
         protected Dictionary<string, EventHandler> handlers = new Dictionary<string, EventHandler>();
         protected Ability currentAbility;
+        protected MeleeWeapon melee;
+        protected RangedWeapon ranged;
+        protected ShieldWeapon shield;
 
         public Player(Vector2 position)
         {
@@ -81,6 +84,9 @@ namespace SwordsAndSandals.Objects.Classes
                 b.Draw(batch);
                 index++;
             }
+            if(melee != null) melee.Draw(batch);
+            if(ranged != null) ranged.Draw(batch);
+            if(shield != null) shield.Draw(batch);
         }
 
         public void Update(GameTime gameTime)
@@ -97,5 +103,6 @@ namespace SwordsAndSandals.Objects.Classes
         }
         public abstract void LoadStartInfo(ContentManager content, SpriteEffects flip);
         public abstract void LoadButtons(ContentManager content);
+        public abstract void AddWeapons(WeaponFactory factory, ContentManager content);
     }
 }

@@ -2,9 +2,11 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Objects.Abilities;
+using SwordsAndSandals.Objects.Items.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,9 +28,9 @@ namespace SwordsAndSandals.Objects.Classes
             AddAbility("Sleep", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip)));
             AddAbility("Jump_left", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip)));
             AddAbility("Melee_attack_left", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip)));
-            AddAbility("Run_left", new Run(300f, -100f, new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Run"), 3.0f, 0.2f, flip)));
+            AddAbility("Run_left", new Run(350f, -125f, new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Run"), 3.0f, 0.1f, flip)));
             AddAbility("Shield", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip)));
-            AddAbility("Run_right", new Run(300f, 100f, new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Run"), 3.0f, 0.2f, flip)));
+            AddAbility("Run_right", new Run(350f, 125f, new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Run"), 3.0f, 0.1f, flip)));
             AddAbility("Melle_attack_right", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip)));
             AddAbility("Jump_right", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"), 3.0f, 0.1f, flip)));
         }
@@ -46,5 +48,11 @@ namespace SwordsAndSandals.Objects.Classes
             AddAbilityButton("Jump_right", content.Load<Texture2D>("Icons/Icon_02"), 2.0f, SpriteEffects.None);
         }
 
+        public override void AddWeapons(WeaponFactory factory, ContentManager content)
+        {
+            melee = factory.CreateMeleeWeapon(content, new Vector2(32, 32), 10);
+            ranged = factory.CreateRangedWeapon(content, new Vector2(32, 96), 3);
+            shield = factory.CreateShieldWeapon(content, new Vector2(32, 160), 10);
+        }
     }
 }
