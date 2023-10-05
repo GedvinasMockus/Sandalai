@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SwordsAndSandals.Objects.Animations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace SwordsAndSandals.Objects.Classes
     {
         public override Player CreatePlayer(ContentManager content, Vector2 position, SpriteEffects flip, bool addButtons)
         {
-            Player p = new Kunoichi(position);
-            p.LoadStartInfo(content, flip);
+            Player p = new Kunoichi();
+            p.LoadStartInfo(content, position, flip);
             if (addButtons) p.LoadButtons(content);
             return p;
         }

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Objects.Abilities;
+using SwordsAndSandals.Objects.Animations;
 using SwordsAndSandals.Objects.Items.Weapons;
 using System;
 using System.Collections.Generic;
@@ -13,22 +14,20 @@ namespace SwordsAndSandals.Objects.Classes
 {
     public class Skeleton : Player
     {
-        public Skeleton(Vector2 position) : base(position)
+        public override void LoadStartInfo(ContentManager content, Vector2 position ,SpriteEffects flip)
         {
-
-        }
-        public override void LoadStartInfo(ContentManager content, SpriteEffects flip)
-        {
-            AddAbility("Idle", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
+            Animation idle = new SkeletonIdleAnimation(content, 0.1f, flip);
+            sprite = new AnimatedSprite(idle, position);
+            AddAbility("Idle", new Idle(idle));
             currentAbility = abilities["Idle"];
-            AddAbility("Sleep", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
-            AddAbility("Ranged_attack_left", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
-            AddAbility("Melee_attack_left", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
-            AddAbility("Run_left", new Run(300f, -100f, new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Walk"), 3.0f, 0.1f, flip)));
-            AddAbility("Evasion", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
-            AddAbility("Run_right", new Run(300f, 100f, new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Walk"), 3.0f, 0.1f, flip)));
-            AddAbility("Melee_attack_right", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
-            AddAbility("Ranged_attack_right", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"), 3.0f, 0.1f, flip)));
+            AddAbility("Sleep", new Idle(new SkeletonIdleAnimation(content, 0.1f, flip)));
+            AddAbility("Ranged_attack_left", new Idle(new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
+            AddAbility("Melee_attack_left", new Idle(new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
+            AddAbility("Run_left", new Run(-200f, new SkeletonWalkAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
+            AddAbility("Evasion", new Idle(new SkeletonIdleAnimation(content, 0.1f, flip)));
+            AddAbility("Run_right", new Run(200f, new SkeletonWalkAnimation(content, 0.1f, SpriteEffects.None)));
+            AddAbility("Melee_attack_right", new Idle(new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.None)));
+            AddAbility("Ranged_attack_right", new Idle(new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.None)));
         }
 
         public override void LoadButtons(ContentManager content)

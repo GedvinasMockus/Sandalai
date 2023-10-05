@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SwordsAndSandals.Objects.Animations;
 using SwordsAndSandals.Objects.Classes;
 using System;
 using System.Collections.Generic;
@@ -17,20 +18,19 @@ namespace SwordsAndSandals.Objects.Abilities
         private float velocityY;
         private float accelerationY;
 
-        public Jump(float distanceX, float velocityX, float accelerationY, float groundY, AnimatedSprite animation) : base(animation)
+        public Jump(float distanceX, float accelerationY, float groundY, Animation animation) : base(animation)
         {
             maxDistanceX = distanceX;
-            this.velocityX = velocityX;
+            this.velocityX = maxDistanceX / animation.Duration;
             this.accelerationY = accelerationY;
-            float time = maxDistanceX / Math.Abs(velocityX);
-            velocityY = - accelerationY * time / 2;
+            velocityY = - accelerationY * animation.Duration / 2;
             this.groundY = groundY;
         }
 
-        public override void Update(GameTime gameTime, Player player)
+        public override void Update(GameTime gameTime, AnimatedSprite player)
         {
-            Animation.Update(gameTime);
-            if (currDistanceX < maxDistanceX)
+            base.Update(gameTime, player);
+            if (currDistanceX < Math.Abs(maxDistanceX))
             {
                 float elapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
                 player.velocity = new Vector2(velocityX, player.velocity.Y + accelerationY * elapsed);

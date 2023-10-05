@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Objects;
+using SwordsAndSandals.Objects.Animations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,9 +55,9 @@ namespace SwordsAndSandals.States
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
             sprites = new List<AnimatedSprite>()
             {
-                new AnimatedSprite(content.Load<Texture2D>("Character/Ninja/Kunoichi/Idle"),3.0f,0.1f,SpriteEffects.None),
-                new AnimatedSprite(content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle"),3.0f,0.1f,SpriteEffects.None),
-                new AnimatedSprite(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Idle"),3.0f,0.1f,SpriteEffects.None)
+                new AnimatedSprite(new KunoichiIdleAnimation(content,0.1f,SpriteEffects.None), new Vector2(screenWidth/2, screenHeight/2 + arrowTexture.Height / 2 * 0.15f)),
+                new AnimatedSprite(new SamuraiIdleAnimation(content,0.1f,SpriteEffects.None), new Vector2(screenWidth/2, screenHeight/2 + arrowTexture.Height / 2 * 0.15f)),
+                new AnimatedSprite(new SkeletonIdleAnimation(content,0.1f,SpriteEffects.None), new Vector2(screenWidth/2, screenHeight/2 + arrowTexture.Height / 2 * 0.15f))
             };
             classes = new List<string>()
             {
@@ -97,7 +98,7 @@ namespace SwordsAndSandals.States
                 b.Draw(spriteBatch);
             }
             AnimatedSprite currentSprite = sprites[spriteIndex];
-            currentSprite.Draw(spriteBatch, new Vector2(screenWidth / 2, screenHeight / 2 - 32 * currentSprite.scale), new Vector2(currentSprite.frameWidth / 2, currentSprite.frameHeight / 2));
+            currentSprite.DrawAsPlayer(spriteBatch);
             spriteBatch.End();
         }
         public override void Update(GameTime gameTime)

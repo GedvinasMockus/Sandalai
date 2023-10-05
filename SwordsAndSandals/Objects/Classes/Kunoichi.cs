@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Objects.Abilities;
+using SwordsAndSandals.Objects.Animations;
 using SwordsAndSandals.Objects.Items.Weapons;
 using System;
 using System.Collections.Generic;
@@ -13,21 +14,19 @@ namespace SwordsAndSandals.Objects.Classes
 {
     public class Kunoichi : Player
     {
-        public Kunoichi(Vector2 position) : base(position)
+        public override void LoadStartInfo(ContentManager content, Vector2 position, SpriteEffects flip)
         {
-
-        }
-        public override void LoadStartInfo(ContentManager content, SpriteEffects flip)
-        {
-            AddAbility("Idle", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Ninja/Kunoichi/Idle"), 3.0f, 0.1f, flip)));
+            Animation idle = new KunoichiIdleAnimation(content, 0.1f, flip);
+            sprite = new AnimatedSprite(idle, position);
+            AddAbility("Idle", new Idle(idle));
             currentAbility = abilities["Idle"];
-            AddAbility("Heal", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Ninja/Kunoichi/Idle"), 3.0f, 0.1f, flip)));
-            AddAbility("Jump_left", new Jump(300,-325, 600, position.Y ,new AnimatedSprite(content.Load<Texture2D>("Character/Ninja/Kunoichi/Jump"), 3.0f, 0.1f, flip)));
-            AddAbility("Melee_attack_left", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Ninja/Kunoichi/Idle"), 3.0f, 0.1f, flip)));
-            AddAbility("Run_left", new Run(400f, -150f, new AnimatedSprite(content.Load<Texture2D>("Character/Ninja/Kunoichi/Run"), 3.0f, 0.1f, flip)));
-            AddAbility("Run_right", new Run(400f, 150f, new AnimatedSprite(content.Load<Texture2D>("Character/Ninja/Kunoichi/Run"), 3.0f, 0.1f, flip)));
-            AddAbility("Melle_attack_right", new Idle(new AnimatedSprite(content.Load<Texture2D>("Character/Ninja/Kunoichi/Idle"), 3.0f, 0.1f, flip)));
-            AddAbility("Jump_right", new Jump(300, 300, 800, position.Y, new AnimatedSprite(content.Load<Texture2D>("Character/Ninja/Kunoichi/Jump"), 3.0f, 0.1f, flip)));
+            AddAbility("Heal", new Idle(new KunoichiIdleAnimation(content, 0.1f, flip)));
+            AddAbility("Jump_left", new Jump(-400f, 600f, position.Y, new KunoichiJumpAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
+            AddAbility("Melee_attack_left", new Idle(new KunoichiIdleAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
+            AddAbility("Run_left", new Run(-350f, new KunoichiRunAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
+            AddAbility("Run_right", new Run(350f, new KunoichiRunAnimation(content, 0.1f, SpriteEffects.None)));
+            AddAbility("Melle_attack_right", new Idle(new KunoichiIdleAnimation(content, 0.1f, SpriteEffects.None)));
+            AddAbility("Jump_right", new Jump(400f, 600f, position.Y, new KunoichiJumpAnimation(content, 0.1f, SpriteEffects.None)));
         }
 
         public override void LoadButtons(ContentManager content)

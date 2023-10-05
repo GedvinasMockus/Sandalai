@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SwordsAndSandals.Objects.Animations;
 using SwordsAndSandals.Objects.Classes;
 
 namespace SwordsAndSandals.Objects.Abilities
@@ -8,19 +9,22 @@ namespace SwordsAndSandals.Objects.Abilities
     {
         public bool done { get; set; }
 
-        public AnimatedSprite Animation { get; private set; }
+        public Animation animation { get; private set; }
 
-        public Ability(AnimatedSprite animation)
+        public Ability(Animation animation)
         {
             done = true;
-            Animation = animation;
+            this.animation = animation;
         }
 
-        public abstract void Update(GameTime gameTime, Player player);
-
-        public void Draw(SpriteBatch batch, Player player)
+        public virtual void Update(GameTime gameTime, AnimatedSprite player)
         {
-            Animation.Draw(batch, new Vector2(player.position.X, player.position.Y - Animation.scale * Animation.frameHeight / 2), new Vector2(Animation.frameWidth / 2, Animation.frameHeight / 2));
+            player.Update(gameTime);
+        }
+
+        public virtual void Draw(SpriteBatch batch, AnimatedSprite player)
+        {
+            player.DrawAsPlayer(batch);
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects.Abilities;
+using SwordsAndSandals.Objects.Animations;
 using SwordsAndSandals.Objects.Items.Weapons;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,6 @@ namespace SwordsAndSandals.Objects.Classes
 {
     public abstract class Player
     {
-        public Vector2 position { get; set; }
-        public Vector2 velocity { get; set; }
-
         public event EventHandler<AbilityUsedEventArgs> AbilityUsed;
 
         protected int centerY;
@@ -21,14 +19,14 @@ namespace SwordsAndSandals.Objects.Classes
         protected Dictionary<string, Button> buttons = new Dictionary<string, Button>();
         protected Dictionary<string, EventHandler> handlers = new Dictionary<string, EventHandler>();
         protected Ability currentAbility;
+        protected AnimatedSprite sprite;
         protected MeleeWeapon melee;
         protected RangedWeapon ranged;
         protected ShieldWeapon shield;
 
-        public Player(Vector2 position)
+        public Player()
         {
-            this.position = position;
-            velocity = new Vector2(0, 0);
+
         }
         public void AddAbility(string name, Ability ability)
         {
@@ -66,13 +64,14 @@ namespace SwordsAndSandals.Objects.Classes
         {
             currentAbility = abilities[name];
             currentAbility.done = false;
+            sprite.animation = currentAbility.animation;
         }
 
         public void Draw(SpriteBatch batch)
         {
-            currentAbility.Draw(batch, this);
+            currentAbility.Draw(batch, sprite);
             int numIcons = buttons.Count;
-            float radius = currentAbility.Animation.scale * currentAbility.Animation.frameHeight/2;
+            float radius = sprite.animation.Scale * sprite.animation.frameHeight/2;
             float angleIncrement = MathHelper.TwoPi / numIcons;
             int index = 0;
             foreach (var b in buttons.Values)
@@ -80,7 +79,7 @@ namespace SwordsAndSandals.Objects.Classes
                 float angle = index * angleIncrement;
                 float xOffset = -(float)Math.Sin(angle) * radius;
                 float yOffset = -(float)Math.Cos(angle) * radius;
-                b.Position = new Vector2(position.X + xOffset, position.Y - currentAbility.Animation.scale * currentAbility.Animation.frameHeight / 2 + centerY * currentAbility.Animation.scale + yOffset);
+                b.Position = new Vector2(sprite.position.X + xOffset, sprite.position.Y - sprite.animation.Scale * sprite.animation.frameHeight / 2 + centerY * sprite.animation.Scale + yOffset);
                 b.Draw(batch);
                 index++;
             }
@@ -95,13 +94,14 @@ namespace SwordsAndSandals.Objects.Classes
             {
                 b.Update(gameTime);
             }
-            currentAbility.Update(gameTime, this);
+            currentAbility.Update(gameTime, sprite);
             if (currentAbility.done == true)
             {
                 currentAbility = abilities["Idle"];
+                sprite.animation = currentAbility.animation;
             }
         }
-        public abstract void LoadStartInfo(ContentManager content, SpriteEffects flip);
+        public abstract void LoadStartInfo(ContentManager content, Vector2 position, SpriteEffects flip);
         public abstract void LoadButtons(ContentManager content);
         public abstract void AddWeapons(WeaponFactory factory, ContentManager content);
     }
