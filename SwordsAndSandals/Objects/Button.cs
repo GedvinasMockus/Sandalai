@@ -22,7 +22,7 @@ namespace SwordsAndSandals
         {
             get
             {
-                return new Rectangle((int)(Position.X - _texture.Width * Scale), (int)(Position.Y - _texture.Height * Scale), (int)(_texture.Width * 2 * Scale), (int)(_texture.Height * 2 * Scale));
+                return new Rectangle((int)(Position.X - _texture.Width/2 * Scale), (int)(Position.Y - _texture.Height/2 * Scale), (int)(_texture.Width * Scale), (int)(_texture.Height * Scale));
             }
         }
         public Vector2 Origin

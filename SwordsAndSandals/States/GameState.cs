@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Objects;
 using SwordsAndSandals.Objects.Abilities;
 using SwordsAndSandals.Objects.Classes;
+using SwordsAndSandals.Objects.Items.Weapons;
 using System.Collections.Generic;
 
 namespace SwordsAndSandals.States
@@ -16,6 +17,8 @@ namespace SwordsAndSandals.States
         private PlayerFactory p1Factory;
         private Vector2 playerSpawnPos;
         private int playerFlip;
+
+        private WeaponFactory weaponFactory;
 
         public Player opponent { get; private set; }
         private PlayerFactory p2Factory;
@@ -39,6 +42,7 @@ namespace SwordsAndSandals.States
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
             p1Factory = GetPlayerFactory(className1);
             p2Factory = GetPlayerFactory(className2);
+            weaponFactory = GetPlayerWeaponFactory(className1);
         }
 
         public PlayerFactory GetPlayerFactory(string className)
@@ -51,6 +55,19 @@ namespace SwordsAndSandals.States
                     return new SamuraiFactory();
                 default:
                     return new SkeletonFactory();
+            }
+        }
+
+        public WeaponFactory GetPlayerWeaponFactory(string className)
+        {
+            switch (className)
+            {
+                case "Kunoichi":
+                    return new KunoichiWeaponFactory();
+                case "Samurai":
+                    return new SamuraiWeaponFactory();
+                default:
+                    return new SkeletonWeaponFactory();
             }
         }
 
@@ -69,6 +86,7 @@ namespace SwordsAndSandals.States
         {
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
             player = p1Factory.CreatePlayer(content, playerSpawnPos, (SpriteEffects)playerFlip, true);
+            player.AddWeapons(weaponFactory, content);
             player.AbilityUsed += OnAbilityUsed;
             opponent = p2Factory.CreatePlayer(content, opponentSpawnPos, (SpriteEffects)opponentFlip, false);
 
