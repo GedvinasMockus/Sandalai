@@ -8,30 +8,33 @@ using System.Threading.Tasks;
 
 namespace SwordsAndSandals.Objects
 {
-    public class Sprite
+    public abstract class Sprite
     {
-        private Texture2D texture;
-        private float rotation;
-        private float scale;
-        private Vector2 origin;
-        private SpriteEffects flip;
+        protected Texture2D texture;
 
-        public Vector2 position { get; set; }
-        public Vector2 velocity { get; set; }
+        public float Rotation { get; set; }
+        public float Scale { get; set; }
+        public Vector2 Origin { get; set; }
+        public SpriteEffects Flip { get; set; }
+        public Vector2 Position { get; set; }
+        public Vector2 Velocity { get; set; }
+        public Rectangle Rectangle
+        {
+            get
+            {
+                return new Rectangle((int)(Position.X - texture.Width/2 * Scale), (int)(Position.Y - texture.Height/2 * Scale), (int)(texture.Width * Scale), (int)(texture.Height * Scale));
+            }
+        }
 
-        public Sprite(Texture2D texture)
+        public Sprite(Texture2D texture, Vector2 position)
         {
             this.texture = texture;
+            Position = position;
+            Velocity = Vector2.Zero;
+            Origin = new Vector2(texture.Width/2, texture.Height/2);
         }
 
-        public virtual void Draw(SpriteBatch batch)
-        {
-
-        }
-
-        public virtual void Update(GameTime gameTime)
-        {
-
-        }
+        public abstract void Draw(SpriteBatch batch);
+        public abstract void Update(GameTime gameTime);
     }
 }

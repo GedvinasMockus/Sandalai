@@ -14,25 +14,26 @@ namespace SwordsAndSandals.Objects.Classes
 {
     public class Skeleton : Player
     {
-        public override void LoadStartInfo(ContentManager content, Vector2 position ,SpriteEffects flip)
+        public Skeleton(Animation animation, Vector2 position) : base(animation, position)
         {
-            Animation idle = new SkeletonIdleAnimation(content, 0.1f, flip);
-            sprite = new AnimatedSprite(idle, position);
-            AddAbility("Idle", new Idle(idle));
-            currentAbility = abilities["Idle"];
+
+        }
+
+        public override void LoadStartInfo(ContentManager content, SpriteEffects flip)
+        {
             AddAbility("Sleep", new Idle(new SkeletonIdleAnimation(content, 0.1f, flip)));
-            AddAbility("Ranged_attack_left", new Idle(new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
+            AddAbility("Ranged_attack_left", new RangedAttack(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Arrow"), new SkeletonRangedAttackAnimation(content, 0.1f, SpriteEffects.FlipHorizontally), -800));
             AddAbility("Melee_attack_left", new Idle(new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
             AddAbility("Run_left", new Run(-200f, new SkeletonWalkAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
             AddAbility("Evasion", new Idle(new SkeletonIdleAnimation(content, 0.1f, flip)));
             AddAbility("Run_right", new Run(200f, new SkeletonWalkAnimation(content, 0.1f, SpriteEffects.None)));
             AddAbility("Melee_attack_right", new Idle(new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.None)));
-            AddAbility("Ranged_attack_right", new Idle(new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.None)));
+            AddAbility("Ranged_attack_right", new RangedAttack(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Arrow"),new SkeletonRangedAttackAnimation(content, 0.1f, SpriteEffects.None), 800));
         }
 
         public override void LoadButtons(ContentManager content)
         {
-            centerY = 32;
+            correctionY = 18;
             AddAbilityButton("Sleep", content.Load<Texture2D>("Icons/Icon_05"), 2.0f, SpriteEffects.None);
             AddAbilityButton("Ranged_attack_left", content.Load<Texture2D>("Icons/Icon_34"), 2.0f, SpriteEffects.None);
             AddAbilityButton("Melee_attack_left", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.FlipHorizontally);

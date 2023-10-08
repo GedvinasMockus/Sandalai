@@ -13,7 +13,7 @@ namespace SwordsAndSandals.Objects.Animations
     {
         public int frameWidth { get; protected set; }
         public int frameHeight { get; protected set; }
-
+        public SpriteEffects Flip { get; protected set; }
         public float Duration
         {
             get
@@ -29,14 +29,13 @@ namespace SwordsAndSandals.Objects.Animations
         protected float frameDuration;
         protected float timer;
         protected Texture2D texture;
-        protected SpriteEffects flip;
 
         public Animation(float duration, SpriteEffects flip)
         {
             frameDuration = duration;
             timer = 0.0f;
             currentFrame = 0;
-            this.flip = flip;
+            Flip = flip;
         }
 
         public void Update(GameTime gameTime)
@@ -52,7 +51,13 @@ namespace SwordsAndSandals.Objects.Animations
         public void Draw(SpriteBatch batch, Vector2 position, Vector2 origin)
         {
             Rectangle frameRect = new Rectangle(currentFrame * frameHeight, 0, frameWidth, frameHeight);
-            batch.Draw(texture, position, frameRect, Color.White, Rotation, origin, Scale, flip, 1);
+            batch.Draw(texture, position, frameRect, Color.White, Rotation, origin, Scale, Flip, 1);
+        }
+
+        public void Reset()
+        {
+            currentFrame = 0;
+            timer = 0.0f;
         }
 
     }

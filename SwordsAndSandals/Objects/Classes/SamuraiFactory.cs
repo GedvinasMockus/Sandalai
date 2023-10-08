@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SwordsAndSandals.Objects.Abilities;
+using SwordsAndSandals.Objects.Animations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +15,9 @@ namespace SwordsAndSandals.Objects.Classes
     {
         public override Player CreatePlayer(ContentManager content, Vector2 position, SpriteEffects flip, bool addButtons)
         {
-            Player p = new Samurai();
-            p.LoadStartInfo(content, position ,flip);
+            Animation anim = new SamuraiIdleAnimation(content, 0.1f, flip);
+            Player p = new Samurai(anim, position);
+            p.LoadStartInfo(content, flip);
             if (addButtons) p.LoadButtons(content);
             return p;
         }

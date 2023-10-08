@@ -15,25 +15,26 @@ namespace SwordsAndSandals.Objects.Classes
 {
     public class Samurai : Player
     {
-        public override void LoadStartInfo(ContentManager content, Vector2 position, SpriteEffects flip)
+        public Samurai(Animation animation,Vector2 position) : base(animation, position)
         {
-            Animation idle = new SamuraiIdleAnimation(content, 0.1f, flip);
-            sprite = new AnimatedSprite(idle, position);
-            AddAbility("Idle", new Idle(idle));
-            currentAbility = abilities["Idle"];
+
+        }
+
+        public override void LoadStartInfo(ContentManager content, SpriteEffects flip)
+        {
             AddAbility("Sleep", new Idle(new SamuraiIdleAnimation(content, 0.1f, flip)));
-            AddAbility("Jump_left", new Jump(-350f,600f, position.Y, new SamuraiJumpAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
+            AddAbility("Jump_left", new Jump(-350f,600f, new SamuraiJumpAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
             AddAbility("Melee_attack_left", new Idle(new SamuraiIdleAnimation(content, 0.1f, flip)));
             AddAbility("Run_left", new Run(-300f, new SamuraiRunAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
             AddAbility("Shield", new Idle(new SamuraiIdleAnimation(content, 0.1f, flip)));
             AddAbility("Run_right", new Run(300f, new SamuraiRunAnimation(content, 0.1f, SpriteEffects.None)));
             AddAbility("Melee_attack_right", new Idle(new SamuraiIdleAnimation(content, 0.1f, flip)));
-            AddAbility("Jump_right", new Jump(350f, 600f, position.Y, new SamuraiJumpAnimation(content, 0.1f, SpriteEffects.None)));
+            AddAbility("Jump_right", new Jump(350f, 600f, new SamuraiJumpAnimation(content, 0.1f, SpriteEffects.None)));
         }
 
         public override void LoadButtons(ContentManager content)
         {
-            centerY = 18;
+            correctionY = 32;
             AddAbilityButton("Sleep", content.Load<Texture2D>("Icons/Icon_05"), 2.0f, SpriteEffects.None);
             AddAbilityButton("Jump_left", content.Load<Texture2D>("Icons/Icon_02"), 2.0f, SpriteEffects.FlipHorizontally);
             AddAbilityButton("Melee_attack_left", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.FlipHorizontally);

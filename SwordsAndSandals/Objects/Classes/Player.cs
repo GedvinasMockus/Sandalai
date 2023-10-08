@@ -10,24 +10,26 @@ using System.Collections.Generic;
 
 namespace SwordsAndSandals.Objects.Classes
 {
-    public abstract class Player
+    public abstract class Player : AnimatedSprite
     {
         public event EventHandler<AbilityUsedEventArgs> AbilityUsed;
 
-        protected int centerY;
+        protected int correctionY;
         protected Dictionary<string, Ability> abilities = new Dictionary<string, Ability>();
         protected Dictionary<string, Button> buttons = new Dictionary<string, Button>();
         protected Dictionary<string, EventHandler> handlers = new Dictionary<string, EventHandler>();
-        protected Ability currentAbility;
-        protected AnimatedSprite sprite;
+        protected Ability active;
+
         protected MeleeWeapon melee;
         protected RangedWeapon ranged;
         protected ShieldWeapon shield;
 
-        public Player()
+        protected Player(Animation animation, Vector2 position) : base(animation, position)
         {
-
+            active = new Idle(animation);
+            abilities.Add("Idle", active);
         }
+
         public void AddAbility(string name, Ability ability)
         {
             abilities.Add(name, ability);
@@ -62,16 +64,16 @@ namespace SwordsAndSandals.Objects.Classes
 
         public void UseAbility(string name)
         {
-            currentAbility = abilities[name];
-            currentAbility.done = false;
-            sprite.animation = currentAbility.animation;
+            active = abilities[name];
+            active.Prepare(this);
+            active.done = false;
         }
 
-        public void Draw(SpriteBatch batch)
+        public override void Draw(SpriteBatch batch)
         {
-            currentAbility.Draw(batch, sprite);
+            animation.Draw(batch, new Vector2(Position.X, Position.Y - animation.Scale * animation.frameHeight/2), Origin);
             int numIcons = buttons.Count;
-            float radius = sprite.animation.Scale * sprite.animation.frameHeight/2;
+            float radius = animation.Scale * animation.frameHeight/2;
             float angleIncrement = MathHelper.TwoPi / numIcons;
             int index = 0;
             foreach (var b in buttons.Values)
@@ -79,29 +81,31 @@ namespace SwordsAndSandals.Objects.Classes
                 float angle = index * angleIncrement;
                 float xOffset = -(float)Math.Sin(angle) * radius;
                 float yOffset = -(float)Math.Cos(angle) * radius;
-                b.Position = new Vector2(sprite.position.X + xOffset, sprite.position.Y - sprite.animation.Scale * sprite.animation.frameHeight / 2 + centerY * sprite.animation.Scale + yOffset);
+                b.Position = new Vector2(Position.X + xOffset, Position.Y - animation.Scale * (animation.frameHeight / 2 - correctionY) + yOffset);
                 b.Draw(batch);
                 index++;
             }
+
             if(melee != null) melee.Draw(batch);
             if(ranged != null) ranged.Draw(batch);
             if(shield != null) shield.Draw(batch);
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             foreach (var b in buttons.Values)
             {
                 b.Update(gameTime);
             }
-            currentAbility.Update(gameTime, sprite);
-            if (currentAbility.done == true)
+            animation.Update(gameTime);
+            active.Update(gameTime, this, sprites);
+            if (active != abilities["Idle"] && active.done == true)
             {
-                currentAbility = abilities["Idle"];
-                sprite.animation = currentAbility.animation;
+                active = abilities["Idle"];
+                active.Prepare(this);
             }
         }
-        public abstract void LoadStartInfo(ContentManager content, Vector2 position, SpriteEffects flip);
+        public abstract void LoadStartInfo(ContentManager content, SpriteEffects flip);
         public abstract void LoadButtons(ContentManager content);
         public abstract void AddWeapons(WeaponFactory factory, ContentManager content);
     }

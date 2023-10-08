@@ -16,5 +16,16 @@ namespace SwordsAndSandals.Objects.Abilities
         {
 
         }
+
+        public override void Prepare(Player player)
+        {
+            animation.Reset();
+            player.animation = animation;
+        }
+
+        public override void Update(GameTime gameTime, Player player, List<Sprite> sprites)
+        {
+            return;
+        }
     }
 }

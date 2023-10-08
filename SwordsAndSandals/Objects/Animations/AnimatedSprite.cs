@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +9,40 @@ using System.Threading.Tasks;
 
 namespace SwordsAndSandals.Objects.Animations
 {
-    public class AnimatedSprite
+    public abstract class AnimatedSprite
     {
-        public Vector2 position { get; set; }
-        public Vector2 velocity { get; set; }
-        public Animation animation { get; set; }
+        public Vector2 Position { get; set; }
+        public Vector2 Velocity { get; set; }
+        public Vector2 Origin { get; set; }
 
-        public AnimatedSprite(Animation start, Vector2 position)
-        {
-            animation = start;
-            this.position = position;
-            velocity = Vector2.Zero;
+        private Animation anim;
+        public Animation animation 
+        { 
+            get
+            {
+                return anim;
+            }
+            set
+            {
+                anim = value;
+                Origin = new Vector2(anim.frameWidth / 2, anim.frameHeight / 2);
+            }
         }
-        public void Draw(SpriteBatch batch)
+        public Rectangle Rectangle
         {
-            animation.Draw(batch, position, new Vector2(animation.frameWidth/2, animation.frameHeight/2));
+            get
+            {
+                return new Rectangle((int)(Position.X - anim.frameWidth/2 * anim.Scale), (int)(Position.Y - anim.frameHeight/2 * anim.Scale), (int)(anim.frameWidth * anim.Scale), (int)(anim.frameHeight * anim.Scale));
+            }
+        }
+        public AnimatedSprite(Animation animation, Vector2 position)
+        {
+            this.animation = animation;
+            Position = position;
+            Velocity = Vector2.Zero;
         }
 
-        public void DrawAsPlayer(SpriteBatch batch)
-        {
-            animation.Draw(batch, new Vector2(position.X, position.Y - animation.Scale * animation.frameHeight / 2), new Vector2(animation.frameWidth / 2, animation.frameHeight / 2));
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            animation.Update(gameTime);
-        }
+        public abstract void Draw(SpriteBatch batch);
+        public abstract void Update(GameTime gameTime, List<Sprite> sprites);
     }
 }

@@ -15,7 +15,7 @@ namespace SwordsAndSandals.States
     public class CharacterSelectionState : State
     {
         private Background background;
-        private List<AnimatedSprite> sprites;
+        private List<Animation> sprites;
         private List<string> classes;
         private List<Button> buttons;
         private IHubProxy hub;
@@ -33,11 +33,13 @@ namespace SwordsAndSandals.States
         private void SwitchRightButton_Click(object sender, EventArgs e)
         {
             spriteIndex = (spriteIndex + 1) % sprites.Count;
+            sprites[spriteIndex].Reset();
         }
         private void SwitchLeftButton_Click(object sender, EventArgs e)
         {
             spriteIndex--;
             if (spriteIndex < 0) spriteIndex += sprites.Count;
+            sprites[spriteIndex].Reset();
         }
         private void SelectCharacterButton_Click(object sender, EventArgs e)
         {
@@ -53,11 +55,11 @@ namespace SwordsAndSandals.States
             Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
             SpriteFont buttonFont = content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
-            sprites = new List<AnimatedSprite>()
+            sprites = new List<Animation>()
             {
-                new AnimatedSprite(new KunoichiIdleAnimation(content,0.1f,SpriteEffects.None), new Vector2(screenWidth/2, screenHeight/2 + arrowTexture.Height / 2 * 0.15f)),
-                new AnimatedSprite(new SamuraiIdleAnimation(content,0.1f,SpriteEffects.None), new Vector2(screenWidth/2, screenHeight/2 + arrowTexture.Height / 2 * 0.15f)),
-                new AnimatedSprite(new SkeletonIdleAnimation(content,0.1f,SpriteEffects.None), new Vector2(screenWidth/2, screenHeight/2 + arrowTexture.Height / 2 * 0.15f))
+                new KunoichiIdleAnimation(content, 0.1f, SpriteEffects.None),
+                new SamuraiIdleAnimation(content, 0.1f, SpriteEffects.None),
+                new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.None)
             };
             classes = new List<string>()
             {
@@ -97,8 +99,8 @@ namespace SwordsAndSandals.States
             {
                 b.Draw(spriteBatch);
             }
-            AnimatedSprite currentSprite = sprites[spriteIndex];
-            currentSprite.DrawAsPlayer(spriteBatch);
+            Animation active = sprites[spriteIndex];
+            active.Draw(spriteBatch, new Vector2(screenWidth / 2, screenHeight / 2 - active.frameHeight/2 * active.Scale + 38.4f), new Vector2(active.frameWidth / 2, active.frameHeight / 2));
             spriteBatch.End();
         }
         public override void Update(GameTime gameTime)
