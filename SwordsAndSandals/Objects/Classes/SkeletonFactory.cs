@@ -14,13 +14,11 @@ namespace SwordsAndSandals.Objects.Classes
 {
     public class SkeletonFactory : PlayerFactory
     {
-        public override Player CreatePlayer(ContentManager content, Vector2 position, SpriteEffects flip, bool addButtons)
+        public override Player CreatePlayer(ContentManager content, Vector2 position, SpriteEffects flip, bool setButtons)
         {
-            Animation anim = new SkeletonIdleAnimation(content, 0.1f, flip);
-            Player p = new Skeleton(anim, position);
-            p.LoadStartInfo(content, flip);
-            if (addButtons) p.LoadButtons(content);
-            return p;
+            PlayerBuilder builder = new SkeletonBuilder(content).SetPosition(position).SetDefaultAbility(flip).SetAbilities(flip);
+            if (setButtons) builder.SetCorrection(18).SetButtons();
+            return builder.GetPlayer();
         }
     }
 }

@@ -14,39 +14,16 @@ namespace SwordsAndSandals.Objects.Classes
 {
     public class Kunoichi : Player
     {
-        public Kunoichi(Animation animation, Vector2 position) : base(animation, position)
+        public Kunoichi() : base()
         {
 
         }
 
-        public override void LoadStartInfo(ContentManager content, SpriteEffects flip)
-        {
-            AddAbility("Heal", new Idle(new KunoichiIdleAnimation(content, 0.1f, flip)));
-            AddAbility("Jump_left", new Jump(-400f, 600f, new KunoichiJumpAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
-            AddAbility("Melee_attack_left", new Idle(new KunoichiIdleAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
-            AddAbility("Run_left", new Run(-350f, new KunoichiRunAnimation(content, 0.1f, SpriteEffects.FlipHorizontally)));
-            AddAbility("Run_right", new Run(350f, new KunoichiRunAnimation(content, 0.1f, SpriteEffects.None)));
-            AddAbility("Melle_attack_right", new Idle(new KunoichiIdleAnimation(content, 0.1f, SpriteEffects.None)));
-            AddAbility("Jump_right", new Jump(400f, 600f, new KunoichiJumpAnimation(content, 0.1f, SpriteEffects.None)));
-        }
-
-        public override void LoadButtons(ContentManager content)
-        {
-            correctionY = 32;
-            AddAbilityButton("Heal", content.Load<Texture2D>("Icons/Icon_11"), 2.0f, SpriteEffects.None);
-            AddAbilityButton("Jump_left", content.Load<Texture2D>("Icons/Icon_02"), 2.0f, SpriteEffects.FlipHorizontally);
-            AddAbilityButton("Melee_attack_left", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.FlipHorizontally);
-            AddAbilityButton("Run_left", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.FlipHorizontally);
-            AddAbilityButton("Run_right", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.None);
-            AddAbilityButton("Melee_attack_right", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.None);
-            AddAbilityButton("Jump_right", content.Load<Texture2D>("Icons/Icon_02"), 2.0f, SpriteEffects.None);
-        }
-
-        public override void AddWeapons(WeaponFactory factory, ContentManager content)
-        {
-            melee = factory.CreateMeleeWeapon(content, new Vector2(32, 32), 12);
-            ranged = factory.CreateRangedWeapon(content, new Vector2(32, 96),7);
-            shield = factory.CreateShieldWeapon(content, new Vector2(32,160),4);
-        }
+        //public override void AddWeapons(WeaponFactory factory, ContentManager content)
+        //{
+        //    Melee = factory.CreateMeleeWeapon(content, new Vector2(32, 32), 12);
+        //    Ranged = factory.CreateRangedWeapon(content, new Vector2(32, 96),7);
+        //    Shield = factory.CreateShieldWeapon(content, new Vector2(32,160),4);
+        //}
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Objects;
 using SwordsAndSandals.Objects.Animations;
+using SwordsAndSandals.Objects.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace SwordsAndSandals.States
     public class CharacterSelectionState : State
     {
         private Background background;
-        private List<Animation> sprites;
+        private List<Player> sprites;
         private List<string> classes;
         private List<Button> buttons;
         private IHubProxy hub;
@@ -33,19 +34,23 @@ namespace SwordsAndSandals.States
         private void SwitchRightButton_Click(object sender, EventArgs e)
         {
             spriteIndex = (spriteIndex + 1) % sprites.Count;
-            sprites[spriteIndex].Reset();
+            sprites[spriteIndex].animation.Reset();
         }
         private void SwitchLeftButton_Click(object sender, EventArgs e)
         {
             spriteIndex--;
             if (spriteIndex < 0) spriteIndex += sprites.Count;
-            sprites[spriteIndex].Reset();
+            sprites[spriteIndex].animation.Reset();
         }
         private void SelectCharacterButton_Click(object sender, EventArgs e)
         {
             hub.Invoke("AddToLobby", classes[spriteIndex]);
             hub.Invoke("FindOpponent");
-            StateManager.Instance.ChangeState(new LoadingScreenState(_graphicsDevice, hub));
+            StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice, hub));
+        }
+        private void LeaveSelectionButton_Click(object sender, EventArgs e)
+        {
+            StateManager.Instance.ChangeState(new MenuState(graphicsDevice, hub));
         }
 
         public override void LoadContent(ContentManager content)
@@ -55,11 +60,12 @@ namespace SwordsAndSandals.States
             Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
             SpriteFont buttonFont = content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
-            sprites = new List<Animation>()
+            Vector2 spritePos = new Vector2(screenWidth / 2, screenHeight / 2 + arrowTexture.Height / 2 * 0.15f);
+            sprites = new List<Player>()
             {
-                new KunoichiIdleAnimation(content, 0.1f, SpriteEffects.None),
-                new SamuraiIdleAnimation(content, 0.1f, SpriteEffects.None),
-                new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.None)
+                new KunoichiBuilder(content).SetPosition(spritePos).SetDefaultAbility(SpriteEffects.None).GetPlayer(),
+                new SamuraiBuilder(content).SetPosition(spritePos).SetDefaultAbility(SpriteEffects.None).GetPlayer(),
+                new SkeletonBuilder(content).SetPosition(spritePos).SetDefaultAbility(SpriteEffects.None).GetPlayer(),
             };
             classes = new List<string>()
             {
@@ -82,11 +88,17 @@ namespace SwordsAndSandals.States
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 200)
             };
             selectCharacterButton.Click += SelectCharacterButton_Click;
+            Button leaveSelection = new Button(buttonTexture, buttonFont, "Main menu", 2f, SpriteEffects.None)
+            {
+                Position = new Vector2(screenWidth / 8, screenHeight / 12)
+            };
+            leaveSelection.Click += LeaveSelectionButton_Click;
             buttons = new List<Button>()
             {
                 switchLeftButton,
                 switchRightButton,
-                selectCharacterButton
+                selectCharacterButton,
+                leaveSelection
             };
             
         }
@@ -99,8 +111,7 @@ namespace SwordsAndSandals.States
             {
                 b.Draw(spriteBatch);
             }
-            Animation active = sprites[spriteIndex];
-            active.Draw(spriteBatch, new Vector2(screenWidth / 2, screenHeight / 2 - active.frameHeight/2 * active.Scale + 38.4f), new Vector2(active.frameWidth / 2, active.frameHeight / 2));
+            sprites[spriteIndex].Draw(spriteBatch);
             spriteBatch.End();
         }
         public override void Update(GameTime gameTime)
@@ -109,7 +120,7 @@ namespace SwordsAndSandals.States
             {
                 b.Update(gameTime);
             }
-            sprites[spriteIndex].Update(gameTime);
+            sprites[spriteIndex].Update(gameTime, new List<Sprite>());
         }
         public override void UnloadContent()
         {

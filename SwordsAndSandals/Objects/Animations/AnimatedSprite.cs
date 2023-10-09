@@ -42,6 +42,11 @@ namespace SwordsAndSandals.Objects.Animations
             Velocity = Vector2.Zero;
         }
 
+        public AnimatedSprite()
+        {
+
+        }
+
         public abstract void Draw(SpriteBatch batch);
         public abstract void Update(GameTime gameTime, List<Sprite> sprites);
     }

@@ -28,12 +28,12 @@ namespace SwordsAndSandals
 
         private void SettingButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new SettingsState(_graphicsDevice, hub));
+            StateManager.Instance.ChangeState(new SettingsState(graphicsDevice, hub));
         }
 
         private void CharacterSelection_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new CharacterSelectionState(_graphicsDevice, hub));
+            StateManager.Instance.ChangeState(new CharacterSelectionState(graphicsDevice, hub));
         }
 
         private void ExitButton_Click(object sender, EventArgs e)

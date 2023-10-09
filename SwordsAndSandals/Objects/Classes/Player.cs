@@ -14,20 +14,21 @@ namespace SwordsAndSandals.Objects.Classes
     {
         public event EventHandler<AbilityUsedEventArgs> AbilityUsed;
 
-        protected int correctionY;
+        public int CorrectionY { get; set; }
+
         protected Dictionary<string, Ability> abilities = new Dictionary<string, Ability>();
         protected Dictionary<string, Button> buttons = new Dictionary<string, Button>();
         protected Dictionary<string, EventHandler> handlers = new Dictionary<string, EventHandler>();
-        protected Ability active;
 
-        protected MeleeWeapon melee;
-        protected RangedWeapon ranged;
-        protected ShieldWeapon shield;
+        public Ability Active { get; set; }
 
-        protected Player(Animation animation, Vector2 position) : base(animation, position)
+        public MeleeWeapon Melee { get; set; }
+        public RangedWeapon Ranged { get; set; }
+        public ShieldWeapon Shield { get; set; }
+
+        public Player() : base()
         {
-            active = new Idle(animation);
-            abilities.Add("Idle", active);
+
         }
 
         public void AddAbility(string name, Ability ability)
@@ -64,9 +65,9 @@ namespace SwordsAndSandals.Objects.Classes
 
         public void UseAbility(string name)
         {
-            active = abilities[name];
-            active.Prepare(this);
-            active.done = false;
+            Active = abilities[name];
+            Active.Prepare(this);
+            Active.done = false;
         }
 
         public override void Draw(SpriteBatch batch)
@@ -81,14 +82,14 @@ namespace SwordsAndSandals.Objects.Classes
                 float angle = index * angleIncrement;
                 float xOffset = -(float)Math.Sin(angle) * radius;
                 float yOffset = -(float)Math.Cos(angle) * radius;
-                b.Position = new Vector2(Position.X + xOffset, Position.Y - animation.Scale * (animation.frameHeight / 2 - correctionY) + yOffset);
+                b.Position = new Vector2(Position.X + xOffset, Position.Y - animation.Scale * (animation.frameHeight / 2 - CorrectionY) + yOffset);
                 b.Draw(batch);
                 index++;
             }
 
-            if(melee != null) melee.Draw(batch);
-            if(ranged != null) ranged.Draw(batch);
-            if(shield != null) shield.Draw(batch);
+            if(Melee != null) Melee.Draw(batch);
+            if(Ranged != null) Ranged.Draw(batch);
+            if(Shield != null) Shield.Draw(batch);
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites)
@@ -98,15 +99,12 @@ namespace SwordsAndSandals.Objects.Classes
                 b.Update(gameTime);
             }
             animation.Update(gameTime);
-            active.Update(gameTime, this, sprites);
-            if (active != abilities["Idle"] && active.done == true)
+            Active.Update(gameTime, this, sprites);
+            if (Active != abilities["Idle"] && Active.done == true)
             {
-                active = abilities["Idle"];
-                active.Prepare(this);
+                Active = abilities["Idle"];
+                Active.Prepare(this);
             }
         }
-        public abstract void LoadStartInfo(ContentManager content, SpriteEffects flip);
-        public abstract void LoadButtons(ContentManager content);
-        public abstract void AddWeapons(WeaponFactory factory, ContentManager content);
     }
 }

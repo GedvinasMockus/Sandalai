@@ -13,13 +13,11 @@ namespace SwordsAndSandals.Objects.Classes
 {
     public class KunoichiFactory : PlayerFactory
     {
-        public override Player CreatePlayer(ContentManager content, Vector2 position, SpriteEffects flip, bool addButtons)
+        public override Player CreatePlayer(ContentManager content, Vector2 position, SpriteEffects flip, bool setButtons)
         {
-            Animation anim = new KunoichiIdleAnimation(content, 0.1f, flip);
-            Player p = new Kunoichi(anim, position);
-            p.LoadStartInfo(content, flip);
-            if (addButtons) p.LoadButtons(content);
-            return p;
+            PlayerBuilder builder = new KunoichiBuilder(content).SetPosition(position).SetDefaultAbility(flip).SetAbilities(flip);
+            if (setButtons) builder.SetCorrection(32).SetButtons();
+            return builder.GetPlayer();
         }
     }
 }

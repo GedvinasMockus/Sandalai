@@ -79,7 +79,7 @@ namespace SwordsAndSandals.States
         private void LogoutButton_Click(object sender, System.EventArgs e)
         {
             hub.Invoke("LeaveBattle");
-            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub));
+            StateManager.Instance.ChangeState(new MenuState(graphicsDevice, hub));
         }
 
         private void OnAbilityUsed(object sender, AbilityUsedEventArgs e)
@@ -91,7 +91,7 @@ namespace SwordsAndSandals.States
         {
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
             player = p1Factory.CreatePlayer(content,playerSpawnPos, (SpriteEffects)playerFlip, true);
-            player.AddWeapons(weaponFactory, content);
+            //player.AddWeapons(weaponFactory, content);
             player.AbilityUsed += OnAbilityUsed;
             opponent = p2Factory.CreatePlayer(content,opponentSpawnPos, (SpriteEffects)opponentFlip, false);
 
