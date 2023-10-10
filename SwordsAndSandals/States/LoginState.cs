@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNet.SignalR.Client;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,7 +11,6 @@ namespace SwordsAndSandals.States
 {
     public class LoginState : State
     {
-        private IHubProxy hub;
         private List<Button> buttons;
         private List<Component> components;
         private Background background;
@@ -20,16 +18,14 @@ namespace SwordsAndSandals.States
 
         private int screenWidth;
         private int screenHeight;
-        public LoginState(GraphicsDeviceManager graphicsDevice, IHubProxy hub, GameWindow gw) : base(graphicsDevice)
+        public LoginState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
         {
-            this.hub = hub;
-            this.gw = gw;
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
         }
         private void BackButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub, gw));
+            StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
         }
 
         public override void LoadContent(ContentManager content)

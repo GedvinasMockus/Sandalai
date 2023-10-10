@@ -1,15 +1,12 @@
-using Microsoft.AspNet.SignalR.Client;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+
 using SwordsAndSandals.Objects;
-using SwordsAndSandals.Objects.Animations;
 using SwordsAndSandals.Objects.Classes;
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SwordsAndSandals.States
 {
@@ -19,14 +16,12 @@ namespace SwordsAndSandals.States
         private List<Player> sprites;
         private List<string> classes;
         private List<Button> buttons;
-        private IHubProxy hub;
 
         private int screenWidth;
         private int screenHeight;
         private int spriteIndex;
-        public CharacterSelectionState(GraphicsDeviceManager graphicsDevice, IHubProxy hub) : base(graphicsDevice)
+        public CharacterSelectionState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
         {
-            this.hub = hub;
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
         }
@@ -44,13 +39,13 @@ namespace SwordsAndSandals.States
         }
         private void SelectCharacterButton_Click(object sender, EventArgs e)
         {
-            hub.Invoke("AddToLobby", classes[spriteIndex]);
-            hub.Invoke("FindOpponent");
-            StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice, hub));
+            ConnectionManager.Instance.Invoke("AddToLobby", classes[spriteIndex]);
+            ConnectionManager.Instance.Invoke("FindOpponent");
+            StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice));
         }
         private void LeaveSelectionButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new MenuState(graphicsDevice, hub));
+            StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
         }
 
         public override void LoadContent(ContentManager content)
@@ -83,7 +78,7 @@ namespace SwordsAndSandals.States
                 Position = new Vector2(5 * screenWidth / 8, screenHeight / 2)
             };
             switchRightButton.Click += SwitchRightButton_Click;
-            Button selectCharacterButton = new Button(buttonTexture, buttonFont, "Select character", 2f ,SpriteEffects.None)
+            Button selectCharacterButton = new Button(buttonTexture, buttonFont, "Select character", 2f, SpriteEffects.None)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 200)
             };
@@ -100,7 +95,7 @@ namespace SwordsAndSandals.States
                 selectCharacterButton,
                 leaveSelection
             };
-            
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -116,7 +111,7 @@ namespace SwordsAndSandals.States
         }
         public override void Update(GameTime gameTime)
         {
-            foreach(var b in buttons)
+            foreach (var b in buttons)
             {
                 b.Update(gameTime);
             }
@@ -124,7 +119,7 @@ namespace SwordsAndSandals.States
         }
         public override void UnloadContent()
         {
-            
+
         }
 
     }

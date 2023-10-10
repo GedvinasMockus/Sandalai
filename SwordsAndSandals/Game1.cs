@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNet.SignalR.Client;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.States;
 
 using System;
@@ -14,10 +14,6 @@ namespace SwordsAndSandals
         private SpriteBatch _spriteBatch;
         private const int _screenHeight = 1080;
         private const int _screenWidth = 1920;
-        private HubConnection _connection;
-        private IHubProxy lobbyHubProxy;
-        private GameState currentGame;
-        private GameWindow gw;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -27,21 +23,29 @@ namespace SwordsAndSandals
 
         protected override void Initialize()
         {
-            _connection = new HubConnection("http://192.168.1.182:8081");
-            lobbyHubProxy = _connection.CreateHubProxy("MainHub");
-            lobbyHubProxy.On<System.Numerics.Vector2, System.Numerics.Vector2, int, int, string, string>("FoundOpponent", (pos1, pos2, flip1, flip2, className1, className2) =>
+            ConnectionManager.Instance.AddHub("MainHub");
+            ConnectionManager.Instance.AddHandler("OpponentFound", info =>
             {
-                currentGame = new GameState(_graphics, lobbyHubProxy, new Vector2(pos1.X * _screenWidth, pos1.Y * _screenHeight), new Vector2(pos2.X * _screenWidth, pos2.Y * _screenHeight), flip1, flip2, className1, className2);
-                StateManager.Instance.ChangeState(currentGame);
+                BattleInfo bInfo = info.ToObject<BattleInfo>();
+                StateManager.Instance.ChangeState(new GameState(_graphics, bInfo));
             });
-            lobbyHubProxy.On<string>("AbilityUsed", (name) =>
+            ConnectionManager.Instance.AddHandler<string>("AbilityUsed", (name) =>
             {
-                if (currentGame != null)
+                if (StateManager.Instance.CurrentState is GameState)
                 {
-                    currentGame.opponent.UseAbility(name);
+                    (StateManager.Instance.CurrentState as GameState).opponent.UseAbility(name);
                 }
             });
-            _connection.Start().Wait();
+            ConnectionManager.Instance.AddHandler("BattleLeft", () =>
+            {
+                StateManager.Instance.ChangeState(new CharacterSelectionState(_graphics));
+            });
+            ConnectionManager.Instance.AddHandler("BackToLoading", () =>
+            {
+                ConnectionManager.Instance.Invoke("FindOpponent");
+                StateManager.Instance.ChangeState(new LoadingScreenState(_graphics));
+            });
+            ConnectionManager.Instance.StartConnection();
             _graphics.PreferredBackBufferWidth = _screenWidth;
             _graphics.PreferredBackBufferHeight = _screenHeight;
             _graphics.ApplyChanges();
@@ -52,7 +56,7 @@ namespace SwordsAndSandals
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             StateManager.Instance.SetContentManager(Content);
-            StateManager.Instance.ChangeState(new MenuState(_graphics, lobbyHubProxy, Window));
+            StateManager.Instance.ChangeState(new MenuState(_graphics));
         }
 
         protected override void Update(GameTime gameTime)
@@ -70,7 +74,7 @@ namespace SwordsAndSandals
         }
         protected override void OnExiting(object sender, EventArgs args)
         {
-            _connection.Stop();
+            ConnectionManager.Instance.StopConnection();
             base.OnExiting(sender, args);
         }
     }

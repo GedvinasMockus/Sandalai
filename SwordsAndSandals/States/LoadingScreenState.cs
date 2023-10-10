@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNet.SignalR.Client;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,21 +14,19 @@ namespace SwordsAndSandals.States
         private List<Component> components;
         private List<Button> buttons;
         private Background background;
-        private IHubProxy hub;
 
         private int screenWidth;
         private int screenHeight;
-        public LoadingScreenState(GraphicsDeviceManager graphicsDevice, IHubProxy hub) : base(graphicsDevice)
+        public LoadingScreenState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
         {
-            this.hub = hub;
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
         }
 
         private void LeaveLobby_Click(object sender, EventArgs e)
         {
-            hub.Invoke("RemoveFromLobby");
-            StateManager.Instance.ChangeState(new CharacterSelectionState(graphicsDevice, hub));
+            ConnectionManager.Instance.Invoke("RemoveFromLobby");
+            StateManager.Instance.ChangeState(new CharacterSelectionState(graphicsDevice));
         }
 
         public override void LoadContent(ContentManager content)
