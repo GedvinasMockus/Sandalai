@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SwordsAndSandals.Objects.Abilities;
+using SwordsAndSandals.Objects.Animations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +14,11 @@ namespace SwordsAndSandals.Objects.Classes
 {
     public class SkeletonFactory : PlayerFactory
     {
-        public override Player CreatePlayer(ContentManager content, Vector2 position, SpriteEffects flip, bool addButtons)
+        public override Player CreatePlayer(ContentManager content, Vector2 position, SpriteEffects flip, bool setButtons)
         {
-            Player p = new Skeleton(position);
-            p.LoadStartInfo(content, flip);
-            if (addButtons) p.LoadButtons(content);
-            return p;
+            PlayerBuilder builder = new SkeletonBuilder(content).SetPosition(position).SetDefaultAbility(flip).SetAbilities(flip);
+            if (setButtons) builder.SetCorrection(18).SetButtons();
+            return builder.GetPlayer();
         }
     }
 }

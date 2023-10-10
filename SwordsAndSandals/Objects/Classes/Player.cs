@@ -3,33 +3,34 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects.Abilities;
+using SwordsAndSandals.Objects.Animations;
 using SwordsAndSandals.Objects.Items.Weapons;
 using System;
 using System.Collections.Generic;
 
 namespace SwordsAndSandals.Objects.Classes
 {
-    public abstract class Player
+    public abstract class Player : AnimatedSprite
     {
-        public Vector2 position { get; set; }
-        public Vector2 velocity { get; set; }
-
         public event EventHandler<AbilityUsedEventArgs> AbilityUsed;
 
-        protected int centerY;
+        public int CorrectionY { get; set; }
+
         protected Dictionary<string, Ability> abilities = new Dictionary<string, Ability>();
         protected Dictionary<string, Button> buttons = new Dictionary<string, Button>();
         protected Dictionary<string, EventHandler> handlers = new Dictionary<string, EventHandler>();
-        protected Ability currentAbility;
-        protected MeleeWeapon melee;
-        protected RangedWeapon ranged;
-        protected ShieldWeapon shield;
 
-        public Player(Vector2 position)
+        public Ability Active { get; set; }
+
+        public MeleeWeapon Melee { get; set; }
+        public RangedWeapon Ranged { get; set; }
+        public ShieldWeapon Shield { get; set; }
+
+        public Player() : base()
         {
-            this.position = position;
-            velocity = new Vector2(0, 0);
+
         }
+
         public void AddAbility(string name, Ability ability)
         {
             abilities.Add(name, ability);
@@ -64,15 +65,16 @@ namespace SwordsAndSandals.Objects.Classes
 
         public void UseAbility(string name)
         {
-            currentAbility = abilities[name];
-            currentAbility.done = false;
+            Active = abilities[name];
+            Active.Prepare(this);
+            Active.done = false;
         }
 
-        public void Draw(SpriteBatch batch)
+        public override void Draw(SpriteBatch batch)
         {
-            currentAbility.Draw(batch, this);
+            animation.Draw(batch, new Vector2(Position.X, Position.Y - animation.Scale * animation.frameHeight/2), Origin);
             int numIcons = buttons.Count;
-            float radius = currentAbility.Animation.scale * currentAbility.Animation.frameHeight/2;
+            float radius = animation.Scale * animation.frameHeight/2;
             float angleIncrement = MathHelper.TwoPi / numIcons;
             int index = 0;
             foreach (var b in buttons.Values)
@@ -80,29 +82,29 @@ namespace SwordsAndSandals.Objects.Classes
                 float angle = index * angleIncrement;
                 float xOffset = -(float)Math.Sin(angle) * radius;
                 float yOffset = -(float)Math.Cos(angle) * radius;
-                b.Position = new Vector2(position.X + xOffset, position.Y - currentAbility.Animation.scale * currentAbility.Animation.frameHeight / 2 + centerY * currentAbility.Animation.scale + yOffset);
+                b.Position = new Vector2(Position.X + xOffset, Position.Y - animation.Scale * (animation.frameHeight / 2 - CorrectionY) + yOffset);
                 b.Draw(batch);
                 index++;
             }
-            if(melee != null) melee.Draw(batch);
-            if(ranged != null) ranged.Draw(batch);
-            if(shield != null) shield.Draw(batch);
+
+            if(Melee != null) Melee.Draw(batch);
+            if(Ranged != null) Ranged.Draw(batch);
+            if(Shield != null) Shield.Draw(batch);
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             foreach (var b in buttons.Values)
             {
                 b.Update(gameTime);
             }
-            currentAbility.Update(gameTime, this);
-            if (currentAbility.done == true)
+            animation.Update(gameTime);
+            Active.Update(gameTime, this, sprites);
+            if (Active != abilities["Idle"] && Active.done == true)
             {
-                currentAbility = abilities["Idle"];
+                Active = abilities["Idle"];
+                Active.Prepare(this);
             }
         }
-        public abstract void LoadStartInfo(ContentManager content, SpriteEffects flip);
-        public abstract void LoadButtons(ContentManager content);
-        public abstract void AddWeapons(WeaponFactory factory, ContentManager content);
     }
 }

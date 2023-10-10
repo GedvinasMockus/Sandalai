@@ -29,7 +29,7 @@ namespace SwordsAndSandals.States
         private void LeaveLobby_Click(object sender, EventArgs e)
         {
             hub.Invoke("RemoveFromLobby");
-            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub));
+            StateManager.Instance.ChangeState(new CharacterSelectionState(graphicsDevice, hub));
         }
 
         public override void LoadContent(ContentManager content)

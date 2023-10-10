@@ -7,11 +7,11 @@ namespace SwordsAndSandals
 {
     public abstract class State
     {
-        protected GraphicsDeviceManager _graphicsDevice;
+        protected GraphicsDeviceManager graphicsDevice;
 
         public State(GraphicsDeviceManager graphicsDevice)
         {
-            _graphicsDevice = graphicsDevice;
+            this.graphicsDevice = graphicsDevice;
         }
 
         public abstract void LoadContent(ContentManager content);
