@@ -29,7 +29,7 @@ namespace SwordsAndSandals
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub, null));
+            StateManager.Instance.ChangeState(new MenuState(graphicsDevice, hub));
         }
 
         public override void LoadContent(ContentManager content)

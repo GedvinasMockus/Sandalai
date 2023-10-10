@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SwordsAndSandals.Objects.Animations;
 using SwordsAndSandals.Objects.Classes;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,20 @@ namespace SwordsAndSandals.Objects.Abilities
 {
     public class Idle : Ability
     {
-        public Idle(AnimatedSprite animation) : base(animation)
+        public Idle(Animation animation) : base(animation)
         {
 
         }
 
-
-        public override void Update(GameTime gameTime, Player player)
+        public override void Prepare(Player player)
         {
-            Animation.Update(gameTime);
+            animation.Reset();
+            player.animation = animation;
+        }
+
+        public override void Update(GameTime gameTime, Player player, List<Sprite> sprites)
+        {
+            return;
         }
     }
 }

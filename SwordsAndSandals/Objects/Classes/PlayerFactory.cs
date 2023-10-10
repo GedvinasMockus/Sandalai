@@ -11,6 +11,6 @@ namespace SwordsAndSandals.Objects.Classes
 {
     public abstract class PlayerFactory
     {
-        public abstract Player CreatePlayer(ContentManager content, Vector2 position, SpriteEffects flip, bool addButtons);
+        public abstract Player CreatePlayer(ContentManager content, Vector2 position, SpriteEffects flip, bool setButtons);
     }
 }

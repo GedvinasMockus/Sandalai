@@ -13,10 +13,12 @@ namespace SwordsAndSandals.States
 {
     public class GameState : State
     {
+        //TODO refactor and optimize collisions and sprite code !!!!!!!!!!!!!!!!!!!!
         public Player player { get; private set; }
         private PlayerFactory p1Factory;
         private Vector2 playerSpawnPos;
         private int playerFlip;
+        private List<Sprite> p1sprites;
 
         private WeaponFactory weaponFactory;
 
@@ -24,6 +26,7 @@ namespace SwordsAndSandals.States
         private PlayerFactory p2Factory;
         private Vector2 opponentSpawnPos;
         private int opponentFlip;
+        private List<Sprite> p2sprites;
 
         private Background background;
         private List<Button> buttons;
@@ -34,6 +37,8 @@ namespace SwordsAndSandals.States
         public GameState(GraphicsDeviceManager graphicsDevice, IHubProxy hub, Vector2 pos1, Vector2 pos2, int flip1, int flip2, string className1, string className2) : base(graphicsDevice)
         {
             this.hub = hub;
+            p1sprites = new List<Sprite>();
+            p2sprites = new List<Sprite>();
             playerSpawnPos = pos1;
             playerFlip = flip1;
             opponentSpawnPos = pos2;
@@ -74,7 +79,7 @@ namespace SwordsAndSandals.States
         private void LogoutButton_Click(object sender, System.EventArgs e)
         {
             hub.Invoke("LeaveBattle");
-            StateManager.Instance.ChangeState(new MenuState(_graphicsDevice, hub));
+            StateManager.Instance.ChangeState(new MenuState(graphicsDevice, hub));
         }
 
         private void OnAbilityUsed(object sender, AbilityUsedEventArgs e)
@@ -85,10 +90,10 @@ namespace SwordsAndSandals.States
         public override void LoadContent(ContentManager content)
         {
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
-            player = p1Factory.CreatePlayer(content, playerSpawnPos, (SpriteEffects)playerFlip, true);
-            player.AddWeapons(weaponFactory, content);
+            player = p1Factory.CreatePlayer(content,playerSpawnPos, (SpriteEffects)playerFlip, true);
+            //player.AddWeapons(weaponFactory, content);
             player.AbilityUsed += OnAbilityUsed;
-            opponent = p2Factory.CreatePlayer(content, opponentSpawnPos, (SpriteEffects)opponentFlip, false);
+            opponent = p2Factory.CreatePlayer(content,opponentSpawnPos, (SpriteEffects)opponentFlip, false);
 
             Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Leave battle", 2f, SpriteEffects.None)
             {
@@ -111,22 +116,45 @@ namespace SwordsAndSandals.States
             {
                 b.Draw(spriteBatch);
             }
+            foreach(var s1 in p1sprites)
+            {
+                s1.Draw(spriteBatch);
+            }
+            foreach(var s2 in p2sprites)
+            {
+                s2.Draw(spriteBatch);
+            }
             spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
         {
-            player.Update(gameTime);
-            opponent.Update(gameTime);
+            player.Update(gameTime, p1sprites);
+            opponent.Update(gameTime, p2sprites);
             foreach (var b in buttons)
             {
                 b.Update(gameTime);
             }
+            foreach(var s1 in p1sprites)
+            {
+                s1.Update(gameTime);
+            }
+            p1sprites.RemoveAll(s => Intersects(s.Rectangle, opponent.Rectangle));
+            foreach(var s2 in p2sprites)
+            {
+                s2.Update(gameTime);
+            }
+            p2sprites.RemoveAll(s => Intersects(s.Rectangle, player.Rectangle));
         }
 
         public override void UnloadContent()
         {
 
+        }
+
+        private bool Intersects(Rectangle rect1, Rectangle rect2)
+        {
+            return rect1.Intersects(rect2);
         }
     }
 }
