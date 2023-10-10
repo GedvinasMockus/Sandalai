@@ -4,10 +4,12 @@
     {
         public string ConnectionId { get; private set; }
 
-        public Player(string connId)
+        public string ClassName { get; private set; }
+
+        public Player(string connId, string className)
         {
             ConnectionId = connId;
-
+            ClassName = className;
         }
     }
 

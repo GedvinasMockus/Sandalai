@@ -22,8 +22,6 @@ namespace SwordsAndSandals.States
         public LoadingScreenState(GraphicsDeviceManager graphicsDevice, IHubProxy hub) : base(graphicsDevice)
         {
             this.hub = hub;
-            hub.Invoke("AddToLobby");
-            hub.Invoke("FindOpponent");
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
         }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_20.png</SourceFile>
-  <SourceTime>2023-09-12T22:43:54.4441211+03:00</SourceTime>
-  <DestFile>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/bin/DesktopGL/Content/Icons/Icon_20.xnb</DestFile>
-  <DestTime>2023-09-26T21:40:37.5418189+03:00</DestTime>
+  <SourceFile>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_20.png</SourceFile>
+  <SourceTime>2023-10-05T19:17:27.3143097+03:00</SourceTime>
+  <DestFile>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/bin/DesktopGL/Content/Icons/Icon_20.xnb</DestFile>
+  <DestTime>2023-10-05T19:27:39.7759409+03:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T14:44:56+03:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

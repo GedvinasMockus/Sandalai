@@ -4,77 +4,97 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Background/Battleground/PNG/Battleground4/Bright/back_trees.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Attack_1.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Attack_2.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Cast.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Dead.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Eating.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Hurt.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Idle.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Jump.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Run.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Spine.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Walk.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Attack_1.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Attack_2.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Blade.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Cast.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Dead.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Hurt.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Idle.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Jump.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Kunai.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Run.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Character/Ninja/Ninja_Monk/Walk.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Fonts/vinque.spritefont</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_01.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_02.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_03.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_04.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_05.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_06.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_07.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_08.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_09.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_10.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_11.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_12.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_13.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_14.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_15.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_16.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_17.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_18.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_19.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_20.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_21.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_22.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_23.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_24.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_25.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_26.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_27.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_28.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_29.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_30.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_31.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_32.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_33.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_34.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_35.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_36.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_37.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_38.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_39.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_40.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Icons/Icon_41.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Objects/Gear.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Views/Button.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Views/Cursor.png</File>
-    <File>C:/Users/Ernis/Documents/Sandalai/SwordsAndSandals/Content/Views/InputBox.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Background/Battleground/PNG/Battleground4/Bright/back_trees.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Attack_1.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Attack_2.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Cast.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Dead.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Eating.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Hurt.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Idle.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Jump.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Run.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Spine.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Ninja/Kunoichi/Walk.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Samurai/Samurai_Commander/Attack_1.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Samurai/Samurai_Commander/Attack_2.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Samurai/Samurai_Commander/Attack_3.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Samurai/Samurai_Commander/Dead.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Samurai/Samurai_Commander/Hurt.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Samurai/Samurai_Commander/Idle.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Samurai/Samurai_Commander/Jump.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Samurai/Samurai_Commander/Protect.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Samurai/Samurai_Commander/Run.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Samurai/Samurai_Commander/Walk.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Skeleton/Skeleton_Archer/Arrow.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Skeleton/Skeleton_Archer/Attack_1.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Skeleton/Skeleton_Archer/Attack_2.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Skeleton/Skeleton_Archer/Attack_3.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Skeleton/Skeleton_Archer/Dead.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Skeleton/Skeleton_Archer/Evasion.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Skeleton/Skeleton_Archer/Hurt.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Skeleton/Skeleton_Archer/Idle.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Skeleton/Skeleton_Archer/Shot_1.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Skeleton/Skeleton_Archer/Shot_2.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Character/Skeleton/Skeleton_Archer/Walk.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Fonts/vinque.spritefont</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/arrow.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_01.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_02.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_03.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_04.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_05.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_06.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_07.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_08.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_09.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_10.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_11.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_12.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_13.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_14.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_15.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_16.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_17.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_18.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_19.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_20.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_21.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_22.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_23.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_24.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_25.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_26.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_27.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_28.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_29.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_30.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_31.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_32.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_33.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_34.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_35.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_36.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_37.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_38.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_39.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_40.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Icons/Icon_41.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Objects/Gear.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Views/Button.png</File>
+    <File>D:/University/objektinis programavimas/7 semestras/objektinis programų projektavimas/Game/SwordsAndSandals/Sandalai/SwordsAndSandals/Content/Weapons/Weps.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
