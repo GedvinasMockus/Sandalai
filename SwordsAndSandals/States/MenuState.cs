@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNet.SignalR.Client;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,25 +14,23 @@ namespace SwordsAndSandals
     {
         private List<Button> buttons;
         private Background background;
-        private IHubProxy hub;
 
         private int screenWidth;
         private int screenHeight;
-        public MenuState(GraphicsDeviceManager graphicsDevice, IHubProxy hub) : base(graphicsDevice)
+        public MenuState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
         {
-            this.hub = hub;
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
         }
 
         private void SettingButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new SettingsState(graphicsDevice, hub));
+            StateManager.Instance.ChangeState(new SettingsState(graphicsDevice));
         }
 
         private void CharacterSelection_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new CharacterSelectionState(graphicsDevice, hub));
+            StateManager.Instance.ChangeState(new CharacterSelectionState(graphicsDevice));
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
@@ -90,7 +87,7 @@ namespace SwordsAndSandals
 
         public override void UnloadContent()
         {
-            
+
         }
     }
 }

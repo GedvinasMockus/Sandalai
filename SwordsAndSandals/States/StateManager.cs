@@ -1,17 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SwordsAndSandals.States
 {
     public class StateManager
     {
-        private State currentState;
+        public State CurrentState { get; private set; }
         private ContentManager content;
 
         private static StateManager instance;
@@ -19,14 +14,14 @@ namespace SwordsAndSandals.States
         {
             get
             {
-                if(instance == null)
+                if (instance == null)
                 {
                     instance = new StateManager();
                 }
                 return instance;
             }
         }
-        private StateManager() {}
+        private StateManager() { }
 
         public void SetContentManager(ContentManager content)
         {
@@ -35,23 +30,23 @@ namespace SwordsAndSandals.States
 
         public void ChangeState(State newState)
         {
-            if(newState != null) newState.LoadContent(content);
-            currentState = newState;
+            if (newState != null) newState.LoadContent(content);
+            CurrentState = newState;
         }
 
         public void Update(GameTime gameTime)
         {
-            if(currentState != null) currentState.Update(gameTime);
+            if (CurrentState != null) CurrentState.Update(gameTime);
         }
 
         public void Draw(SpriteBatch batch)
         {
-            if(currentState != null) currentState.Draw(batch);
+            if (CurrentState != null) CurrentState.Draw(batch);
         }
 
         public bool NotInAState()
         {
-            return currentState == null;
+            return CurrentState == null;
         }
 
     }

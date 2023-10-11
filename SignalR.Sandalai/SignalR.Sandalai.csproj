@@ -69,15 +69,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InfoStructs\BattleInfo.cs" />
     <Compile Include="Lobby.cs" />
     <Compile Include="MainHub.cs" />
     <Compile Include="Objects\Battle.cs" />
     <Compile Include="Objects\FlipEnum.cs" />
     <Compile Include="Objects\Player.cs" />
+    <Compile Include="InfoStructs\PlayerInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Spawn.cs" />
-    <Compile Include="SpawnHub.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
