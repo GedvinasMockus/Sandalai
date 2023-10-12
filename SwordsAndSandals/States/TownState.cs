@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects;
+using SwordsAndSandals.Objects.Classes;
 
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,14 @@ namespace SwordsAndSandals.States
     {
         private Background background;
         private List<Button> buttons;
+        private PlayerFactory playerFactory;
+        private Player player;
 
         private int screenWidth;
         private int screenHeight;
-        public TownState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
+        public TownState(GraphicsDeviceManager graphicsDevice, string className) : base(graphicsDevice)
         {
+            playerFactory = GetPlayerFactory(className);
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
         }
@@ -28,16 +32,22 @@ namespace SwordsAndSandals.States
         }
         public override void LoadContent(ContentManager content)
         {
-            Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
-            SpriteFont buttonFont = content.Load<SpriteFont>("Fonts/vinque");
-            background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
-            Button findBattle = new Button(buttonTexture, buttonFont, "Find battle", 2.0f, SpriteEffects.None)
+            player = playerFactory.CreatePlayer(content, new Vector2(screenWidth / 2, 800f), SpriteEffects.None, false);
+            Texture2D shopTexture = content.Load<Texture2D>("Views/Town/Shop");
+            Texture2D arenaTexture = content.Load<Texture2D>("Views/Town/Arena");
+            background = new Background(content.Load<Texture2D>("Background/Town/Town"));
+            Button enterShop = new Button(shopTexture, 1.0f, SpriteEffects.None)
             {
-                Position = new Vector2(screenWidth / 2, screenHeight / 2 + 100)
+                Position = new Vector2(325f, 300f)
+            };
+            Button enterArena = new Button(arenaTexture, 1.0f, SpriteEffects.None)
+            {
+                Position = new Vector2(1580f, 280f)
             };
             buttons = new List<Button>()
             {
-                findBattle
+                enterShop,
+                enterArena
             };
         }
 
@@ -45,6 +55,7 @@ namespace SwordsAndSandals.States
         {
             spriteBatch.Begin();
             background.Draw(spriteBatch);
+            player.Draw(spriteBatch);
             foreach (var b in buttons)
             {
                 b.Draw(spriteBatch);
@@ -59,7 +70,24 @@ namespace SwordsAndSandals.States
 
         public override void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            foreach (var b in buttons)
+            {
+                b.Update(gameTime);
+            }
+            player.Update(gameTime, null);
+        }
+
+        private PlayerFactory GetPlayerFactory(string className)
+        {
+            switch (className)
+            {
+                case "Kunoichi":
+                    return new KunoichiFactory();
+                case "Samurai":
+                    return new SamuraiFactory();
+                default:
+                    return new SkeletonFactory();
+            }
         }
     }
 }
