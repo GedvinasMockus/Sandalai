@@ -13,7 +13,18 @@ namespace SwordsAndSandals.Objects.Animations
     {
         public int frameWidth { get; protected set; }
         public int frameHeight { get; protected set; }
-        public SpriteEffects Flip { get; protected set; }
+
+        protected SpriteEffects flip;
+        public SpriteEffects Flip {
+            get 
+            {
+                return flip;
+            }
+            set 
+            {
+                if (flipChangeable) flip = value;
+            } 
+        }
         public float Duration
         {
             get
@@ -24,18 +35,20 @@ namespace SwordsAndSandals.Objects.Animations
         public float Scale { get; set; }
         public float Rotation { get; set; }
 
+        protected bool flipChangeable;
         protected int totalFrames;
         protected int currentFrame;
         protected float frameDuration;
         protected float timer;
         protected Texture2D texture;
 
-        public Animation(float duration, SpriteEffects flip)
+        public Animation(float duration, SpriteEffects flip, bool flipChangeable)
         {
             frameDuration = duration;
             timer = 0.0f;
             currentFrame = 0;
-            Flip = flip;
+            this.flip = flip;
+            this.flipChangeable = flipChangeable;
         }
 
         public void Update(GameTime gameTime)
@@ -59,6 +72,5 @@ namespace SwordsAndSandals.Objects.Animations
             currentFrame = 0;
             timer = 0.0f;
         }
-
     }
 }

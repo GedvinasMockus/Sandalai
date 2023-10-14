@@ -15,7 +15,11 @@ namespace SwordsAndSandals.Objects.Classes
 
         protected ContentManager content;
 
+        public abstract void reset();
+
         public abstract PlayerBuilder SetPosition(Vector2 pos);
+
+        public abstract PlayerBuilder SetAttributes();
 
         public abstract PlayerBuilder SetDefaultAbility(SpriteEffects flip);
 

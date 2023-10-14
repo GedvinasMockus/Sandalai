@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-
 using SwordsAndSandals.Objects.Abilities;
 using SwordsAndSandals.Objects.Animations;
 using SwordsAndSandals.Objects.Items.Weapons;
+using SwordsAndSandals.Objects.Stats;
 using System;
 using System.Collections.Generic;
 
@@ -13,13 +13,12 @@ namespace SwordsAndSandals.Objects.Classes
     public abstract class Player : AnimatedSprite
     {
         public event EventHandler<AbilityUsedEventArgs> AbilityUsed;
-
+        public Attributes BaseAttributes { get; set; }
         public int CorrectionY { get; set; }
 
         protected Dictionary<string, Ability> abilities = new Dictionary<string, Ability>();
         protected Dictionary<string, Button> buttons = new Dictionary<string, Button>();
         protected Dictionary<string, EventHandler> handlers = new Dictionary<string, EventHandler>();
-
         public Ability Active { get; set; }
 
         public MeleeWeapon Melee { get; set; }
@@ -68,6 +67,14 @@ namespace SwordsAndSandals.Objects.Classes
             Active = abilities[name];
             Active.Prepare(this);
             Active.done = false;
+        }
+
+        public void ChangeFlip(SpriteEffects flip)
+        {
+            foreach(var a in abilities.Values)
+            {
+                a.animation.Flip = flip;
+            }
         }
 
         public override void Draw(SpriteBatch batch)

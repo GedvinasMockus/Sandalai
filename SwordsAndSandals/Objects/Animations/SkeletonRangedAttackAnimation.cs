@@ -12,7 +12,7 @@ namespace SwordsAndSandals.Objects.Animations
 {
     public class SkeletonRangedAttackAnimation : RangedAttackAnimation
     {
-        public SkeletonRangedAttackAnimation(ContentManager content, float duration, SpriteEffects flip) : base(duration, flip)
+        public SkeletonRangedAttackAnimation(ContentManager content, float duration, SpriteEffects flip, bool flipChangeable) : base(duration, flip, flipChangeable)
         {
             texture = content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Shot_1");
             Scale = 3.0f;

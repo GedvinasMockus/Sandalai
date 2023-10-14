@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SwordsAndSandals.Objects.Stats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace SwordsAndSandals.Objects.Items.Weapons
 {
     internal class KunoichiShieldWeapon : ShieldWeapon
     {
-        public KunoichiShieldWeapon(Vector2 Position, Texture2D Texture, int Damage) : base(Position, Texture, Damage)
+        public KunoichiShieldWeapon(Vector2 Position, Texture2D Texture, Attributes WeaponAttrs) : base(Position, Texture, WeaponAttrs)
         {
         }
 

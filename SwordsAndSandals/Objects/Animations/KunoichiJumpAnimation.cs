@@ -11,7 +11,7 @@ namespace SwordsAndSandals.Objects.Animations
 {
     public class KunoichiJumpAnimation : Animation
     {
-        public KunoichiJumpAnimation(ContentManager content, float duration, SpriteEffects flip) : base(duration, flip)
+        public KunoichiJumpAnimation(ContentManager content, float duration, SpriteEffects flip, bool flipChangeable) : base(duration, flip, flipChangeable)
         {
             texture = content.Load<Texture2D>("Character/Ninja/Kunoichi/Jump");
             Scale = 3.0f;

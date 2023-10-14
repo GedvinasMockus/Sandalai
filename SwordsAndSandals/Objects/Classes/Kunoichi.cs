@@ -18,12 +18,5 @@ namespace SwordsAndSandals.Objects.Classes
         {
 
         }
-
-        //public override void AddWeapons(WeaponFactory factory, ContentManager content)
-        //{
-        //    Melee = factory.CreateMeleeWeapon(content, new Vector2(32, 32), 12);
-        //    Ranged = factory.CreateRangedWeapon(content, new Vector2(32, 96),7);
-        //    Shield = factory.CreateShieldWeapon(content, new Vector2(32,160),4);
-        //}
     }
 }

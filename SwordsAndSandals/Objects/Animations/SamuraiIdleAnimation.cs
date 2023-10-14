@@ -11,7 +11,7 @@ namespace SwordsAndSandals.Objects.Animations
 {
     public class SamuraiIdleAnimation : Animation
     {
-        public SamuraiIdleAnimation(ContentManager content, float duration, SpriteEffects flip) : base(duration, flip)
+        public SamuraiIdleAnimation(ContentManager content, float duration, SpriteEffects flip, bool flipChangeable) : base(duration, flip, flipChangeable)
         {
             Scale = 3.0f;
             texture = content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Idle");
