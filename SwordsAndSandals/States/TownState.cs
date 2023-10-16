@@ -1,34 +1,30 @@
-﻿using Microsoft.AspNet.SignalR.Client;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+
 using SwordsAndSandals.Objects;
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SwordsAndSandals.States
 {
     public class TownState : State
     {
         private Background background;
-        private IHubProxy hub;
         private List<Button> buttons;
 
         private int screenWidth;
         private int screenHeight;
-        public TownState(GraphicsDeviceManager graphicsDevice, IHubProxy hub) : base(graphicsDevice)
+        public TownState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
         {
-            this.hub = hub;
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
         }
 
         private void FindBattleButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice, hub));
+            StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice));
         }
         public override void LoadContent(ContentManager content)
         {
@@ -49,7 +45,7 @@ namespace SwordsAndSandals.States
         {
             spriteBatch.Begin();
             background.Draw(spriteBatch);
-            foreach(var b in buttons)
+            foreach (var b in buttons)
             {
                 b.Draw(spriteBatch);
             }
