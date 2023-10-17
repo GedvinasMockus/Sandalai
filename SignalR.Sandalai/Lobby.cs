@@ -61,7 +61,8 @@ namespace SignalR.Sandalai
             {
                 player = MyUsers[userId];
             }
-            return player;
+            Player playerCopy = (Player)player.Clone();
+            return playerCopy;
         }
     }
 
