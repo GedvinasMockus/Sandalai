@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Objects.Abilities;
 using SwordsAndSandals.Objects.Animations;
+using SwordsAndSandals.Objects.Classes.PlayerDecorators;
 using SwordsAndSandals.Objects.Stats;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,13 @@ namespace SwordsAndSandals.Objects.Classes
                 ShieldDamage = 15,
                 ArmourRating = 10
             };
+            PlayerHPDecorator decorator = new PlayerHPDecorator(product);
+            Text text = new Text(content.Load<SpriteFont>("Fonts/vinque"))
+            {
+                PenColour = Color.Orange
+            };
+            decorator.AddText(text);
+            product = decorator;
             return this;
         }
 
@@ -65,21 +73,23 @@ namespace SwordsAndSandals.Objects.Classes
             return this;
         }
 
-        public override PlayerBuilder SetCorrection(int correction)
+        public override PlayerBuilder SetCorrection(int correctionY)
         {
-            product.CorrectionY = correction;
+            product.CorrectionY = correctionY;
             return this;
         }
 
         public override PlayerBuilder SetButtons()
         {
-            product.AddAbilityButton("Heal", content.Load<Texture2D>("Icons/Icon_11"), 2.0f, SpriteEffects.None);
-            product.AddAbilityButton("Jump_left", content.Load<Texture2D>("Icons/Icon_02"), 2.0f, SpriteEffects.FlipHorizontally);
-            product.AddAbilityButton("Melee_attack_left", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.FlipHorizontally);
-            product.AddAbilityButton("Run_left", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.FlipHorizontally);
-            product.AddAbilityButton("Run_right", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.None);
-            product.AddAbilityButton("Melee_attack_right", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.None);
-            product.AddAbilityButton("Jump_right", content.Load<Texture2D>("Icons/Icon_02"), 2.0f, SpriteEffects.None);
+            product.AddButton("Heal", content.Load<Texture2D>("Icons/Icon_11"), 2.0f, SpriteEffects.None);
+            product.AddButton("Jump_left", content.Load<Texture2D>("Icons/Icon_02"), 2.0f, SpriteEffects.FlipHorizontally);
+            product.AddButton("Melee_attack_left", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.FlipHorizontally);
+            product.AddButton("Run_left", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.FlipHorizontally);
+            product.AddButton("Run_right", content.Load<Texture2D>("Icons/Icon_29"), 2.0f, SpriteEffects.None);
+            product.AddButton("Melee_attack_right", content.Load<Texture2D>("Icons/Icon_15"), 2.0f, SpriteEffects.None);
+            product.AddButton("Jump_right", content.Load<Texture2D>("Icons/Icon_02"), 2.0f, SpriteEffects.None);
+            PlayerButtonDecorator decorator = new PlayerButtonDecorator(product);
+            product = decorator;
             return this;
         }
 

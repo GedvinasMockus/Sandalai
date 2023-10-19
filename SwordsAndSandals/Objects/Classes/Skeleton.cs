@@ -12,11 +12,8 @@ using System.Threading.Tasks;
 
 namespace SwordsAndSandals.Objects.Classes
 {
-    public class Skeleton : Player
+    public class Skeleton : BasicPlayer
     {
-        public Skeleton() : base()
-        {
 
-        }
     }
 }

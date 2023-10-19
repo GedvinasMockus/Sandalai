@@ -12,11 +12,8 @@ using System.Threading.Tasks;
 
 namespace SwordsAndSandals.Objects.Classes
 {
-    public class Kunoichi : Player
+    public class Kunoichi : BasicPlayer
     {
-        public Kunoichi() : base()
-        {
 
-        }
     }
 }

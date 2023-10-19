@@ -70,11 +70,6 @@ namespace SwordsAndSandals.States
             StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
         }
 
-        private void OnAbilityUsed(object sender, AbilityUsedEventArgs e)
-        {
-            ConnectionManager.Instance.Invoke("AbilityUsed", e.Name);
-        }
-
         public override void LoadContent(ContentManager content)
         {
             PlayerFactory p1Factory = GetPlayerFactory(battleInfo.Player1.ClassName);
@@ -94,7 +89,6 @@ namespace SwordsAndSandals.States
             SpriteEffects p2flip;
             DeterminePlayerDirection(p1Pos.X, p2Pos.X, out p1flip, out p2flip);
             player = p1Factory.CreatePlayer(content, p1Pos, p1flip, true);
-            player.AbilityUsed += OnAbilityUsed;
             opponent = p2Factory.CreatePlayer(content, p2Pos, p2flip, false);
 
             Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Leave battle", 2f, SpriteEffects.None)

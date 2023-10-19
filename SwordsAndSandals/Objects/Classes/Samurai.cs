@@ -13,11 +13,8 @@ using System.Threading.Tasks;
 
 namespace SwordsAndSandals.Objects.Classes
 {
-    public class Samurai : Player
+    public class Samurai : BasicPlayer
     {
-        public Samurai() : base()
-        {
 
-        }
     }
 }

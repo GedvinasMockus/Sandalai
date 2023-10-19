@@ -25,7 +25,7 @@ namespace SwordsAndSandals.Objects.Classes
 
         public abstract PlayerBuilder SetAbilities(SpriteEffects flip);
 
-        public abstract PlayerBuilder SetCorrection(int correction);
+        public abstract PlayerBuilder SetCorrection(int correctionY);
 
         public abstract PlayerBuilder SetButtons();
 

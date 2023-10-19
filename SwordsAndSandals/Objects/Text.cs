@@ -7,7 +7,7 @@ namespace SwordsAndSandals
 {
     public class Text : Component
     {
-        private SpriteFont _font;
+        public SpriteFont Font { get; private set; }
         public Color PenColour { get; set; }
         public Vector2 Position { get; set; }
         public string TextString { get; set; }
@@ -15,7 +15,7 @@ namespace SwordsAndSandals
         public Color OutlineColor { get; set; }
         public Text(SpriteFont font)
         {
-            _font = font;
+            Font = font;
             PenColour = Color.Black;
             OutlineColor = Color.Black;
             TextSize = 1.0f;
@@ -23,12 +23,12 @@ namespace SwordsAndSandals
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            float textWidth = _font.MeasureString(TextString).X * TextSize;
-            float textHeight = _font.MeasureString(TextString).Y * TextSize;
+            float textWidth = Font.MeasureString(TextString).X * TextSize;
+            float textHeight = Font.MeasureString(TextString).Y * TextSize;
             var x = Position.X - (textWidth / 2);
             var y = Position.Y - (textHeight / 2);
             DrawOutline(spriteBatch, TextString, new Vector2(x, y), OutlineColor, TextSize);
-            spriteBatch.DrawString(_font, TextString, new Vector2(x, y), PenColour, 0f, Vector2.Zero, TextSize, SpriteEffects.None, 0);
+            spriteBatch.DrawString(Font, TextString, new Vector2(x, y), PenColour, 0f, Vector2.Zero, TextSize, SpriteEffects.None, 0);
         }
         private void DrawOutline(SpriteBatch spriteBatch, string text, Vector2 position, Color color, float scale)
         {
@@ -38,7 +38,7 @@ namespace SwordsAndSandals
             {
                 float x = position.X + (float)(offset * Math.Cos(i));
                 float y = position.Y + (float)(offset * Math.Sin(i));
-                spriteBatch.DrawString(_font, text, new Vector2(x, y), outlineColor, 0f, Vector2.Zero, scale, SpriteEffects.None, 0);
+                spriteBatch.DrawString(Font, text, new Vector2(x, y), outlineColor, 0f, Vector2.Zero, scale, SpriteEffects.None, 0);
             }
         }
 

@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using SwordsAndSandals.Objects.Abilities;
 using SwordsAndSandals.Objects.Animations;
+using SwordsAndSandals.Objects.Classes.PlayerDecorators;
 using SwordsAndSandals.Objects.Items.Weapons;
 using SwordsAndSandals.Objects.Stats;
 using System;
@@ -12,106 +14,106 @@ namespace SwordsAndSandals.Objects.Classes
 {
     public abstract class Player : AnimatedSprite
     {
-        public event EventHandler<AbilityUsedEventArgs> AbilityUsed;
-        public Attributes BaseAttributes { get; set; }
-        public int CorrectionY { get; set; }
+        public virtual Attributes BaseAttributes { get; set; }
+        public virtual int CorrectionY { get; set; }
+        public virtual Dictionary<string, Button> Buttons { get; private set; }
+        public virtual Dictionary<string, EventHandler> Handlers { get; private set; }
+        public virtual Ability Active { get; set; }
 
-        protected Dictionary<string, Ability> abilities = new Dictionary<string, Ability>();
-        protected Dictionary<string, Button> buttons = new Dictionary<string, Button>();
-        protected Dictionary<string, EventHandler> handlers = new Dictionary<string, EventHandler>();
-        public Ability Active { get; set; }
-
+        protected Dictionary<string, Ability> Abilities;
         public MeleeWeapon Melee { get; set; }
         public RangedWeapon Ranged { get; set; }
         public ShieldWeapon Shield { get; set; }
 
         public Player() : base()
         {
-
+            Abilities = new Dictionary<string, Ability>();
+            Buttons = new Dictionary<string, Button>();
+            Handlers = new Dictionary<string, EventHandler>();
         }
 
-        public void AddAbility(string name, Ability ability)
+        public virtual void AddAbility(string name, Ability ability)
         {
-            abilities.Add(name, ability);
+            Abilities.Add(name, ability);
         }
 
-        public void AddAbilityButton(string name, Texture2D bTexture, float bScale, SpriteEffects bFlip)
+        public virtual void RemoveAbility(string name)
+        {
+            Abilities.Remove(name);
+        }
+
+        public virtual void AddButton(string name, Texture2D texture, float scale, SpriteEffects flip)
         {
             EventHandler handler = (o, e) =>
             {
-                AbilityUsedEventArgs args = new AbilityUsedEventArgs();
-                args.Name = name;
-                AbilityUsed?.Invoke(this, args);
+                ConnectionManager.Instance.Invoke("AbilityUsed", name);
                 UseAbility(name);
             };
-            handlers.Add(name, handler);
-            Button button = new Button(bTexture, bScale, bFlip);
+            Handlers.Add(name, handler);
+            Button button = new Button(texture, scale, flip);
             button.Click += handler;
-            buttons.Add(name, button);
+            Buttons.Add(name, button);
         }
 
-        public void RemoveAbility(string name)
+        public virtual void RemoveButton(string name)
         {
-            abilities.Remove(name);
-            Button button;
-            if (buttons.TryGetValue(name, out button))
-            {
-                button.Click -= handlers[name];
-                handlers.Remove(name);
-                buttons.Remove(name);
-            }
+            EventHandler handler = Handlers[name];
+            Handlers.Remove(name);
+            Button button = Buttons[name];
+            Buttons.Remove(name);
+            button.Click -= handler;
         }
 
-        public void UseAbility(string name)
+        public virtual void UseAbility(string name)
         {
-            Active = abilities[name];
+            Active = Abilities[name];
             Active.Prepare(this);
             Active.done = false;
         }
 
-        public void ChangeFlip(SpriteEffects flip)
+        public virtual void ChangeFlip(SpriteEffects flip)
         {
-            foreach(var a in abilities.Values)
+            foreach (var a in Abilities.Values)
             {
                 a.animation.Flip = flip;
             }
         }
 
-        public override void Draw(SpriteBatch batch)
-        {
-            animation.Draw(batch, new Vector2(Position.X, Position.Y - animation.Scale * animation.frameHeight/2), Origin);
-            int numIcons = buttons.Count;
-            float radius = animation.Scale * animation.frameHeight/2;
-            float angleIncrement = MathHelper.TwoPi / numIcons;
-            int index = 0;
-            foreach (var b in buttons.Values)
-            {
-                float angle = index * angleIncrement;
-                float xOffset = -(float)Math.Sin(angle) * radius;
-                float yOffset = -(float)Math.Cos(angle) * radius;
-                b.Position = new Vector2(Position.X + xOffset, Position.Y - animation.Scale * (animation.frameHeight / 2 - CorrectionY) + yOffset);
-                b.Draw(batch);
-                index++;
-            }
+        //public override void Draw(SpriteBatch batch)
+        //{
+        //    //animation.Draw(batch, new Vector2(Position.X, Position.Y - animation.Scale * animation.frameHeight/2), Origin);
+        //    //int numIcons = buttons.Count;
+        //    //float radius = animation.Scale * animation.frameHeight/2;
+        //    //float angleIncrement = MathHelper.TwoPi / numIcons;
+        //    //int index = 0;
+        //    //foreach (var b in buttons.Values)
+        //    //{
+        //    //    float angle = index * angleIncrement;
+        //    //    float xOffset = -(float)Math.Sin(angle) * radius;
+        //    //    float yOffset = -(float)Math.Cos(angle) * radius;
+        //    //    b.Position = new Vector2(Position.X + xOffset, Position.Y - animation.Scale * (animation.frameHeight / 2 - CorrectionY) + yOffset);
+        //    //    b.Draw(batch);
+        //    //    index++;
+        //    //}
 
-            if(Melee != null) Melee.Draw(batch);
-            if(Ranged != null) Ranged.Draw(batch);
-            if(Shield != null) Shield.Draw(batch);
-        }
+        //    //if(Melee != null) Melee.Draw(batch);
+        //    //if(Ranged != null) Ranged.Draw(batch);
+        //    //if(Shield != null) Shield.Draw(batch);
+        //}
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites)
-        {
-            foreach (var b in buttons.Values)
-            {
-                b.Update(gameTime);
-            }
-            animation.Update(gameTime);
-            Active.Update(gameTime, this, sprites);
-            if (Active != abilities["Idle"] && Active.done == true)
-            {
-                Active = abilities["Idle"];
-                Active.Prepare(this);
-            }
-        }
+        //public override void Update(GameTime gameTime, List<Sprite> sprites)
+        //{
+        //    //foreach (var b in buttons.Values)
+        //    //{
+        //    //    b.Update(gameTime);
+        //    //}
+        //    animation.Update(gameTime);
+        //    Active.Update(gameTime, this, sprites);
+        //    if (Active != abilities["Idle"] && Active.done == true)
+        //    {
+        //        Active = abilities["Idle"];
+        //        Active.Prepare(this);
+        //    }
+        //}
     }
 }
