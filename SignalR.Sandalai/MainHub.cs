@@ -38,66 +38,75 @@ namespace SignalR.Sandalai
                 Player player = lobby.GetUser(Context.ConnectionId);
                 lobby.RemoveUser(Context.ConnectionId);
                 lobby.RemoveUser(opponent.ConnectionId);
-                Battle battle = new Battle(opponent, player);
+                Battle battle = new Battle();
+                battle.Attach(player);
+                battle.Attach(opponent);
                 lock (obj)
                 {
                     battleList.Add(battle);
                 }
                 battle.BattleStart();
-                Clients.Client(battle.Player1.ConnectionId).OpponentFound(battle.GetInfo(false));
-                Clients.Client(battle.Player2.ConnectionId).OpponentFound(battle.GetInfo(true));
+
+                Clients.Client(battle.GetPlayer(0).ConnectionId).OpponentFound(battle.GetInfo(false));
+                Clients.Client(battle.GetPlayer(1).ConnectionId).OpponentFound(battle.GetInfo(true));
             }
         }
 
         public void AbilityUsed(string name)
         {
-            Battle battle = battleList.Find((b) => b.Player1.ConnectionId == Context.ConnectionId || b.Player2.ConnectionId == Context.ConnectionId);
-            if (battle.Player1.ConnectionId == Context.ConnectionId)
+            Battle battle = battleList.Find((b) => b.GetPlayer(0).ConnectionId == Context.ConnectionId || b.GetPlayer(1).ConnectionId == Context.ConnectionId);
+            if (battle.GetPlayer(0).ConnectionId == Context.ConnectionId)
             {
-                Clients.Client(battle.Player2.ConnectionId).AbilityUsed(name);
+                Clients.Client(battle.GetPlayer(1).ConnectionId).AbilityUsed(name);
+                battle.AbilityUsed(name, battle.GetPlayer(0).ConnectionId);
             }
             else
             {
-                Clients.Client(battle.Player1.ConnectionId).AbilityUsed(name);
+                Clients.Client(battle.GetPlayer(0).ConnectionId).AbilityUsed(name);
+                battle.AbilityUsed(name, battle.GetPlayer(1).ConnectionId);
             }
         }
 
         public void LeaveBattle()
         {
-            Battle battle = battleList.Find((b) => b.Player1.ConnectionId == Context.ConnectionId || b.Player2.ConnectionId == Context.ConnectionId);
+            Battle battle = battleList.Find((b) => b.GetPlayer(0).ConnectionId == Context.ConnectionId || b.GetPlayer(1).ConnectionId == Context.ConnectionId);
             battleList.Remove(battle);
             Clients.Caller.BattleLeft();
-            if (battle.Player1.ConnectionId != Context.ConnectionId)
+            if (battle.GetPlayer(0).ConnectionId != Context.ConnectionId)
             {
-                lobby.AddUser(battle.Player1.ConnectionId, battle.Player1.ClassName);
-                Clients.Client(battle.Player1.ConnectionId).BackToLoading();
+                lobby.AddUser(battle.GetPlayer(0).ConnectionId, battle.GetPlayer(0).ClassName);
+                Clients.Client(battle.GetPlayer(0).ConnectionId).BackToLoading();
             }
             else
             {
-                lobby.AddUser(battle.Player2.ConnectionId, battle.Player2.ClassName);
-                Clients.Client(battle.Player2.ConnectionId).BackToLoading();
+                lobby.AddUser(battle.GetPlayer(1).ConnectionId, battle.GetPlayer(1).ClassName);
+                Clients.Client(battle.GetPlayer(1).ConnectionId).BackToLoading();
             }
+            battle.Detach(battle.GetPlayer(1));
+            battle.Detach(battle.GetPlayer(0));
 
         }
         public override Task OnDisconnected(bool stopCalled)
         {
-            Battle battle = battleList.Find((b) => b.Player1.ConnectionId == Context.ConnectionId || b.Player2.ConnectionId == Context.ConnectionId);
+            Battle battle = battleList.Find((b) => b.GetPlayer(0).ConnectionId == Context.ConnectionId || b.GetPlayer(1).ConnectionId == Context.ConnectionId);
             if (battle == null)
             {
                 lobby.RemoveUser(Context.ConnectionId);
                 return base.OnDisconnected(stopCalled);
             }
             battleList.Remove(battle);
-            if (battle.Player1.ConnectionId != Context.ConnectionId)
+            if (battle.GetPlayer(0).ConnectionId != Context.ConnectionId)
             {
-                lobby.AddUser(battle.Player1.ConnectionId, battle.Player1.ClassName);
-                Clients.Client(battle.Player1.ConnectionId).BackToLoading();
+                lobby.AddUser(battle.GetPlayer(0).ConnectionId, battle.GetPlayer(0).ClassName);
+                Clients.Client(battle.GetPlayer(0).ConnectionId).BackToLoading();
             }
             else
             {
-                lobby.AddUser(battle.Player2.ConnectionId, battle.Player2.ClassName);
-                Clients.Client(battle.Player2.ConnectionId).BackToLoading();
+                lobby.AddUser(battle.GetPlayer(1).ConnectionId, battle.GetPlayer(1).ClassName);
+                Clients.Client(battle.GetPlayer(1).ConnectionId).BackToLoading();
             }
+            battle.Detach(battle.GetPlayer(1));
+            battle.Detach(battle.GetPlayer(0));
             return base.OnDisconnected(stopCalled);
         }
     }

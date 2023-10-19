@@ -74,6 +74,8 @@
     <Compile Include="MainHub.cs" />
     <Compile Include="Objects\Battle.cs" />
     <Compile Include="Objects\FlipEnum.cs" />
+    <Compile Include="Objects\IObserver.cs" />
+    <Compile Include="Objects\ISubject.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="InfoStructs\PlayerInfo.cs" />
     <Compile Include="Program.cs" />
