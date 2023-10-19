@@ -14,6 +14,8 @@ namespace SwordsAndSandals
         private MouseState _previousMouse;
         public Texture2D _texture { get; private set; }
         private SpriteEffects flip;
+        private readonly Color[] textureData;
+        private bool loaded;
         public event EventHandler Click;
         public Color PenColour { get; set; }
         public Vector2 Position { get; set; }
@@ -22,7 +24,7 @@ namespace SwordsAndSandals
         {
             get
             {
-                return new Rectangle((int)(Position.X - _texture.Width/2 * Scale), (int)(Position.Y - _texture.Height/2 * Scale), (int)(_texture.Width * Scale), (int)(_texture.Height * Scale));
+                return new Rectangle((int)(Position.X - _texture.Width / 2 * Scale), (int)(Position.Y - _texture.Height / 2 * Scale), (int)(_texture.Width * Scale), (int)(_texture.Height * Scale));
             }
         }
         public Vector2 Origin
@@ -43,6 +45,8 @@ namespace SwordsAndSandals
             this.flip = flip;
             this.Scale = scale;
             PenColour = Color.Black;
+            this.textureData = new Color[texture.Width * texture.Height];
+            loaded = false;
         }
 
         public Button(Texture2D texture, SpriteFont font, string text, float scale, SpriteEffects flip)
@@ -55,6 +59,8 @@ namespace SwordsAndSandals
             this.flip = flip;
             this.Scale = scale;
             PenColour = Color.Black;
+            this.textureData = new Color[texture.Width * texture.Height];
+            loaded = false;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -73,15 +79,27 @@ namespace SwordsAndSandals
 
         public override void Update(GameTime gameTime)
         {
+            if (!loaded)
+            {
+                _texture.GetData(textureData);
+                loaded = true;
+            }
             _previousMouse = _currentMouse;
             _currentMouse = Mouse.GetState();
             _isHovering = false;
             if (Rectangle.Contains(_currentMouse.Position))
             {
-                _isHovering = true;
-                if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
+                Matrix transform = Matrix.CreateTranslation(-Origin.X, -Origin.Y, 0) * Matrix.CreateScale(Scale) * Matrix.CreateTranslation(Position.X, Position.Y, 0);
+                Matrix inverse = Matrix.Invert(transform);
+                Vector2 pos1 = new Vector2(_currentMouse.Position.X, _currentMouse.Position.Y);
+                Vector2 pos2 = Vector2.Transform(pos1, inverse);
+                if (pos2.X >= 0 && pos2.Y >= 0 && pos2.X < _texture.Width && pos2.Y < _texture.Height && textureData[(int)(pos2.Y) * _texture.Width + (int)(pos2.X)].A > 254)
                 {
-                    Click?.Invoke(this, new EventArgs());
+                    _isHovering = true;
+                    if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
+                    {
+                        Click?.Invoke(this, new EventArgs());
+                    }
                 }
             }
         }

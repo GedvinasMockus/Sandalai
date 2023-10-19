@@ -1,12 +1,11 @@
-﻿using System.Numerics;
-using System;
+﻿using System;
+using System.Numerics;
 
 namespace SignalR.Sandalai.Objects
 {
-    public class Player : Prototype
+    public class Player : Prototype, IObserver
     {
         public string ConnectionId { get; private set; }
-
         public string ClassName { get; private set; }
         public Vector2 Position { get; set; }
         public FlipEnum Flip { get; set; }
@@ -29,6 +28,12 @@ namespace SignalR.Sandalai.Objects
         public PlayerInfo GetInfo()
         {
             return new PlayerInfo(Position, (int)Flip, ClassName);
+        }
+
+        public void Update()
+        {
+            PlayerInfo playerInfo = GetInfo();
+            Console.WriteLine($"Player {ConnectionId} received battle update. {playerInfo.ClassName}");
         }
     }
 
