@@ -22,7 +22,7 @@ namespace SwordsAndSandals
         }
         private ConnectionManager()
         {
-            connection = new HubConnection("http://127.0.0.1:8081");
+            connection = new HubConnection("http://localhost:8081");
         }
         public void AddHub(string name)
         {
