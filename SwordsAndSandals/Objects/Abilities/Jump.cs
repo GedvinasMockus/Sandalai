@@ -17,20 +17,23 @@ namespace SwordsAndSandals.Objects.Abilities
         private float groundY;
         private float velocityY;
         private float accelerationY;
+        private Vector2 velocityHolder;
 
-        public Jump(float distanceX, float accelerationY, Animation animation) : base(animation)
+        public Jump(float distanceX, int degrees, Animation animation) : base(animation)
         {
+            
             maxDistanceX = distanceX;
-            this.accelerationY = accelerationY;
             velocityX = maxDistanceX / animation.Duration;
-            velocityY = - accelerationY * animation.Duration / 2;
+            velocityY = -1 * Math.Abs(velocityX) * (float)Math.Tan(MathHelper.ToRadians(degrees));
+            accelerationY = -2 * velocityY / animation.Duration;
         }
 
         public override void Prepare(Player player)
         {
             animation.Reset();
             player.animation = animation;
-            player.Velocity = new Vector2(velocityX, velocityY);
+            currDistanceX = 0;
+            velocityHolder = new Vector2(velocityX, velocityY);
             groundY = player.Position.Y;
         }
 
@@ -39,16 +42,14 @@ namespace SwordsAndSandals.Objects.Abilities
             if (currDistanceX < Math.Abs(maxDistanceX))
             {
                 float elapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                player.Velocity = new Vector2(player.Velocity.X, player.Velocity.Y + accelerationY * elapsed);
-                Vector2 delta = new Vector2(player.Velocity.X * elapsed, player.Velocity.Y * elapsed + accelerationY * elapsed * elapsed / 2);
+                velocityHolder = new Vector2(velocityHolder.X, velocityHolder.Y + accelerationY * elapsed);
+                Vector2 delta = new Vector2(velocityHolder.X * elapsed, velocityHolder.Y * elapsed + accelerationY * elapsed * elapsed / 2);
                 player.Position = new Vector2(player.Position.X + delta.X, Math.Min(groundY, player.Position.Y + delta.Y));
                 currDistanceX += Math.Abs(delta.X);
             }
             else
             {
                 done = true;
-                player.Velocity = Vector2.Zero;
-                currDistanceX = 0;
             }
         }
     }

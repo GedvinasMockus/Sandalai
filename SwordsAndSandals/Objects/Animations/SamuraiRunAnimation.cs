@@ -11,7 +11,7 @@ namespace SwordsAndSandals.Objects.Animations
 {
     public class SamuraiRunAnimation : Animation
     {
-        public SamuraiRunAnimation(ContentManager content, float duration, SpriteEffects flip) : base(duration, flip) 
+        public SamuraiRunAnimation(ContentManager content, float duration, SpriteEffects flip, bool flipChangeable) : base(duration, flip, flipChangeable) 
         {
             Scale = 3.0f;
             texture = content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Run");

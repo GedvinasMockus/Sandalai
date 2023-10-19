@@ -6,7 +6,6 @@ using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.Objects;
 using SwordsAndSandals.Objects.Classes;
 using SwordsAndSandals.Objects.Items.Weapons;
-
 using System.Collections.Generic;
 
 namespace SwordsAndSandals.States
@@ -17,9 +16,13 @@ namespace SwordsAndSandals.States
         private BattleInfo battleInfo;
         public Player player { get; private set; }
         private List<Sprite> p1sprites;
+        private List<Weapon> p1Weapons;
+        //private WeaponFactory p1weaponFactory;
+
 
         public Player opponent { get; private set; }
         private List<Sprite> p2sprites;
+        //private WeaponFactory p2weaponFactory;
 
         private Background background;
         private List<Button> buttons;
@@ -67,11 +70,6 @@ namespace SwordsAndSandals.States
             StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
         }
 
-        private void OnAbilityUsed(object sender, AbilityUsedEventArgs e)
-        {
-            ConnectionManager.Instance.Invoke("AbilityUsed", e.Name);
-        }
-
         public override void LoadContent(ContentManager content)
         {
             PlayerFactory p1Factory = GetPlayerFactory(battleInfo.Player1.ClassName);
@@ -81,10 +79,17 @@ namespace SwordsAndSandals.States
             Vector2 p2Pos = new Vector2(battleInfo.Player2.Position.X * screenWidth, battleInfo.Player2.Position.Y * screenHeight);
 
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
-            player = p1Factory.CreatePlayer(content, p1Pos, (SpriteEffects)battleInfo.Player1.Flip, true);
-            //player.AddWeapons(weaponFactory, content);
-            player.AbilityUsed += OnAbilityUsed;
-            opponent = p2Factory.CreatePlayer(content, p2Pos, (SpriteEffects)battleInfo.Player2.Flip, false);
+            //p1Weapons = new List<Weapon>()
+            //{
+            //    p1weaponFactory.CreateMeleeWeapon(content, new Vector2(32,32)),
+            //    p1weaponFactory.CreateRangedWeapon(content, new Vector2(32,96)),
+            //    p1weaponFactory.CreateShieldWeapon(content, new Vector2(32, 160))
+            //};
+            SpriteEffects p1flip;
+            SpriteEffects p2flip;
+            DeterminePlayerDirection(p1Pos.X, p2Pos.X, out p1flip, out p2flip);
+            player = p1Factory.CreatePlayer(content, p1Pos, p1flip, true);
+            opponent = p2Factory.CreatePlayer(content, p2Pos, p2flip, false);
 
             Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Leave battle", 2f, SpriteEffects.None)
             {
@@ -122,6 +127,11 @@ namespace SwordsAndSandals.States
         {
             player.Update(gameTime, p1sprites);
             opponent.Update(gameTime, p2sprites);
+            SpriteEffects p1flip;
+            SpriteEffects p2flip;
+            DeterminePlayerDirection(player.Position.X, opponent.Position.X, out p1flip, out p2flip);
+            player.ChangeFlip(p1flip);
+            opponent.ChangeFlip(p2flip);
             foreach (var b in buttons)
             {
                 b.Update(gameTime);
@@ -146,6 +156,17 @@ namespace SwordsAndSandals.States
         private bool Intersects(Rectangle rect1, Rectangle rect2)
         {
             return rect1.Intersects(rect2);
+        }
+
+        private void DeterminePlayerDirection(float p1x, float p2x, out SpriteEffects p1flip, out SpriteEffects p2flip)
+        {
+            p1flip = SpriteEffects.None;
+            p2flip = SpriteEffects.FlipHorizontally;
+            if (p1x >= p2x)
+            {
+                p1flip = SpriteEffects.FlipHorizontally;
+                p2flip = SpriteEffects.None;
+            }
         }
     }
 }

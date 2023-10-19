@@ -13,18 +13,8 @@ using System.Threading.Tasks;
 
 namespace SwordsAndSandals.Objects.Classes
 {
-    public class Samurai : Player
+    public class Samurai : BasicPlayer
     {
-        public Samurai() : base()
-        {
 
-        }
-
-        //public override void AddWeapons(WeaponFactory factory, ContentManager content)
-        //{
-        //    Melee = factory.CreateMeleeWeapon(content, new Vector2(32, 32), 10);
-        //    Ranged = factory.CreateRangedWeapon(content, new Vector2(32, 96), 3);
-        //    Shield = factory.CreateShieldWeapon(content, new Vector2(32, 160), 10);
-        //}
     }
 }

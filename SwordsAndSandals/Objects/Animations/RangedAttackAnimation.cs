@@ -20,7 +20,7 @@ namespace SwordsAndSandals.Objects.Animations
         public Vector2 relativePosition { get; protected set; }
 
         protected int projectileSpawnFrame;
-        public RangedAttackAnimation(float duration, SpriteEffects flip) : base(duration, flip)
+        public RangedAttackAnimation(float duration, SpriteEffects flip, bool flipChangeable) : base(duration, flip, flipChangeable)
         {
 
         }
