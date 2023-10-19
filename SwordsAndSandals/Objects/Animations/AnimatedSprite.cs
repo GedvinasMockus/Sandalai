@@ -11,12 +11,11 @@ namespace SwordsAndSandals.Objects.Animations
 {
     public abstract class AnimatedSprite
     {
-        public Vector2 Position { get; set; }
-        public Vector2 Velocity { get; set; }
-        public Vector2 Origin { get; set; }
+        public virtual Vector2 Position { get; set; }
+        public virtual Vector2 Origin { get; set; }
 
         private Animation anim;
-        public Animation animation 
+        public virtual Animation animation 
         { 
             get
             {
@@ -28,7 +27,7 @@ namespace SwordsAndSandals.Objects.Animations
                 Origin = new Vector2(anim.frameWidth / 2, anim.frameHeight / 2);
             }
         }
-        public Rectangle Rectangle
+        public virtual Rectangle Rectangle
         {
             get
             {
@@ -39,7 +38,6 @@ namespace SwordsAndSandals.Objects.Animations
         {
             this.animation = animation;
             Position = position;
-            Velocity = Vector2.Zero;
         }
 
         public AnimatedSprite()
