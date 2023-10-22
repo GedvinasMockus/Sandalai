@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNet.SignalR;
 
 using SignalR.Sandalai.Objects;
-
+using SignalR.Sandalai.PlayerClasses;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SignalR.Sandalai
@@ -12,7 +13,6 @@ namespace SignalR.Sandalai
     {
         private readonly Lobby lobby;
         public static List<Battle> battleList = new List<Battle>();
-        private object obj = new object();
         public MainHub() : this(Lobby.Instance) { }
         public MainHub(Lobby lobby)
         {
@@ -32,81 +32,75 @@ namespace SignalR.Sandalai
         }
         public void FindOpponent()
         {
-            Player opponent = lobby.FindAnotherUser(Context.ConnectionId);
-            if (opponent != null)
+            Player p1;
+            Player p2;
+            lobby.TakePair(Context.ConnectionId, out p1, out p2);
+            if(p1 != null && p2 != null)
             {
-                Player player = lobby.GetUser(Context.ConnectionId);
-                lobby.RemoveUser(Context.ConnectionId);
-                lobby.RemoveUser(opponent.ConnectionId);
                 Battle battle = new Battle();
-                battle.Attach(player);
-                battle.Attach(opponent);
-                lock (obj)
+                battle.Attach(p1);
+                battle.Attach(p2);
+                battle.BattleStart();
+
+                lock (battleList)
                 {
                     battleList.Add(battle);
                 }
-                battle.BattleStart();
 
-                Clients.Client(battle.GetPlayer(0).ConnectionId).OpponentFound(battle.GetInfo(false));
-                Clients.Client(battle.GetPlayer(1).ConnectionId).OpponentFound(battle.GetInfo(true));
+                Clients.Client(p1.ConnectionId).OpponentFound(battle.GetInfo(p1));
+                Clients.Client(p2.ConnectionId).OpponentFound(battle.GetInfo(p2));
             }
         }
 
         public void AbilityUsed(string name)
         {
             Battle battle = battleList.Find((b) => b.GetPlayer(0).ConnectionId == Context.ConnectionId || b.GetPlayer(1).ConnectionId == Context.ConnectionId);
-            if (battle.GetPlayer(0).ConnectionId == Context.ConnectionId)
-            {
-                Clients.Client(battle.GetPlayer(1).ConnectionId).AbilityUsed(name);
-                battle.AbilityUsed(name, battle.GetPlayer(0).ConnectionId);
-            }
-            else
-            {
-                Clients.Client(battle.GetPlayer(0).ConnectionId).AbilityUsed(name);
-                battle.AbilityUsed(name, battle.GetPlayer(1).ConnectionId);
-            }
+
+            battle.AbilityUsed(name, Context.ConnectionId);
         }
 
         public void LeaveBattle()
         {
-            Battle battle = battleList.Find((b) => b.GetPlayer(0).ConnectionId == Context.ConnectionId || b.GetPlayer(1).ConnectionId == Context.ConnectionId);
-            battleList.Remove(battle);
-            Clients.Caller.BattleLeft();
-            if (battle.GetPlayer(0).ConnectionId != Context.ConnectionId)
+            Battle battle;
+            lock (battleList)
             {
-                lobby.AddUser(battle.GetPlayer(0).ConnectionId, battle.GetPlayer(0).ClassName);
-                Clients.Client(battle.GetPlayer(0).ConnectionId).BackToLoading();
+                battle = battleList.FirstOrDefault((b) => b.GetPlayer(0).ConnectionId == Context.ConnectionId || b.GetPlayer(1).ConnectionId == Context.ConnectionId);
+                battleList.Remove(battle);
             }
-            else
+            if (battle != null)
             {
-                lobby.AddUser(battle.GetPlayer(1).ConnectionId, battle.GetPlayer(1).ClassName);
-                Clients.Client(battle.GetPlayer(1).ConnectionId).BackToLoading();
+                battle.BattleStop();
+                Clients.Caller.BattleLeft();
+
+                Player other = battle.FindAnyOtherPlayerById(Context.ConnectionId);
+                lobby.AddUser(other.ConnectionId, other.ClassName);
+                Clients.Client(other.ConnectionId).BackToLoading();
+
+                battle.Detach(battle.GetPlayer(1));
+                battle.Detach(battle.GetPlayer(0));
             }
-            battle.Detach(battle.GetPlayer(1));
-            battle.Detach(battle.GetPlayer(0));
 
         }
         public override Task OnDisconnected(bool stopCalled)
         {
-            Battle battle = battleList.Find((b) => b.GetPlayer(0).ConnectionId == Context.ConnectionId || b.GetPlayer(1).ConnectionId == Context.ConnectionId);
-            if (battle == null)
+            Battle battle;
+            lock (battleList)
             {
-                lobby.RemoveUser(Context.ConnectionId);
-                return base.OnDisconnected(stopCalled);
+                battle = battleList.FirstOrDefault((b) => b.GetPlayer(0).ConnectionId == Context.ConnectionId || b.GetPlayer(1).ConnectionId == Context.ConnectionId);
+                battleList.Remove(battle);
             }
-            battleList.Remove(battle);
-            if (battle.GetPlayer(0).ConnectionId != Context.ConnectionId)
-            {
-                lobby.AddUser(battle.GetPlayer(0).ConnectionId, battle.GetPlayer(0).ClassName);
-                Clients.Client(battle.GetPlayer(0).ConnectionId).BackToLoading();
-            }
+            if (battle == null) lobby.RemoveUser(Context.ConnectionId);
             else
             {
-                lobby.AddUser(battle.GetPlayer(1).ConnectionId, battle.GetPlayer(1).ClassName);
-                Clients.Client(battle.GetPlayer(1).ConnectionId).BackToLoading();
+                battle.BattleStop();
+
+                Player other = battle.FindAnyOtherPlayerById(Context.ConnectionId);
+                lobby.AddUser(other.ConnectionId, other.ClassName);
+                Clients.Client(other.ConnectionId).BackToLoading();
+
+                battle.Detach(battle.GetPlayer(1));
+                battle.Detach(battle.GetPlayer(0));
             }
-            battle.Detach(battle.GetPlayer(1));
-            battle.Detach(battle.GetPlayer(0));
             return base.OnDisconnected(stopCalled);
         }
     }

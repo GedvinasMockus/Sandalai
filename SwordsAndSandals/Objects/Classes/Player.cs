@@ -9,6 +9,7 @@ using SwordsAndSandals.Objects.Items.Weapons;
 using SwordsAndSandals.Objects.Stats;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SwordsAndSandals.Objects.Classes
 {
@@ -16,21 +17,14 @@ namespace SwordsAndSandals.Objects.Classes
     {
         public virtual Attributes BaseAttributes { get; set; }
         public virtual int CorrectionY { get; set; }
-        public virtual Dictionary<string, Button> Buttons { get; private set; }
-        public virtual Dictionary<string, EventHandler> Handlers { get; private set; }
         public virtual Ability Active { get; set; }
 
-        protected Dictionary<string, Ability> Abilities;
+        protected Dictionary<string, Button> Buttons = new Dictionary<string, Button>();
+        protected Dictionary<string, EventHandler> Handlers = new Dictionary<string, EventHandler>();
+        protected Dictionary<string, Ability> Abilities = new Dictionary<string, Ability>();
         public MeleeWeapon Melee { get; set; }
         public RangedWeapon Ranged { get; set; }
         public ShieldWeapon Shield { get; set; }
-
-        public Player() : base()
-        {
-            Abilities = new Dictionary<string, Ability>();
-            Buttons = new Dictionary<string, Button>();
-            Handlers = new Dictionary<string, EventHandler>();
-        }
 
         public virtual void AddAbility(string name, Ability ability)
         {
@@ -62,6 +56,21 @@ namespace SwordsAndSandals.Objects.Classes
             Button button = Buttons[name];
             Buttons.Remove(name);
             button.Click -= handler;
+        }
+
+        public virtual List<Button> GetButtonValues()
+        {
+            return Buttons.Values.ToList();
+        }
+
+        public virtual List<string> GetButtonKeys()
+        {
+            return Buttons.Keys.ToList();
+        }
+
+        public virtual int GetButtonCount()
+        {
+            return Buttons.Count();
         }
 
         public virtual void UseAbility(string name)

@@ -5,6 +5,7 @@ using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.States;
 
 using System;
+using System.Diagnostics;
 
 namespace SwordsAndSandals
 {
@@ -24,17 +25,21 @@ namespace SwordsAndSandals
         protected override void Initialize()
         {
             ConnectionManager.Instance.AddHub("MainHub");
-            ConnectionManager.Instance.AddHandler("OpponentFound", info =>
+            ConnectionManager.Instance.AddHandler<BattleInfo>("OpponentFound", (info) =>
             {
-                BattleInfo bInfo = info.ToObject<BattleInfo>();
-                StateManager.Instance.ChangeState(new GameState(_graphics, bInfo));
+                StateManager.Instance.ChangeState(new GameState(_graphics, info));
             });
-            ConnectionManager.Instance.AddHandler<string>("AbilityUsed", (name) =>
+            ConnectionManager.Instance.AddHandler<string, BattleInfo>("AbilityUsed", (name, info) =>
             {
                 if (StateManager.Instance.CurrentState is GameState)
                 {
+                    //TODO implement battle state update
                     (StateManager.Instance.CurrentState as GameState).opponent.UseAbility(name);
                 }
+            });
+            ConnectionManager.Instance.AddHandler<BattleInfo>("BattleInfoUpdated", (info) =>
+            {
+                //TODO implement battle state update
             });
             ConnectionManager.Instance.AddHandler("BattleLeft", () =>
             {

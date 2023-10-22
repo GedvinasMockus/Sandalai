@@ -16,7 +16,7 @@ namespace SwordsAndSandals.Objects.Items.Weapons
         {
             Attributes WeaponAttrs = new Attributes()
             {
-                MeleeDamage = 34
+                //MeleeDamage = 34
             };
             return new SkeletonMeleeWeapon(position, content.Load<Texture2D>("Weapons/Weps"), WeaponAttrs);
         }
@@ -25,8 +25,8 @@ namespace SwordsAndSandals.Objects.Items.Weapons
         {
             Attributes WeaponAttrs = new Attributes()
             {
-                RangedDamage = 67,
-                BaseDistance = -10
+                //RangedDamage = 67,
+                //BaseDistance = -10
             };
             return new SkeletonRangedWeapon(position, content.Load<Texture2D>("Weapons/Weps"), WeaponAttrs);
         }
@@ -35,9 +35,9 @@ namespace SwordsAndSandals.Objects.Items.Weapons
         {
             Attributes WeaponAttrs = new Attributes()
             {
-                ShieldDamage = 17,
-                ArmourRating = 25,
-                BaseDistance = -10
+                //ShieldDamage = 17,
+                //ArmourRating = 25,
+                //BaseDistance = -10
             };
             return new SkeletonShieldWeapon(position, content.Load<Texture2D>("Weapons/Weps"), WeaponAttrs);
         }

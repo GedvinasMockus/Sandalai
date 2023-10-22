@@ -6,6 +6,7 @@ using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.Objects;
 using SwordsAndSandals.Objects.Classes;
 using SwordsAndSandals.Objects.Items.Weapons;
+using SwordsAndSandals.Objects.Stats;
 using System.Collections.Generic;
 
 namespace SwordsAndSandals.States
@@ -16,7 +17,7 @@ namespace SwordsAndSandals.States
         private BattleInfo battleInfo;
         public Player player { get; private set; }
         private List<Sprite> p1sprites;
-        private List<Weapon> p1Weapons;
+        //private List<Weapon> p1Weapons;
         //private WeaponFactory p1weaponFactory;
 
 
@@ -88,8 +89,22 @@ namespace SwordsAndSandals.States
             SpriteEffects p1flip;
             SpriteEffects p2flip;
             DeterminePlayerDirection(p1Pos.X, p2Pos.X, out p1flip, out p2flip);
-            player = p1Factory.CreatePlayer(content, p1Pos, p1flip, true);
-            opponent = p2Factory.CreatePlayer(content, p2Pos, p2flip, false);
+            Attributes p1Attributes = new Attributes()
+            {
+                MaxHealth = battleInfo.Player1.BaseAttributes.MaxHealth,
+                CurrHealth = battleInfo.Player1.BaseAttributes.CurrHealth,
+                BaseDistance = battleInfo.Player1.BaseAttributes.BaseDistance * screenWidth,
+                ArmourRating = battleInfo.Player1.BaseAttributes.ArmourRating
+            };
+            Attributes p2Attributes = new Attributes()
+            {
+                MaxHealth = battleInfo.Player2.BaseAttributes.MaxHealth,
+                CurrHealth = battleInfo.Player2.BaseAttributes.CurrHealth,
+                BaseDistance = battleInfo.Player2.BaseAttributes.BaseDistance * screenWidth,
+                ArmourRating = battleInfo.Player2.BaseAttributes.ArmourRating
+            };
+            player = p1Factory.CreatePlayer(content, p1Pos, p1flip, p1Attributes, true);
+            opponent = p2Factory.CreatePlayer(content, p2Pos, p2flip, p2Attributes, false);
 
             Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Leave battle", 2f, SpriteEffects.None)
             {
