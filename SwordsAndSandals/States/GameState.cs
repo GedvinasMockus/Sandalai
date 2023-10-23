@@ -7,6 +7,7 @@ using SwordsAndSandals.Objects;
 using SwordsAndSandals.Objects.Classes;
 using SwordsAndSandals.Objects.Items.Weapons;
 using SwordsAndSandals.Objects.Stats;
+using System;
 using System.Collections.Generic;
 
 namespace SwordsAndSandals.States
@@ -14,14 +15,20 @@ namespace SwordsAndSandals.States
     public class GameState : State
     {
         //TODO refactor and optimize collisions and sprite code !!!!!!!!!!!!!!!!!!!!
+
+        public event EventHandler BattleUpdateNeeded;
+
         private BattleInfo battleInfo;
-        public Player player { get; private set; }
+        private bool turnDone;
+        public bool BattleInfoAvailable { get; set; }
+
+        private Player player;
         private List<Sprite> p1sprites;
         //private List<Weapon> p1Weapons;
         //private WeaponFactory p1weaponFactory;
 
 
-        public Player opponent { get; private set; }
+        private Player opponent;
         private List<Sprite> p2sprites;
         //private WeaponFactory p2weaponFactory;
 
@@ -35,6 +42,8 @@ namespace SwordsAndSandals.States
             p1sprites = new List<Sprite>();
             p2sprites = new List<Sprite>();
             battleInfo = bInfo;
+            turnDone = false;
+            BattleInfoAvailable = false;
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
         }
@@ -65,10 +74,15 @@ namespace SwordsAndSandals.States
             }
         }
 
-        private void LogoutButton_Click(object sender, System.EventArgs e)
+        private void LogoutButton_Click(object sender, EventArgs e)
         {
             ConnectionManager.Instance.Invoke("LeaveBattle");
             StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
+        }
+
+        public void OnAbilityDone(object sender, EventArgs e)
+        {
+            turnDone = true;
         }
 
         public override void LoadContent(ContentManager content)
@@ -104,7 +118,9 @@ namespace SwordsAndSandals.States
                 ArmourRating = battleInfo.Player2.BaseAttributes.ArmourRating
             };
             player = p1Factory.CreatePlayer(content, p1Pos, p1flip, p1Attributes, true);
+            player.AddAbilityDoneHandler(OnAbilityDone);
             opponent = p2Factory.CreatePlayer(content, p2Pos, p2flip, p2Attributes, false);
+            opponent.AddAbilityDoneHandler(OnAbilityDone);
 
             Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Leave battle", 2f, SpriteEffects.None)
             {
@@ -151,6 +167,14 @@ namespace SwordsAndSandals.States
             {
                 b.Update(gameTime);
             }
+
+            if(turnDone && BattleInfoAvailable)
+            {
+                turnDone = false;
+                BattleInfoAvailable = false;
+                BattleUpdateNeeded?.Invoke(this, new EventArgs());
+            }
+
             foreach (var s1 in p1sprites)
             {
                 s1.Update(gameTime);
@@ -173,6 +197,16 @@ namespace SwordsAndSandals.States
             return rect1.Intersects(rect2);
         }
 
+        public void MakePlayerUseAbility(string name)
+        {
+            player.UseAbility(name);
+        }
+
+        public void MakeOpponentUseAbility(string name)
+        {
+            opponent.UseAbility(name);
+        }
+
         private void DeterminePlayerDirection(float p1x, float p2x, out SpriteEffects p1flip, out SpriteEffects p2flip)
         {
             p1flip = SpriteEffects.None;
@@ -182,6 +216,29 @@ namespace SwordsAndSandals.States
                 p1flip = SpriteEffects.FlipHorizontally;
                 p2flip = SpriteEffects.None;
             }
+        }
+
+        public void UpdateBattleInfo(BattleInfo info)
+        {
+            Attributes p1attrs = new Attributes()
+            {
+                MaxHealth = info.Player1.BaseAttributes.MaxHealth,
+                CurrHealth = info.Player1.BaseAttributes.CurrHealth,
+                BaseDistance = info.Player1.BaseAttributes.BaseDistance * screenWidth,
+                ArmourRating = info.Player1.BaseAttributes.ArmourRating
+            };
+            player.Position = info.Player1.Position * new Vector2(screenWidth, screenHeight);
+            player.BaseAttributes = p1attrs;
+            Attributes p2attrs = new Attributes()
+            {
+                MaxHealth = info.Player2.BaseAttributes.MaxHealth,
+                CurrHealth = info.Player2.BaseAttributes.CurrHealth,
+                BaseDistance = info.Player2.BaseAttributes.BaseDistance * screenWidth,
+                ArmourRating = info.Player2.BaseAttributes.ArmourRating
+            };
+            opponent.Position = info.Player2.Position * new Vector2(screenWidth, screenHeight);
+            opponent.BaseAttributes = p2attrs;
+            BattleUpdateNeeded = null;
         }
     }
 }

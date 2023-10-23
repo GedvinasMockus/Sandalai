@@ -75,5 +75,15 @@ namespace SwordsAndSandals.Objects.Classes.PlayerDecorators
             wrapee.Update(gameTime, sprites);
         }
 
+        public override void AddAbilityDoneHandler(EventHandler handler)
+        {
+            wrapee.AddAbilityDoneHandler(handler);
+        }
+
+        public override void RemoveAbilityDoneHandler(EventHandler handler)
+        {
+            wrapee.RemoveAbilityDoneHandler(handler);
+        }
+
     }
 }

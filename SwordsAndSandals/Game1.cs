@@ -31,15 +31,32 @@ namespace SwordsAndSandals
             });
             ConnectionManager.Instance.AddHandler<string, BattleInfo>("AbilityUsed", (name, info) =>
             {
+                //TODO refactor battle state update
                 if (StateManager.Instance.CurrentState is GameState)
                 {
-                    //TODO implement battle state update
-                    (StateManager.Instance.CurrentState as GameState).opponent.UseAbility(name);
+                    GameState battle = (StateManager.Instance.CurrentState as GameState);
+                    battle.MakeOpponentUseAbility(name);
+                    EventHandler handler = new EventHandler((o, e) =>
+                    {
+                        battle.UpdateBattleInfo(info);
+                    });
+                    battle.BattleUpdateNeeded += handler;
+                    battle.BattleInfoAvailable = true;
                 }
             });
             ConnectionManager.Instance.AddHandler<BattleInfo>("BattleInfoUpdated", (info) =>
             {
-                //TODO implement battle state update
+                //TODO refactor battle state update
+                if(StateManager.Instance.CurrentState is GameState)
+                {
+                    GameState battle = (StateManager.Instance.CurrentState as GameState);
+                    EventHandler handler = new EventHandler((o, e) =>
+                    {
+                        battle.UpdateBattleInfo(info);
+                    });
+                    battle.BattleUpdateNeeded += handler;
+                    battle.BattleInfoAvailable = true;
+                }
             });
             ConnectionManager.Instance.AddHandler("BattleLeft", () =>
             {
