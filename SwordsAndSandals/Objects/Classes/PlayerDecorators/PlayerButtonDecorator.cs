@@ -19,11 +19,11 @@ namespace SwordsAndSandals.Objects.Classes.PlayerDecorators
         public override void Draw(SpriteBatch batch)
         {
             base.Draw(batch);
-            int numIcons = Buttons.Count();
+            int numIcons = wrapee.GetButtonCount();
             float radius = animation.Scale * animation.frameHeight / 2;
             float angleIncrement = MathHelper.TwoPi / numIcons;
             int index = 0;
-            foreach(var b in Buttons.Values)
+            foreach(var b in wrapee.GetButtonValues())
             {
                 float angle = index * angleIncrement;
                 float xOffset = -(float)Math.Sin(angle) * radius;
@@ -37,7 +37,7 @@ namespace SwordsAndSandals.Objects.Classes.PlayerDecorators
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             base.Update(gameTime, sprites);
-            foreach(var b in Buttons.Values)
+            foreach(var b in wrapee.GetButtonValues())
             {
                 b.Update(gameTime);
             }

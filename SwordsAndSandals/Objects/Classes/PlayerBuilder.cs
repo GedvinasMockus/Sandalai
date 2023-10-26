@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SwordsAndSandals.Objects.Stats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace SwordsAndSandals.Objects.Classes
 
         public abstract PlayerBuilder SetPosition(Vector2 pos);
 
-        public abstract PlayerBuilder SetAttributes();
+        public abstract PlayerBuilder SetAttributes(Attributes attributes);
 
         public abstract PlayerBuilder SetDefaultAbility(SpriteEffects flip);
 

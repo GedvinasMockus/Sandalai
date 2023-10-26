@@ -8,6 +8,7 @@ using SwordsAndSandals.States;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SwordsAndSandals
 {
@@ -27,16 +28,37 @@ namespace SwordsAndSandals
         protected override void Initialize()
         {
             ConnectionManager.Instance.AddHub("MainHub");
-            ConnectionManager.Instance.AddHandler("OpponentFound", info =>
+            ConnectionManager.Instance.AddHandler<BattleInfo>("OpponentFound", (info) =>
             {
-                BattleInfo bInfo = info.ToObject<BattleInfo>();
-                StateManager.Instance.ChangeState(new GameState(_graphics, bInfo));
+                StateManager.Instance.ChangeState(new GameState(_graphics, info));
             });
-            ConnectionManager.Instance.AddHandler<string>("AbilityUsed", (name) =>
+            ConnectionManager.Instance.AddHandler<string, BattleInfo>("AbilityUsed", (name, info) =>
             {
+                //TODO refactor battle state update
                 if (StateManager.Instance.CurrentState is GameState)
                 {
-                    (StateManager.Instance.CurrentState as GameState).opponent.UseAbility(name);
+                    GameState battle = (StateManager.Instance.CurrentState as GameState);
+                    battle.MakeOpponentUseAbility(name);
+                    EventHandler handler = new EventHandler((o, e) =>
+                    {
+                        battle.UpdateBattleInfo(info);
+                    });
+                    battle.BattleUpdateNeeded += handler;
+                    battle.BattleInfoAvailable = true;
+                }
+            });
+            ConnectionManager.Instance.AddHandler<BattleInfo>("BattleInfoUpdated", (info) =>
+            {
+                //TODO refactor battle state update
+                if(StateManager.Instance.CurrentState is GameState)
+                {
+                    GameState battle = (StateManager.Instance.CurrentState as GameState);
+                    EventHandler handler = new EventHandler((o, e) =>
+                    {
+                        battle.UpdateBattleInfo(info);
+                    });
+                    battle.BattleUpdateNeeded += handler;
+                    battle.BattleInfoAvailable = true;
                 }
             });
             ConnectionManager.Instance.AddHandler("BattleLeft", () =>

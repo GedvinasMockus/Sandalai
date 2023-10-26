@@ -23,6 +23,7 @@ namespace SwordsAndSandals.Objects.Classes
             Active.Update(gameTime, this, sprites);
             if (Active != Abilities["Idle"] && Active.done == true)
             {
+                AbilityFinished();
                 Active = Abilities["Idle"];
                 Active.Prepare(this);
             }

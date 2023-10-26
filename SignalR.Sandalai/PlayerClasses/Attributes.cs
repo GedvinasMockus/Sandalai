@@ -1,11 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SwordsAndSandals.Objects.Stats
+namespace SignalR.Sandalai.PlayerClasses
 {
     public struct Attributes
     {

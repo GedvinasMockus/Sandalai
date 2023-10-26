@@ -1,7 +1,9 @@
 ﻿using SignalR.Sandalai.InfoStructs;
-
+using SignalR.Sandalai.PlayerClasses;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace SignalR.Sandalai.Objects
@@ -17,20 +19,19 @@ namespace SignalR.Sandalai.Objects
         {
             observers[0].Position = new Vector2(Pos1x, PosGround);
             observers[1].Position = new Vector2(Pos2x, PosGround);
-            observers[0].Flip = FlipEnum.None;
-            observers[1].Flip = FlipEnum.FlipHorizontally;
             battleStarted = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
+        
         public void BattleStop()
         {
             observers[0].Position = new Vector2(-1, -1);
             observers[1].Position = new Vector2(-1, -1);
-            observers[0].Flip = FlipEnum.None;
-            observers[1].Flip = FlipEnum.None;
         }
-        public BattleInfo GetInfo(bool flip)
+
+        public BattleInfo GetInfo(Player current)
         {
-            return flip ? new BattleInfo(observers[1].GetInfo(), observers[0].GetInfo()) : new BattleInfo(observers[0].GetInfo(), observers[1].GetInfo());
+            Player other = FindAnyOtherPlayerById(current.ConnectionId);
+            return new BattleInfo(current.GetInfo(), other.GetInfo());
         }
         public List<string> GetBattleInfo()
         {
@@ -52,21 +53,74 @@ namespace SignalR.Sandalai.Objects
             observers.Remove(observer);
         }
 
-        public void Notify()
+        public void Notify(Player sender, string ability)
         {
             foreach (var observer in observers)
             {
-                observer.Update();
+                observer.Update(sender, ability, GetInfo(observer));
             }
         }
-        public void AbilityUsed(string name, string connectionId)
+
+        public void AbilityUsed(string ability, string id)
         {
-            Console.WriteLine($"Server: user {connectionId} used ability {name}");
-            Notify();
+            Player sender = FindPlayerById(id);
+            Player other = FindAnyOtherPlayerById(id);
+            Act(ability, sender, other);
+            Notify(sender, ability);
         }
-        public Player GetPlayer(int id)
+
+        public Player GetPlayer(int index)
         {
-            return observers[id];
+            return observers[index];
+        }
+
+        public Player FindPlayerById(string id)
+        {
+            foreach(var o in observers)
+            {
+                if (o.ConnectionId.Equals(id)) return o;
+            }
+            return null;
+        }
+
+        public Player FindAnyOtherPlayerById(string id)
+        {
+            foreach(var o in observers)
+            {
+                if (!o.ConnectionId.Equals(id)) return o;
+            }
+            return null;
+        }
+
+        private void Act(string ability, Player current, Player other)
+        {
+            switch(ability)
+            {
+                case "Run_left":
+                    current.RunLeft();
+                    break;
+                case "Run_right":
+                    current.RunRight();
+                    break;
+                case "Jump_left":
+                    current.JumpLeft();
+                    break;
+                case "Jump_right":
+                    current.JumpRight();
+                    break;
+                case "Melee_attack_left":
+                    current.MeleeAttackLeft(other);
+                    break;
+                case "Melee_attack_right":
+                    current.MeleeAttackRight(other);
+                    break;
+                case "Ranged_attack_left":
+                    current.MeleeAttackLeft(other);
+                    break;
+                case "Ranged_attack_right":
+                    current.MeleeAttackRight(other);
+                    break;
+            }
         }
     }
 }

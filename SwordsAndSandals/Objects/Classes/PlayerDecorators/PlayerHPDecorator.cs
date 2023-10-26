@@ -27,7 +27,7 @@ namespace SwordsAndSandals.Objects.Classes.PlayerDecorators
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             base.Update(gameTime, sprites);
-            text.TextString = BaseAttributes.Health + "/" + BaseAttributes.Health;
+            text.TextString = BaseAttributes.CurrHealth + "/" + BaseAttributes.MaxHealth;
         }
 
         public void AddText(Text text)

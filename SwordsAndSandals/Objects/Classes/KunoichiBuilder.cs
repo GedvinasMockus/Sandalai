@@ -32,17 +32,9 @@ namespace SwordsAndSandals.Objects.Classes
             return this;
         }
 
-        public override PlayerBuilder SetAttributes()
+        public override PlayerBuilder SetAttributes(Attributes attributes)
         {
-            product.BaseAttributes = new Attributes()
-            {
-                Health = 1000,
-                BaseDistance = 350,
-                MeleeDamage = 15,
-                RangedDamage = 15,
-                ShieldDamage = 15,
-                ArmourRating = 10
-            };
+            product.BaseAttributes = attributes;
             PlayerHPDecorator decorator = new PlayerHPDecorator(product);
             Text text = new Text(content.Load<SpriteFont>("Fonts/vinque"))
             {
@@ -64,12 +56,12 @@ namespace SwordsAndSandals.Objects.Classes
         public override PlayerBuilder SetAbilities(SpriteEffects flip)
         {
             product.AddAbility("Heal", new Idle(new KunoichiIdleAnimation(content, 0.1f, flip, true)));
-            product.AddAbility("Jump_left", new Jump(product.BaseAttributes.BaseDistance * -1.14f, 50, new KunoichiJumpAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
+            product.AddAbility("Jump_left", new Jump(product.BaseAttributes.BaseDistance * -1.2f, 50, new KunoichiJumpAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
             product.AddAbility("Melee_attack_left", new Idle(new KunoichiIdleAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
             product.AddAbility("Run_left", new Run(product.BaseAttributes.BaseDistance * -1f, new KunoichiRunAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
             product.AddAbility("Run_right", new Run(product.BaseAttributes.BaseDistance * 1f, new KunoichiRunAnimation(content, 0.1f, SpriteEffects.None, false)));
             product.AddAbility("Melee_attack_right", new Idle(new KunoichiIdleAnimation(content, 0.1f, SpriteEffects.None, false)));
-            product.AddAbility("Jump_right", new Jump(product.BaseAttributes.BaseDistance * 1.14f, 50, new KunoichiJumpAnimation(content, 0.1f, SpriteEffects.None, false)));
+            product.AddAbility("Jump_right", new Jump(product.BaseAttributes.BaseDistance * 1.2f, 50, new KunoichiJumpAnimation(content, 0.1f, SpriteEffects.None, false)));
             return this;
         }
 

@@ -72,12 +72,16 @@
     <Compile Include="InfoStructs\BattleInfo.cs" />
     <Compile Include="Lobby.cs" />
     <Compile Include="MainHub.cs" />
+    <Compile Include="PlayerClasses\Attributes.cs" />
     <Compile Include="Objects\Battle.cs" />
-    <Compile Include="Objects\FlipEnum.cs" />
     <Compile Include="Objects\IObserver.cs" />
     <Compile Include="Objects\ISubject.cs" />
-    <Compile Include="Objects\Player.cs" />
+    <Compile Include="PlayerClasses\KunoichiPlayer.cs" />
+    <Compile Include="PlayerClasses\Player.cs" />
     <Compile Include="InfoStructs\PlayerInfo.cs" />
+    <Compile Include="PlayerClasses\PlayerFactory.cs" />
+    <Compile Include="PlayerClasses\SamuraiPlayer.cs" />
+    <Compile Include="PlayerClasses\SkeletonPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Prototype.cs" />
@@ -87,5 +91,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
