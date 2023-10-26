@@ -22,9 +22,6 @@ namespace SwordsAndSandals.Objects.Classes.PlayerDecorators
         public override Vector2 Origin { get => wrapee.Origin; set => wrapee.Origin = value; }
         public override Animation animation { get => wrapee.animation; set => wrapee.animation = value; }
         public override Rectangle Rectangle => wrapee.Rectangle;
-        public override Dictionary<string, Button> Buttons => wrapee.Buttons;
-        public override Dictionary<string, EventHandler> Handlers => wrapee.Handlers;
-
 
         public PlayerDecorator(Player p)
         {
@@ -55,6 +52,19 @@ namespace SwordsAndSandals.Objects.Classes.PlayerDecorators
         {
             wrapee.RemoveButton(name);
         }
+
+        public override List<Button> GetButtonValues()
+        {
+            return wrapee.GetButtonValues();
+        }
+        public override List<string> GetButtonKeys()
+        {
+            return wrapee.GetButtonKeys();
+        }
+        public override int GetButtonCount()
+        {
+            return wrapee.GetButtonCount();
+        }
         public override void Draw(SpriteBatch batch)
         {
             wrapee.Draw(batch);
@@ -63,6 +73,16 @@ namespace SwordsAndSandals.Objects.Classes.PlayerDecorators
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             wrapee.Update(gameTime, sprites);
+        }
+
+        public override void AddAbilityDoneHandler(EventHandler handler)
+        {
+            wrapee.AddAbilityDoneHandler(handler);
+        }
+
+        public override void RemoveAbilityDoneHandler(EventHandler handler)
+        {
+            wrapee.RemoveAbilityDoneHandler(handler);
         }
 
     }

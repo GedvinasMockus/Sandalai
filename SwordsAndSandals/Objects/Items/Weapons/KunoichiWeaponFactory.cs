@@ -16,7 +16,7 @@ namespace SwordsAndSandals.Objects.Items.Weapons
         {
             Attributes WeaponAttrs = new Attributes()
             {
-                MeleeDamage = 43
+                //MeleeDamage = 43
             };
             return new KunoichiMeleeWeapon(position, content.Load<Texture2D>("Weapons/Weps"), WeaponAttrs);
         }
@@ -25,7 +25,7 @@ namespace SwordsAndSandals.Objects.Items.Weapons
         {
             Attributes WeaponAttrs = new Attributes()
             {
-                RangedDamage = 52
+                //RangedDamage = 52
             };
             return new KunoichiRangedWeapon(position, content.Load<Texture2D>("Weapons/Weps"), WeaponAttrs);
         }
@@ -34,9 +34,9 @@ namespace SwordsAndSandals.Objects.Items.Weapons
         {
             Attributes WeaponAttrs = new Attributes()
             {
-                ShieldDamage = 17,
-                ArmourRating = 25,
-                BaseDistance = -15
+                //ShieldDamage = 17,
+                //ArmourRating = 25,
+                //BaseDistance = -15
             };
             return new KunoichiShieldWeapon(position, content.Load<Texture2D>("Weapons/Weps"), WeaponAttrs);
         }

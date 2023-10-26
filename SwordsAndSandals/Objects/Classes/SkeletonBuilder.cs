@@ -30,17 +30,9 @@ namespace SwordsAndSandals.Objects.Classes
             product.Position = pos;
             return this;
         }
-        public override PlayerBuilder SetAttributes()
+        public override PlayerBuilder SetAttributes(Attributes attributes)
         {
-            product.BaseAttributes = new Attributes()
-            {
-                Health = 1500,
-                BaseDistance = 200,
-                MeleeDamage = 10,
-                RangedDamage = 20,
-                ShieldDamage = 10,
-                ArmourRating = 15
-            };
+            product.BaseAttributes = attributes;
             PlayerHPDecorator decorator = new PlayerHPDecorator(product);
             Text text = new Text(content.Load<SpriteFont>("Fonts/vinque"))
             {

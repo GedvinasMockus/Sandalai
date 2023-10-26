@@ -16,7 +16,7 @@ namespace SwordsAndSandals.Objects.Items.Weapons
         {
             Attributes WeaponAttrs = new Attributes()
             {
-                MeleeDamage = 81
+                //MeleeDamage = 81
             };
             return new SamuraiMeleeWeapon(position, content.Load<Texture2D>("Weapons/Weps"), WeaponAttrs);
         }
@@ -25,7 +25,7 @@ namespace SwordsAndSandals.Objects.Items.Weapons
         {
             Attributes WeaponAttrs = new Attributes()
             {
-                RangedDamage = 22
+                //RangedDamage = 22
             };
             return new SamuraiRangedWeapon(position, content.Load<Texture2D>("Weapons/Weps"), WeaponAttrs);
         }
@@ -34,9 +34,9 @@ namespace SwordsAndSandals.Objects.Items.Weapons
         {
             Attributes WeaponAttrs = new Attributes()
             {
-                ShieldDamage = 47,
-                ArmourRating = 40,
-                BaseDistance = -50
+                //ShieldDamage = 47,
+                //ArmourRating = 40,
+                //BaseDistance = -50
             };
             return new SamuraiShieldWeapon(position, content.Load<Texture2D>("Weapons/Weps"), WeaponAttrs);
         }
