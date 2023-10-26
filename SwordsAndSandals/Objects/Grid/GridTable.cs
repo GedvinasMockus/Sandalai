@@ -8,8 +8,7 @@ namespace SwordsAndSandals.Objects.Grid
     public class GridTable : Component
     {
         private List<GridColumn> columns;
-        private List<List<string>> data;
-        private List<Button> buttons;
+        private List<GridRow> data;
         private SpriteFont font;
         private Vector2 position;
         private Texture2D dot;
@@ -20,8 +19,7 @@ namespace SwordsAndSandals.Objects.Grid
         public GridTable(SpriteFont font, Texture2D dot, Vector2 position, float width, float padding)
         {
             this.columns = new List<GridColumn>();
-            this.data = new List<List<string>>();
-            this.buttons = new List<Button>();
+            this.data = new List<GridRow>();
             this.font = font;
             this.position = position;
             this.dot = dot;
@@ -35,13 +33,9 @@ namespace SwordsAndSandals.Objects.Grid
             columns.Add(new GridColumn(header));
         }
 
-        public void AddRow(List<string> rowData)
+        public void AddRow(GridRow rowData)
         {
             data.Add(rowData);
-        }
-        public void AddButton(Button button)
-        {
-            buttons.Add(button);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -63,22 +57,21 @@ namespace SwordsAndSandals.Objects.Grid
             }
 
             cellY += font.LineSpacing + padding;
-            int iBtn = 0;
             foreach (var row in data)
             {
                 for (int i = 0; i < columns.Count - 1; i++)
                 {
                     float cellX = x + i * width;
 
-                    spriteBatch.DrawString(font, row[i], new Vector2(cellX + padding, cellY + padding), Color.White);
+                    spriteBatch.DrawString(font, row.Columns[i].Header, new Vector2(cellX + padding, cellY + padding), Color.White);
                 }
-                if (buttons.Count > 0)
+                foreach (var button in row.Buttons)
                 {
-                    buttons[iBtn].Position = new Vector2(x + (columns.Count - 1) * width + width / 2, cellY + (font.LineSpacing + padding) / 2);
-                    buttons[iBtn].Draw(spriteBatch);
-                    iBtn++;
+                    button.Position = new Vector2(x + (columns.Count - 1) * width + width / 2, cellY + (font.LineSpacing + padding) / 2);
+                    button.Draw(spriteBatch);
                 }
                 cellY += font.LineSpacing + padding;
+
             }
 
             float lineX = x;
@@ -100,13 +93,14 @@ namespace SwordsAndSandals.Objects.Grid
 
         public override void Update(GameTime gameTime)
         {
-            if (buttons.Count > 0)
+            foreach (var item in data)
             {
-                foreach (var button in buttons)
+                foreach (var button in item.Buttons)
                 {
                     button.Update(gameTime);
                 }
             }
+
         }
     }
 

@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNet.SignalR;
+
 using SignalR.Sandalai.InfoStructs;
-using SignalR.Sandalai.Objects;
+
 using System;
-using System.Collections.Generic;
 using System.Numerics;
-using System.Runtime.InteropServices;
 
 namespace SignalR.Sandalai.PlayerClasses
 {
-    public abstract class Player : Prototype, IObserver
+    public abstract class Player : Prototype
     {
         public string ConnectionId { get; private set; }
         public string ClassName { get; protected set; }
@@ -30,15 +29,15 @@ namespace SignalR.Sandalai.PlayerClasses
         }
         public PlayerInfo GetInfo()
         {
-            return new PlayerInfo(Position, BaseAttributes, ClassName);
+            return new PlayerInfo(Position, BaseAttributes, ClassName, ConnectionId);
         }
 
         public void Update(Player sender, string ability, BattleInfo info)
         {
             var clients = GlobalHost.ConnectionManager.GetHubContext<MainHub>().Clients;
-            if(sender.ConnectionId == ConnectionId) 
+            if (sender.ConnectionId == ConnectionId)
                 clients.Client(ConnectionId).BattleInfoUpdated(info);
-            else 
+            else
                 clients.Client(ConnectionId).AbilityUsed(ability, info);
         }
         public abstract void JumpLeft();

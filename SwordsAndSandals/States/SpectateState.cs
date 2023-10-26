@@ -13,66 +13,34 @@ using System.Collections.Generic;
 
 namespace SwordsAndSandals.States
 {
-    public class GameState : State
+    public class SpectateState : State
     {
-        //TODO refactor and optimize collisions and sprite code !!!!!!!!!!!!!!!!!!!!
-
-        public event EventHandler BattleUpdateNeeded;
+        private int screenWidth;
+        private int screenHeight;
 
         private BattleInfo battleInfo;
         private bool turnDone;
+        public event EventHandler BattleUpdateNeeded;
         public bool BattleInfoAvailable { get; set; }
-
-        private Player player;
-        private List<Sprite> p1sprites;
-        //private List<Weapon> p1Weapons;
-        //private WeaponFactory p1weaponFactory;
-
-
-        private Player opponent;
-        private List<Sprite> p2sprites;
-        //private WeaponFactory p2weaponFactory;
 
         private Background background;
         private List<Button> buttons;
 
-        private int screenWidth;
-        private int screenHeight;
-        public GameState(GraphicsDeviceManager graphicsDevice, BattleInfo bInfo) : base(graphicsDevice)
+        private Player player;
+        private List<Sprite> p1sprites;
+
+        private Player opponent;
+        private List<Sprite> p2sprites;
+        public SpectateState(GraphicsDeviceManager graphicsDevice, BattleInfo bInfo) : base(graphicsDevice)
         {
-            p1sprites = new List<Sprite>();
-            p2sprites = new List<Sprite>();
+            screenWidth = graphicsDevice.PreferredBackBufferWidth;
+            screenHeight = graphicsDevice.PreferredBackBufferHeight;
             battleInfo = bInfo;
             turnDone = false;
             BattleInfoAvailable = false;
-            screenWidth = graphicsDevice.PreferredBackBufferWidth;
-            screenHeight = graphicsDevice.PreferredBackBufferHeight;
+            p1sprites = new List<Sprite>();
+            p2sprites = new List<Sprite>();
         }
-
-        public WeaponFactory GetPlayerWeaponFactory(string className)
-        {
-            switch (className)
-            {
-                case "Kunoichi":
-                    return new KunoichiWeaponFactory();
-                case "Samurai":
-                    return new SamuraiWeaponFactory();
-                default:
-                    return new SkeletonWeaponFactory();
-            }
-        }
-
-        private void LogoutButton_Click(object sender, EventArgs e)
-        {
-            ConnectionManager.Instance.Invoke("LeaveBattle");
-            StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
-        }
-
-        public void OnAbilityDone(object sender, EventArgs e)
-        {
-            turnDone = true;
-        }
-
         public override void LoadContent(ContentManager content)
         {
             WeaponFactory weaponFactory = GetPlayerWeaponFactory(battleInfo.Player1.ClassName);
@@ -105,7 +73,7 @@ namespace SwordsAndSandals.States
                 BaseDistance = battleInfo.Player2.BaseAttributes.BaseDistance * screenWidth,
                 ArmourRating = battleInfo.Player2.BaseAttributes.ArmourRating
             };
-            player = target.ProcessPlayer(battleInfo.Player1, content, p1Pos, p1flip, p1Attributes, true);
+            player = target.ProcessPlayer(battleInfo.Player1, content, p1Pos, p1flip, p1Attributes, false);
             opponent = target.ProcessPlayer(battleInfo.Player2, content, p2Pos, p2flip, p2Attributes, false);
             player.AddAbilityDoneHandler(OnAbilityDone);
             opponent.AddAbilityDoneHandler(OnAbilityDone);
@@ -118,10 +86,85 @@ namespace SwordsAndSandals.States
             logoutButton.Click += LogoutButton_Click;
             buttons = new List<Button>()
             {
-                logoutButton
+                 logoutButton
             };
         }
+        private void LogoutButton_Click(object sender, EventArgs e)
+        {
+            ConnectionManager.Instance.Invoke("LeaveSpectateBattle");
+            StateManager.Instance.ChangeState(new BattleListState(graphicsDevice));
+        }
+        public WeaponFactory GetPlayerWeaponFactory(string className)
+        {
+            switch (className)
+            {
+                case "Kunoichi":
+                    return new KunoichiWeaponFactory();
+                case "Samurai":
+                    return new SamuraiWeaponFactory();
+                default:
+                    return new SkeletonWeaponFactory();
+            }
+        }
+        private void DeterminePlayerDirection(float p1x, float p2x, out SpriteEffects p1flip, out SpriteEffects p2flip)
+        {
+            p1flip = SpriteEffects.None;
+            p2flip = SpriteEffects.FlipHorizontally;
+            if (p1x >= p2x)
+            {
+                p1flip = SpriteEffects.FlipHorizontally;
+                p2flip = SpriteEffects.None;
+            }
+        }
+        public void OnAbilityDone(object sender, EventArgs e)
+        {
+            turnDone = true;
+        }
 
+        private bool Intersects(Rectangle rect1, Rectangle rect2)
+        {
+            return rect1.Intersects(rect2);
+        }
+        public void MakeUseAbility(int playerNum, string name)
+        {
+            if (playerNum == 0)
+                player.UseAbility(name);
+            else
+                opponent.UseAbility(name);
+
+        }
+        public void UpdateBattleInfo(int playerNum, BattleInfo info)
+        {
+            Attributes p1attrs = new Attributes()
+            {
+                MaxHealth = info.Player1.BaseAttributes.MaxHealth,
+                CurrHealth = info.Player1.BaseAttributes.CurrHealth,
+                BaseDistance = info.Player1.BaseAttributes.BaseDistance * screenWidth,
+                ArmourRating = info.Player1.BaseAttributes.ArmourRating
+            };
+            Attributes p2attrs = new Attributes()
+            {
+                MaxHealth = info.Player2.BaseAttributes.MaxHealth,
+                CurrHealth = info.Player2.BaseAttributes.CurrHealth,
+                BaseDistance = info.Player2.BaseAttributes.BaseDistance * screenWidth,
+                ArmourRating = info.Player2.BaseAttributes.ArmourRating
+            };
+            if (playerNum == 0)
+            {
+                player.Position = info.Player1.Position * new Vector2(screenWidth, screenHeight);
+                player.BaseAttributes = p1attrs;
+                opponent.Position = info.Player2.Position * new Vector2(screenWidth, screenHeight);
+                opponent.BaseAttributes = p2attrs;
+            }
+            else
+            {
+                opponent.Position = info.Player1.Position * new Vector2(screenWidth, screenHeight);
+                opponent.BaseAttributes = p1attrs;
+                player.Position = info.Player2.Position * new Vector2(screenWidth, screenHeight);
+                player.BaseAttributes = p2attrs;
+            }
+            BattleUpdateNeeded = null;
+        }
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -141,6 +184,9 @@ namespace SwordsAndSandals.States
                 s2.Draw(spriteBatch);
             }
             spriteBatch.End();
+        }
+        public override void UnloadContent()
+        {
         }
 
         public override void Update(GameTime gameTime)
@@ -174,60 +220,6 @@ namespace SwordsAndSandals.States
                 s2.Update(gameTime);
             }
             p2sprites.RemoveAll(s => Intersects(s.Rectangle, player.Rectangle));
-        }
-
-        public override void UnloadContent()
-        {
-
-        }
-
-        private bool Intersects(Rectangle rect1, Rectangle rect2)
-        {
-            return rect1.Intersects(rect2);
-        }
-
-        public void MakePlayerUseAbility(string name)
-        {
-            player.UseAbility(name);
-        }
-
-        public void MakeOpponentUseAbility(string name)
-        {
-            opponent.UseAbility(name);
-        }
-
-        private void DeterminePlayerDirection(float p1x, float p2x, out SpriteEffects p1flip, out SpriteEffects p2flip)
-        {
-            p1flip = SpriteEffects.None;
-            p2flip = SpriteEffects.FlipHorizontally;
-            if (p1x >= p2x)
-            {
-                p1flip = SpriteEffects.FlipHorizontally;
-                p2flip = SpriteEffects.None;
-            }
-        }
-
-        public void UpdateBattleInfo(BattleInfo info)
-        {
-            Attributes p1attrs = new Attributes()
-            {
-                MaxHealth = info.Player1.BaseAttributes.MaxHealth,
-                CurrHealth = info.Player1.BaseAttributes.CurrHealth,
-                BaseDistance = info.Player1.BaseAttributes.BaseDistance * screenWidth,
-                ArmourRating = info.Player1.BaseAttributes.ArmourRating
-            };
-            player.Position = info.Player1.Position * new Vector2(screenWidth, screenHeight);
-            player.BaseAttributes = p1attrs;
-            Attributes p2attrs = new Attributes()
-            {
-                MaxHealth = info.Player2.BaseAttributes.MaxHealth,
-                CurrHealth = info.Player2.BaseAttributes.CurrHealth,
-                BaseDistance = info.Player2.BaseAttributes.BaseDistance * screenWidth,
-                ArmourRating = info.Player2.BaseAttributes.ArmourRating
-            };
-            opponent.Position = info.Player2.Position * new Vector2(screenWidth, screenHeight);
-            opponent.BaseAttributes = p2attrs;
-            BattleUpdateNeeded = null;
         }
     }
 }

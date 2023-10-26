@@ -33,7 +33,8 @@ namespace SwordsAndSandals.States
         }
         private void SpectateBattleButton_Click(object sender, EventArgs e)
         {
-            ConnectionManager.Instance.Invoke("GetBattleList");
+            ConnectionManager.Instance.Invoke("AddSpectator");
+            StateManager.Instance.ChangeState(new BattleListState(graphicsDevice));
         }
         public override void LoadContent(ContentManager content)
         {

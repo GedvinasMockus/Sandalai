@@ -72,6 +72,9 @@
     <Compile Include="InfoStructs\BattleInfo.cs" />
     <Compile Include="Lobby.cs" />
     <Compile Include="MainHub.cs" />
+    <Compile Include="Objects\IBattleSpectatorObserver.cs" />
+    <Compile Include="Objects\IBattleSubject.cs" />
+    <Compile Include="Objects\Spectator.cs" />
     <Compile Include="PlayerClasses\Attributes.cs" />
     <Compile Include="Objects\Battle.cs" />
     <Compile Include="Objects\IObserver.cs" />

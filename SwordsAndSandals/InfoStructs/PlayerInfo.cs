@@ -1,4 +1,5 @@
 ﻿using SwordsAndSandals.Objects.Stats;
+
 using System.Numerics;
 
 namespace SwordsAndSandals.InfoStructs
@@ -8,11 +9,13 @@ namespace SwordsAndSandals.InfoStructs
         public Vector2 Position { get; set; }
         public Attributes BaseAttributes { get; set; }
         public string ClassName { get; set; }
-        public PlayerInfo(Vector2 position, Attributes attributes, string className)
+        public string ConnectionID { get; set; }
+        public PlayerInfo(Vector2 position, Attributes attributes, string className, string connectionId)
         {
             Position = position;
             BaseAttributes = attributes;
             ClassName = className;
+            ConnectionID = connectionId;
         }
     }
 }

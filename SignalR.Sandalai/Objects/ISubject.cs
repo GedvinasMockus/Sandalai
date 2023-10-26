@@ -2,8 +2,8 @@
 {
     public interface ISubject
     {
-        void Attach(IObserver observer);
-        void Detach(IObserver observer);
+        void AddSpectator();
+        void RemoveSpectator();
         void Notify();
     }
 }
