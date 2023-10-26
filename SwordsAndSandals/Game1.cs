@@ -1,10 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Newtonsoft.Json.Linq;
+
 using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.States;
 
 using System;
+using System.Collections.Generic;
 
 namespace SwordsAndSandals
 {
@@ -44,6 +47,19 @@ namespace SwordsAndSandals
             {
                 ConnectionManager.Instance.Invoke("FindOpponent");
                 StateManager.Instance.ChangeState(new LoadingScreenState(_graphics));
+            });
+            ConnectionManager.Instance.AddHandler("BattleListInfo", info =>
+            {
+                JArray jArray = JArray.Parse(info.ToString());
+
+                List<SpectateBattleInfo> battleList = new List<SpectateBattleInfo>();
+
+                foreach (var item in jArray)
+                {
+                    var innerList = item.ToObject<List<string>>();
+                    battleList.Add(new SpectateBattleInfo(innerList));
+                }
+                StateManager.Instance.ChangeState(new BattleListState(_graphics, battleList));
             });
             ConnectionManager.Instance.StartConnection();
             _graphics.PreferredBackBufferWidth = _screenWidth;

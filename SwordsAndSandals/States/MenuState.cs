@@ -38,6 +38,11 @@ namespace SwordsAndSandals
             StateManager.Instance.ChangeState(null);
         }
 
+        private void TownButton_Click(object sender, EventArgs e)
+        {
+            StateManager.Instance.ChangeState(new TownState(graphicsDevice));
+        }
+
         public override void LoadContent(ContentManager content)
         {
             Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
@@ -58,13 +63,21 @@ namespace SwordsAndSandals
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 300)
             };
             exitButton.Click += ExitButton_Click;
+            Button townButton = new Button(buttonTexture, buttonFont, "Town", 2f, SpriteEffects.None)
+            {
+                Position = new Vector2(10 * screenWidth / 11, screenHeight / 15)
+            };
+            townButton.Click += TownButton_Click;
             buttons = new List<Button>()
             {
                 CharacterSelectionButton,
                 settingsButton,
-                exitButton
+                exitButton,
+                townButton
             };
         }
+
+
 
         public override void Draw(SpriteBatch spriteBatch)
         {

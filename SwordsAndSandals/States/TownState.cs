@@ -13,6 +13,7 @@ namespace SwordsAndSandals.States
     {
         private Background background;
         private List<Button> buttons;
+        private List<Component> components;
 
         private int screenWidth;
         private int screenHeight;
@@ -26,18 +27,50 @@ namespace SwordsAndSandals.States
         {
             StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice));
         }
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
+        }
+        private void SpectateBattleButton_Click(object sender, EventArgs e)
+        {
+            ConnectionManager.Instance.Invoke("GetBattleList");
+        }
         public override void LoadContent(ContentManager content)
         {
             Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
             SpriteFont buttonFont = content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
+            Text text = new Text(buttonFont)
+            {
+                Position = new Vector2(screenWidth / 2, screenHeight / 8),
+                TextString = "Town",
+                TextSize = 2f,
+                PenColour = Color.Orange,
+                OutlineColor = Color.Black,
+            };
             Button findBattle = new Button(buttonTexture, buttonFont, "Find battle", 2.0f, SpriteEffects.None)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 100)
             };
+            Button backbutton = new Button(buttonTexture, buttonFont, "Back", 2f, SpriteEffects.None)
+            {
+                Position = new Vector2(screenWidth / 6, 7 * screenHeight / 8),
+            };
+            backbutton.Click += BackButton_Click;
+            Button spectateBattleButton = new Button(buttonTexture, buttonFont, "Spectate battles", 2.0f, SpriteEffects.None)
+            {
+                Position = new Vector2(screenWidth / 2, screenHeight / 2 + 100)
+            };
+            spectateBattleButton.Click += SpectateBattleButton_Click;
             buttons = new List<Button>()
             {
-                findBattle
+                //findBattle
+                backbutton,
+                spectateBattleButton
+            };
+            components = new List<Component>()
+            {
+                text,
             };
         }
 
@@ -49,17 +82,22 @@ namespace SwordsAndSandals.States
             {
                 b.Draw(spriteBatch);
             }
+            foreach (var c in components)
+            {
+                c.Draw(spriteBatch);
+            }
             spriteBatch.End();
         }
-
         public override void UnloadContent()
         {
-            throw new NotImplementedException();
         }
 
         public override void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            foreach (var b in buttons)
+            {
+                b.Update(gameTime);
+            }
         }
     }
 }

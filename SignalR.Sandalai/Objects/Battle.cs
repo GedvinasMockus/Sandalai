@@ -12,12 +12,14 @@ namespace SignalR.Sandalai.Objects
         private const float Pos2x = 5f / 6;
         private const float PosGround = 11f / 17;
         private List<Player> observers = new List<Player>();
+        private string battleStarted;
         public void BattleStart()
         {
             observers[0].Position = new Vector2(Pos1x, PosGround);
             observers[1].Position = new Vector2(Pos2x, PosGround);
             observers[0].Flip = FlipEnum.None;
             observers[1].Flip = FlipEnum.FlipHorizontally;
+            battleStarted = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
         public void BattleStop()
         {
@@ -29,6 +31,16 @@ namespace SignalR.Sandalai.Objects
         public BattleInfo GetInfo(bool flip)
         {
             return flip ? new BattleInfo(observers[1].GetInfo(), observers[0].GetInfo()) : new BattleInfo(observers[0].GetInfo(), observers[1].GetInfo());
+        }
+        public List<string> GetBattleInfo()
+        {
+            List<string> infos = new List<string>
+            {
+                observers[0].ClassName,
+                observers[1].ClassName,
+                battleStarted
+            };
+            return infos;
         }
         public void Attach(Player observer)
         {

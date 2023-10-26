@@ -30,6 +30,15 @@ namespace SignalR.Sandalai
             lobby.RemoveUser(Context.ConnectionId);
             Console.WriteLine(Context.ConnectionId);
         }
+        public void GetBattleList()
+        {
+            List<List<string>> list = new List<List<string>>();
+            foreach (Battle battle in battleList)
+            {
+                list.Add(battle.GetBattleInfo());
+            }
+            Clients.Client(Context.ConnectionId).BattleListInfo(list);
+        }
         public void FindOpponent()
         {
             Player opponent = lobby.FindAnotherUser(Context.ConnectionId);
