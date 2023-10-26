@@ -16,7 +16,7 @@ namespace SignalR.Sandalai.PlayerClasses
             BaseAttributes = new Attributes()
             {
                 MaxHealth = 1000,
-                CurrHealth = 1000,
+                CurrHealth = 500,
                 BaseDistance = 35f/192f,
                 ArmourRating = 10
             };
