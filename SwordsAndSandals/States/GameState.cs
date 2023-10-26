@@ -48,19 +48,6 @@ namespace SwordsAndSandals.States
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
         }
 
-        public PlayerFactory GetPlayerFactory(string className)
-        {
-            switch (className)
-            {
-                case "Kunoichi":
-                    return new KunoichiFactory();
-                case "Samurai":
-                    return new SamuraiFactory();
-                default:
-                    return new SkeletonFactory();
-            }
-        }
-
         public WeaponFactory GetPlayerWeaponFactory(string className)
         {
             switch (className)
@@ -87,11 +74,12 @@ namespace SwordsAndSandals.States
 
         public override void LoadContent(ContentManager content)
         {
-            PlayerFactory p1Factory = GetPlayerFactory(battleInfo.Player1.ClassName);
-            PlayerFactory p2Factory = GetPlayerFactory(battleInfo.Player2.ClassName);
+            //PlayerFactory p1Factory = GetPlayerFactory(battleInfo.Player1.ClassName);
+            //PlayerFactory p2Factory = GetPlayerFactory(battleInfo.Player2.ClassName);
             WeaponFactory weaponFactory = GetPlayerWeaponFactory(battleInfo.Player1.ClassName);
             Vector2 p1Pos = new Vector2(battleInfo.Player1.Position.X * screenWidth, battleInfo.Player1.Position.Y * screenHeight);
             Vector2 p2Pos = new Vector2(battleInfo.Player2.Position.X * screenWidth, battleInfo.Player2.Position.Y * screenHeight);
+            ITarget target = new PlayerAdapter();
 
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
             //p1Weapons = new List<Weapon>()
@@ -103,6 +91,7 @@ namespace SwordsAndSandals.States
             SpriteEffects p1flip;
             SpriteEffects p2flip;
             DeterminePlayerDirection(p1Pos.X, p2Pos.X, out p1flip, out p2flip);
+
             Attributes p1Attributes = new Attributes()
             {
                 MaxHealth = battleInfo.Player1.BaseAttributes.MaxHealth,
@@ -121,6 +110,7 @@ namespace SwordsAndSandals.States
             player.AddAbilityDoneHandler(OnAbilityDone);
             opponent = p2Factory.CreatePlayer(content, p2Pos, p2flip, p2Attributes, false);
             opponent.AddAbilityDoneHandler(OnAbilityDone);
+
 
             Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Leave battle", 2f, SpriteEffects.None)
             {

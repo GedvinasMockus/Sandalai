@@ -10,6 +10,7 @@ using SwordsAndSandals.Objects.Stats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 
 namespace SwordsAndSandals.Objects.Classes
 {
@@ -102,6 +103,12 @@ namespace SwordsAndSandals.Objects.Classes
         public virtual void RemoveAbilityDoneHandler(EventHandler handler)
         {
             AbilityDone -= handler;
+        }
+        
+        public static Player GetNewPlayer(PlayerFactory playerFactory, ContentManager content, Vector2 position, SpriteEffects flip, bool setButtons)
+        {
+            Player player = playerFactory.CreatePlayer(content, position, flip, setButtons);
+            return player;
         }
     }
 }
