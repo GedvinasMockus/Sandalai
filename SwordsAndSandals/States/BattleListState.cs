@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.Objects;
 using SwordsAndSandals.Objects.Grid;
+using SwordsAndSandals.States.Command;
 
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,9 @@ namespace SwordsAndSandals.States
         private void BackButton_Click(object sender, EventArgs e)
         {
             ConnectionManager.Instance.Invoke("RemoveSpectator");
-            StateManager.Instance.ChangeState(new TownState(graphicsDevice));
+            ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
+            undoCommand.Execute();
+            //StateManager.Instance.ChangeState(new TownState(graphicsDevice));
         }
         public override void LoadContent(ContentManager content)
         {

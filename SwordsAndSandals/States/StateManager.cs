@@ -2,14 +2,21 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using SwordsAndSandals.States.Command;
+
+using System.Collections.Generic;
+
 namespace SwordsAndSandals.States
 {
     public class StateManager
     {
         public State CurrentState { get; private set; }
+        public CommandHistory commandHistory { get; private set; }
         private ContentManager content;
 
         private static StateManager instance;
+
+        public Stack<State> stateStack = new Stack<State>();
         public static StateManager Instance
         {
             get
@@ -26,6 +33,7 @@ namespace SwordsAndSandals.States
         public void SetContentManager(ContentManager content)
         {
             this.content = content;
+            commandHistory = new CommandHistory();
         }
 
         public void ChangeState(State newState)
@@ -48,6 +56,27 @@ namespace SwordsAndSandals.States
         {
             return CurrentState == null;
         }
+
+        public void AddToHistory(ICommand command)
+        {
+            commandHistory.ExecuteCommand(command);
+            stateStack.Push(CurrentState);
+        }
+        //public void ExecuteCommand(ICommand command)
+        //{
+        //    stateStack.Push(CurrentState);
+        //    command.Execute();
+        //    commandStack.Push(command);
+        //}
+
+        //public void UndoLastCommand()
+        //{
+        //    if (commandStack.Count > 0)
+        //    {
+        //        ICommand lastCommand = commandStack.Pop();
+        //        lastCommand.Undo();
+        //    }
+        //}
 
     }
 }

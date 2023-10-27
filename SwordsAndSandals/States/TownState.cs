@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects;
+using SwordsAndSandals.States.Command;
 
 using System;
 using System.Collections.Generic;
@@ -25,16 +26,22 @@ namespace SwordsAndSandals.States
 
         private void FindBattleButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice));
+            ICommand changeStateCommand = new ChangeStateCommand(new LoadingScreenState(graphicsDevice));
+            changeStateCommand.Execute();
+            //StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice));
         }
         private void BackButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
+            ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
+            undoCommand.Execute();
+            //StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
         }
         private void SpectateBattleButton_Click(object sender, EventArgs e)
         {
             ConnectionManager.Instance.Invoke("AddSpectator");
-            StateManager.Instance.ChangeState(new BattleListState(graphicsDevice));
+            ICommand changeStateCommand = new ChangeStateCommand(new BattleListState(graphicsDevice));
+            changeStateCommand.Execute();
+            //StateManager.Instance.ChangeState(new BattleListState(graphicsDevice));
         }
         public override void LoadContent(ContentManager content)
         {
@@ -53,6 +60,7 @@ namespace SwordsAndSandals.States
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 100)
             };
+            //findBattle.Click += FindBattleButton_Click;
             Button backbutton = new Button(buttonTexture, buttonFont, "Back", 2f, SpriteEffects.None)
             {
                 Position = new Vector2(screenWidth / 6, 7 * screenHeight / 8),
@@ -60,12 +68,12 @@ namespace SwordsAndSandals.States
             backbutton.Click += BackButton_Click;
             Button spectateBattleButton = new Button(buttonTexture, buttonFont, "Spectate battles", 2.0f, SpriteEffects.None)
             {
-                Position = new Vector2(screenWidth / 2, screenHeight / 2 + 100)
+                Position = new Vector2(screenWidth / 2, screenHeight / 2 + 200)
             };
             spectateBattleButton.Click += SpectateBattleButton_Click;
             buttons = new List<Button>()
             {
-                //findBattle
+                findBattle,
                 backbutton,
                 spectateBattleButton
             };

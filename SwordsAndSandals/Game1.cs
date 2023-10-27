@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.States;
+using SwordsAndSandals.States.Command;
 
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,9 @@ namespace SwordsAndSandals
             ConnectionManager.Instance.AddHub("MainHub");
             ConnectionManager.Instance.AddHandler<BattleInfo>("OpponentFound", (info) =>
             {
-                StateManager.Instance.ChangeState(new GameState(_graphics, info));
+                ICommand changeStateCommand = new ChangeStateCommand(new GameState(_graphics, info));
+                changeStateCommand.Execute();
+                //StateManager.Instance.ChangeState(new GameState(_graphics, info));
             });
             ConnectionManager.Instance.AddHandler<string, BattleInfo>("AbilityUsed", (name, info) =>
             {
@@ -60,12 +63,17 @@ namespace SwordsAndSandals
             });
             ConnectionManager.Instance.AddHandler("BattleLeft", () =>
             {
-                StateManager.Instance.ChangeState(new CharacterSelectionState(_graphics));
+                //StateManager.Instance.ChangeState(new CharacterSelectionState(_graphics));
+                ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
+                undoCommand.Execute();
             });
             ConnectionManager.Instance.AddHandler("BackToLoading", () =>
             {
                 ConnectionManager.Instance.Invoke("FindOpponent");
-                StateManager.Instance.ChangeState(new LoadingScreenState(_graphics));
+
+                ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
+                undoCommand.Execute();
+                //StateManager.Instance.ChangeState(new LoadingScreenState(_graphics));
             });
             ConnectionManager.Instance.AddHandler<List<BattleInfo>>("SpectateBattleInfo", (info) =>
             {
@@ -82,7 +90,9 @@ namespace SwordsAndSandals
             });
             ConnectionManager.Instance.AddHandler<BattleInfo>("ShowMatch", (info) =>
             {
-                StateManager.Instance.ChangeState(new SpectateState(_graphics, info));
+                //StateManager.Instance.ChangeState(new SpectateState(_graphics, info));
+                ICommand changeStateCommand = new ChangeStateCommand(new SpectateState(_graphics, info));
+                changeStateCommand.Execute();
             });
             ConnectionManager.Instance.AddHandler<string, int, BattleInfo>("AbilityUsedSpectate", (name, player, info) =>
             {
@@ -100,7 +110,10 @@ namespace SwordsAndSandals
             });
             ConnectionManager.Instance.AddHandler("BackToBattleList", () =>
             {
-                StateManager.Instance.ChangeState(new BattleListState(_graphics));
+
+                ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
+                undoCommand.Execute();
+                //StateManager.Instance.ChangeState(new BattleListState(_graphics));
             });
             ConnectionManager.Instance.StartConnection();
             _graphics.PreferredBackBufferWidth = _screenWidth;

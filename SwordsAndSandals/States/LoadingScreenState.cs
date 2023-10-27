@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects;
+using SwordsAndSandals.States.Command;
 
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,9 @@ namespace SwordsAndSandals.States
         private void LeaveLobby_Click(object sender, EventArgs e)
         {
             ConnectionManager.Instance.Invoke("RemoveFromLobby");
-            StateManager.Instance.ChangeState(new CharacterSelectionState(graphicsDevice));
+            ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
+            undoCommand.Execute();
+            //StateManager.Instance.ChangeState(new CharacterSelectionState(graphicsDevice));
         }
 
         public override void LoadContent(ContentManager content)

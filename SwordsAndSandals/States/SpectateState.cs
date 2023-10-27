@@ -7,6 +7,7 @@ using SwordsAndSandals.Objects;
 using SwordsAndSandals.Objects.Classes;
 using SwordsAndSandals.Objects.Items.Weapons;
 using SwordsAndSandals.Objects.Stats;
+using SwordsAndSandals.States.Command;
 
 using System;
 using System.Collections.Generic;
@@ -92,7 +93,9 @@ namespace SwordsAndSandals.States
         private void LogoutButton_Click(object sender, EventArgs e)
         {
             ConnectionManager.Instance.Invoke("LeaveSpectateBattle");
-            StateManager.Instance.ChangeState(new BattleListState(graphicsDevice));
+            ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
+            undoCommand.Execute();
+            //StateManager.Instance.ChangeState(new BattleListState(graphicsDevice));
         }
         public WeaponFactory GetPlayerWeaponFactory(string className)
         {

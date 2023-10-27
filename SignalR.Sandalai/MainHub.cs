@@ -76,8 +76,10 @@ namespace SignalR.Sandalai
             {
                 battle.BattleStop();
                 Clients.Caller.BattleLeft();
-
+                Console.WriteLine("Disonnected");
+                Console.WriteLine(Context.ConnectionId);
                 Player other = battle.FindAnyOtherPlayerById(Context.ConnectionId);
+                lobby.RemoveUser(Context.ConnectionId);
                 lobby.AddUser(other.ConnectionId, other.ClassName);
                 Clients.Client(other.ConnectionId).BackToLoading();
             }
@@ -102,6 +104,8 @@ namespace SignalR.Sandalai
                 battle.BattleStop();
 
                 Player other = battle.FindAnyOtherPlayerById(Context.ConnectionId);
+                Console.WriteLine("Disonnected");
+                Console.WriteLine(Context.ConnectionId);
                 lobby.AddUser(other.ConnectionId, other.ClassName);
                 Clients.Client(other.ConnectionId).BackToLoading();
             }

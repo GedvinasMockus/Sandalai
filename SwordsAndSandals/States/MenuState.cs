@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects;
 using SwordsAndSandals.States;
+using SwordsAndSandals.States.Command;
 
 using System;
 using System.Collections.Generic;
@@ -25,12 +26,15 @@ namespace SwordsAndSandals
 
         private void SettingButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new SettingsState(graphicsDevice));
+            ICommand changeStateCommand = new ChangeStateCommand(new SettingsState(graphicsDevice));
+            changeStateCommand.Execute();
+            //StateManager.Instance.ChangeState(new SettingsState(graphicsDevice));
         }
 
         private void CharacterSelection_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new CharacterSelectionState(graphicsDevice));
+            ICommand changeStateCommand = new ChangeStateCommand(new CharacterSelectionState(graphicsDevice));
+            changeStateCommand.Execute();
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
@@ -40,7 +44,9 @@ namespace SwordsAndSandals
 
         private void TownButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new TownState(graphicsDevice));
+            ICommand changeStateCommand = new ChangeStateCommand(new TownState(graphicsDevice));
+            changeStateCommand.Execute();
+            //StateManager.Instance.ChangeState(new TownState(graphicsDevice));
         }
 
         public override void LoadContent(ContentManager content)
