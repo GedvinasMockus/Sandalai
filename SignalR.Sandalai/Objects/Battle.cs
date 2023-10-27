@@ -1,30 +1,41 @@
 ﻿using SignalR.Sandalai.InfoStructs;
 using SignalR.Sandalai.PlayerClasses;
+
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
 namespace SignalR.Sandalai.Objects
 {
-    public class Battle
+    public class Battle : IBattleSubject
     {
         private const float Pos1x = 1f / 6;
         private const float Pos2x = 5f / 6;
         private const float PosGround = 11f / 17;
-        private List<Player> observers = new List<Player>();
+        public List<Spectator> SpectatorObserver { get; private set; }
+        public Player Player1 { get; private set; }
+        public Player Player2 { get; private set; }
+        public string BattleStarted { get; private set; }
+        public Battle(Player Player1, Player Player2)
+        {
+            this.Player1 = Player1;
+            this.Player2 = Player2;
+            SpectatorObserver = new List<Spectator>();
+        }
+
 
         public void BattleStart()
         {
-            observers[0].Position = new Vector2(Pos1x, PosGround);
-            observers[1].Position = new Vector2(Pos2x, PosGround);
+            Player1.Position = new Vector2(Pos1x, PosGround);
+            Player2.Position = new Vector2(Pos2x, PosGround);
+            BattleStarted = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         public void BattleStop()
         {
-            observers[0].Position = new Vector2(-1, -1);
-            observers[1].Position = new Vector2(-1, -1);
+            Player1.Position = new Vector2(-1, -1);
+            Player2.Position = new Vector2(-1, -1);
         }
 
         public BattleInfo GetInfo(Player current)
@@ -32,23 +43,15 @@ namespace SignalR.Sandalai.Objects
             Player other = FindAnyOtherPlayerById(current.ConnectionId);
             return new BattleInfo(current.GetInfo(), other.GetInfo());
         }
-
-        public void Attach(Player observer)
+        public BattleInfo GetInfo()
         {
-            observers.Add(observer);
-        }
-
-        public void Detach(Player observer)
-        {
-            observers.Remove(observer);
+            return new BattleInfo(Player1.GetInfo(), Player2.GetInfo(), BattleStarted);
         }
 
         public void Notify(Player sender, string ability)
         {
-            foreach (var observer in observers)
-            {
-                observer.Update(sender, ability, GetInfo(observer));
-            }
+            Player1.Update(sender, ability, GetInfo(Player1));
+            Player2.Update(sender, ability, GetInfo(Player2));
         }
 
         public void AbilityUsed(string ability, string id)
@@ -57,34 +60,24 @@ namespace SignalR.Sandalai.Objects
             Player other = FindAnyOtherPlayerById(id);
             Act(ability, sender, other);
             Notify(sender, ability);
+            int playerNum = Player1.ConnectionId.Equals(id) ? 0 : 1;
+            NotifySpectators(playerNum, ability, GetInfo(sender));
         }
 
-        public Player GetPlayer(int index)
-        {
-            return observers[index];
-        }
 
         public Player FindPlayerById(string id)
         {
-            foreach(var o in observers)
-            {
-                if (o.ConnectionId.Equals(id)) return o;
-            }
-            return null;
+            return Player1.ConnectionId.Equals(id) ? Player1 : Player2;
         }
 
         public Player FindAnyOtherPlayerById(string id)
         {
-            foreach(var o in observers)
-            {
-                if (!o.ConnectionId.Equals(id)) return o;
-            }
-            return null;
+            return Player1.ConnectionId.Equals(id) ? Player2 : Player1;
         }
 
         private void Act(string ability, Player current, Player other)
         {
-            switch(ability)
+            switch (ability)
             {
                 case "Run_left":
                     current.RunLeft();
@@ -111,6 +104,46 @@ namespace SignalR.Sandalai.Objects
                     current.MeleeAttackRight(other);
                     break;
             }
+        }
+
+        public void AddToBattle(Spectator spectator)
+        {
+            lock (SpectatorObserver)
+            {
+                SpectatorObserver.Add(spectator);
+            }
+        }
+
+        public void RemoveFromBattle(string connectionId)
+        {
+            Spectator spectator;
+            lock (SpectatorObserver)
+            {
+                spectator = SpectatorObserver.FirstOrDefault((b) => b.ConnectionId == connectionId);
+                SpectatorObserver.Remove(spectator);
+            }
+        }
+
+        public void NotifySpectators(int playerNum, string ability, BattleInfo info)
+        {
+            foreach (var spectator in SpectatorObserver)
+            {
+                spectator.SendBattleInfo(playerNum, ability, info);
+            }
+        }
+
+        public List<Spectator> DetachAll()
+        {
+            List<Spectator> observerCopy = new List<Spectator>(SpectatorObserver);
+            lock (SpectatorObserver)
+            {
+                foreach (var spectator in SpectatorObserver)
+                {
+                    spectator.RemoveFromSpectate();
+                }
+                SpectatorObserver.Clear();
+            }
+            return observerCopy;
         }
     }
 }

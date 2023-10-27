@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects;
 using SwordsAndSandals.Objects.Classes;
+using SwordsAndSandals.States.Command;
 
 using System;
 using System.Collections.Generic;
@@ -41,11 +42,14 @@ namespace SwordsAndSandals.States
         {
             ConnectionManager.Instance.Invoke("AddToLobby", classes[spriteIndex]);
             ConnectionManager.Instance.Invoke("FindOpponent");
-            StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice));
+            ICommand changeStateCommand = new ChangeStateCommand(new LoadingScreenState(graphicsDevice));
+            changeStateCommand.Execute();
+            //StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice));
         }
         private void LeaveSelectionButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
+            ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
+            undoCommand.Execute();
         }
 
         public override void LoadContent(ContentManager content)

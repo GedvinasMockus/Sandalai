@@ -1,16 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+
 using SwordsAndSandals.Objects.Abilities;
 using SwordsAndSandals.Objects.Animations;
-using SwordsAndSandals.Objects.Classes.PlayerDecorators;
 using SwordsAndSandals.Objects.Items.Weapons;
 using SwordsAndSandals.Objects.Stats;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 
 namespace SwordsAndSandals.Objects.Classes
 {
@@ -104,10 +103,10 @@ namespace SwordsAndSandals.Objects.Classes
         {
             AbilityDone -= handler;
         }
-        
-        public static Player GetNewPlayer(PlayerFactory playerFactory, ContentManager content, Vector2 position, SpriteEffects flip, bool setButtons)
+
+        public static Player GetNewPlayer(PlayerFactory playerFactory, ContentManager content, Vector2 position, SpriteEffects flip, Attributes attributes, bool setButtons)
         {
-            Player player = playerFactory.CreatePlayer(content, position, flip, setButtons);
+            Player player = playerFactory.CreatePlayer(content, position, flip, attributes, setButtons);
             return player;
         }
     }

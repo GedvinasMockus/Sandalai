@@ -1,10 +1,11 @@
 ﻿using SignalR.Sandalai.InfoStructs;
-using SignalR.Sandalai.PlayerClasses;
+
+using System.Collections.Generic;
 
 namespace SignalR.Sandalai.Objects
 {
     public interface IObserver
     {
-        void Update(Player sender, string ability, BattleInfo info);
+        void SendInfo(List<BattleInfo> battleInfos);
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Objects;
 using SwordsAndSandals.States;
+using SwordsAndSandals.States.Command;
 
 using System;
 using System.Collections.Generic;
@@ -25,17 +26,27 @@ namespace SwordsAndSandals
 
         private void SettingButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new SettingsState(graphicsDevice));
+            ICommand changeStateCommand = new ChangeStateCommand(new SettingsState(graphicsDevice));
+            changeStateCommand.Execute();
+            //StateManager.Instance.ChangeState(new SettingsState(graphicsDevice));
         }
 
         private void CharacterSelection_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new CharacterSelectionState(graphicsDevice));
+            ICommand changeStateCommand = new ChangeStateCommand(new CharacterSelectionState(graphicsDevice));
+            changeStateCommand.Execute();
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
             StateManager.Instance.ChangeState(null);
+        }
+
+        private void TownButton_Click(object sender, EventArgs e)
+        {
+            ICommand changeStateCommand = new ChangeStateCommand(new TownState(graphicsDevice));
+            changeStateCommand.Execute();
+            //StateManager.Instance.ChangeState(new TownState(graphicsDevice));
         }
 
         public override void LoadContent(ContentManager content)
@@ -58,13 +69,21 @@ namespace SwordsAndSandals
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 300)
             };
             exitButton.Click += ExitButton_Click;
+            Button townButton = new Button(buttonTexture, buttonFont, "Town", 2f, SpriteEffects.None)
+            {
+                Position = new Vector2(10 * screenWidth / 11, screenHeight / 15)
+            };
+            townButton.Click += TownButton_Click;
             buttons = new List<Button>()
             {
                 CharacterSelectionButton,
                 settingsButton,
-                exitButton
+                exitButton,
+                townButton
             };
         }
+
+
 
         public override void Draw(SpriteBatch spriteBatch)
         {
