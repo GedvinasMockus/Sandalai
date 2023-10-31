@@ -26,22 +26,16 @@ namespace SwordsAndSandals.States
 
         private void FindBattleButton_Click(object sender, EventArgs e)
         {
-            ICommand changeStateCommand = new ChangeStateCommand(new LoadingScreenState(graphicsDevice));
-            changeStateCommand.Execute();
-            //StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice));
+            CommandHelper.ExecuteCommand(new LoadingScreenStateCommand(graphicsDevice));
         }
         private void BackButton_Click(object sender, EventArgs e)
         {
-            ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
-            undoCommand.Execute();
-            //StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
+            CommandHelper.UndoCommand();
         }
         private void SpectateBattleButton_Click(object sender, EventArgs e)
         {
             ConnectionManager.Instance.Invoke("AddSpectator");
-            ICommand changeStateCommand = new ChangeStateCommand(new BattleListState(graphicsDevice));
-            changeStateCommand.Execute();
-            //StateManager.Instance.ChangeState(new BattleListState(graphicsDevice));
+            CommandHelper.ExecuteCommand(new BattleListStateCommand(graphicsDevice));
         }
         public override void LoadContent(ContentManager content)
         {

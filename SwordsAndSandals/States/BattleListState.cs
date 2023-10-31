@@ -38,9 +38,7 @@ namespace SwordsAndSandals.States
         private void BackButton_Click(object sender, EventArgs e)
         {
             ConnectionManager.Instance.Invoke("RemoveSpectator");
-            ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
-            undoCommand.Execute();
-            //StateManager.Instance.ChangeState(new TownState(graphicsDevice));
+            CommandHelper.UndoCommand();
         }
         public override void LoadContent(ContentManager content)
         {

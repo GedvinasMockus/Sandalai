@@ -93,9 +93,7 @@ namespace SwordsAndSandals.States
         private void LogoutButton_Click(object sender, EventArgs e)
         {
             ConnectionManager.Instance.Invoke("LeaveSpectateBattle");
-            ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
-            undoCommand.Execute();
-            //StateManager.Instance.ChangeState(new BattleListState(graphicsDevice));
+            CommandHelper.UndoCommand();
         }
         public WeaponFactory GetPlayerWeaponFactory(string className)
         {

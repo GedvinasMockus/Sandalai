@@ -27,9 +27,7 @@ namespace SwordsAndSandals.States
         private void LeaveLobby_Click(object sender, EventArgs e)
         {
             ConnectionManager.Instance.Invoke("RemoveFromLobby");
-            ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
-            undoCommand.Execute();
-            //StateManager.Instance.ChangeState(new CharacterSelectionState(graphicsDevice));
+            CommandHelper.UndoCommand();
         }
 
         public override void LoadContent(ContentManager content)
