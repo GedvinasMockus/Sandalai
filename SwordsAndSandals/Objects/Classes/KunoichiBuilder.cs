@@ -35,13 +35,21 @@ namespace SwordsAndSandals.Objects.Classes
         public override PlayerBuilder SetAttributes(Attributes attributes)
         {
             product.BaseAttributes = attributes;
-            PlayerHPDecorator decorator = new PlayerHPDecorator(product);
-            Text text = new Text(content.Load<SpriteFont>("Fonts/vinque"))
+            PlayerHPDecorator decorator1 = new PlayerHPDecorator(product);
+            Text text1 = new Text(content.Load<SpriteFont>("Fonts/vinque"))
             {
-                PenColour = Color.Orange
+                PenColour = Color.DarkRed,
+                TextSize = 0.75f,
             };
-            decorator.AddText(text);
-            product = decorator;
+            decorator1.AddText(text1);
+            PlayerArmourDecorator decorator2 = new PlayerArmourDecorator(decorator1);
+            Text text2 = new Text(content.Load<SpriteFont>("Fonts/vinque"))
+            {
+                PenColour = Color.Gray,
+                TextSize = 0.75f,
+            };
+            decorator2.AddText(text2);
+            product = decorator2;
             return this;
         }
 

@@ -18,7 +18,7 @@ namespace SwordsAndSandals.Objects.Classes
         public override Player CreatePlayer(ContentManager content, Vector2 position, SpriteEffects flip, Attributes attributes, bool setButtons)
         {
             PlayerBuilder builder = new SkeletonBuilder(content).SetPosition(position).SetAttributes(attributes).SetDefaultAbility(flip).SetAbilities(flip);
-            if (setButtons) builder.SetCorrection(18).SetButtons();
+            if (setButtons) builder.SetCorrection(32).SetButtons();
             return builder.GetPlayer();
         }
     }
