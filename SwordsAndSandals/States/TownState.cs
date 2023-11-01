@@ -47,14 +47,14 @@ namespace SwordsAndSandals.States
 
         public override void LoadContent(ContentManager content)
         {
-            Attributes attrs = new Attributes()
+            Attributes attributes = new Attributes()
             {
                 MaxHealth = 1000,
                 CurrHealth = 1000,
                 BaseDistance = 300,
-                ArmourRating = 10,
+                ArmourRating = 10
             };
-            player = playerFactory.CreatePlayerWithoutButtons(content, new Vector2(screenWidth / 2, 800f), SpriteEffects.None, attrs, "tylerAdin");
+            player = playerFactory.CreatePlayerWithoutButtons(content, new Vector2(screenWidth / 2, 800f), SpriteEffects.None, attributes, "tylerAdin");
 
             Texture2D shopTexture = content.Load<Texture2D>("Views/Town/Shop");
             Texture2D arenaTexture = content.Load<Texture2D>("Views/Town/Arena");

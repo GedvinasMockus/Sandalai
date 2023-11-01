@@ -2,7 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using SwordsAndSandals.Armour;
 using SwordsAndSandals.Command;
+using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
 using SwordsAndSandals.Music;
 
@@ -13,9 +15,15 @@ namespace SwordsAndSandals.States
 {
     public class ShopState : State
     {
+        private List<string> buyNames;
         private Background background;
         private IMusic music;
         private List<Button> buttons;
+        private int buttonsCount;
+        // Change to server side
+        private Text armourText;
+        private Attributes attributes;
+        // Change to server side
 
         private int screenWidth;
         private int screenHeight;
@@ -24,11 +32,39 @@ namespace SwordsAndSandals.States
         {
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
+
+            PopulateBuyNamesList();
+            buttonsCount = buyNames.Count + 1;
         }
 
         private void LeaveShopButton_Click(object sender, EventArgs e)
         {
             CommandHelper.UndoCommand();
+        }
+
+        private void BuyItem_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            Armour.Armour armour;
+
+            switch (button.Text.Remove(0, 4))
+            {
+                case "Bronze Helmet":
+                    armour = new Helmet(new Bronze());
+                    attributes.ArmourRating += armour.EquipArmour().ArmourRating;
+
+                    break;
+                case "Iron Platebody":
+                    armour = new Platebody(new Iron());
+                    attributes.ArmourRating += armour.EquipArmour().ArmourRating;
+
+                    break;
+            }
+
+            buttons.Remove(button);
+            buttonsCount--;
+
+            armourText.TextString = "Armour: " + attributes.ArmourRating;
         }
 
         public override void LoadContent(ContentManager content)
@@ -49,6 +85,25 @@ namespace SwordsAndSandals.States
             {
                 leaveShop
             };
+
+            float xPosition = 525f;
+            for (int i = 0; i < buyNames.Count; i++)
+            {
+                Button button = new Button(buttonTexture, buttonFont, "Buy " + buyNames[i], 2f, SpriteEffects.None)
+                {
+                    Position = new Vector2(xPosition, 250f)
+                };
+                buttons.Add(button);
+                button.Click += BuyItem_Click;
+                xPosition += 325f;
+            }
+
+            armourText = new Text(content.Load<SpriteFont>("Fonts/vinque"))
+            {
+                TextString = "Armour: " + attributes.ArmourRating,
+                PenColour = Color.Orange,
+                Position = new Vector2(1600f, 800f)
+            };
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -60,6 +115,7 @@ namespace SwordsAndSandals.States
             {
                 b.Draw(spriteBatch);
             }
+            armourText.Draw(spriteBatch);
 
             spriteBatch.End();
         }
@@ -71,10 +127,19 @@ namespace SwordsAndSandals.States
 
         public override void Update(GameTime gameTime)
         {
-            foreach (var b in buttons)
+            for (int i = 0; i < buttonsCount; i++)
             {
-                b.Update(gameTime);
+                buttons[i].Update(gameTime);
             }
+        }
+
+        private void PopulateBuyNamesList()
+        {
+            buyNames = new()
+            {
+                "Bronze Helmet",
+                "Iron Platebody"
+            };
         }
     }
 }
