@@ -992,6 +992,12 @@
 /processorParam:TextureFormat=Color
 /build:Objects/Gear.png
 
+#begin Shaders/HPShader.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/HPShader.fx
+
 #begin Views/Button.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -8,10 +8,27 @@ namespace SwordsAndSandals.Classes
 {
     public class KunoichiFactory : PlayerFactory
     {
-        public override Player CreatePlayer(ContentManager content, Vector2 position, SpriteEffects flip, Attributes attributes, bool setButtons)
+        public override Player CreatePlayerWithoutButtons(ContentManager content, Vector2 position, SpriteEffects flip, Attributes attributes, string name)
         {
-            PlayerBuilder builder = new KunoichiBuilder(content).SetPosition(position).SetAttributes(attributes).SetDefaultAbility(flip).SetAbilities(flip);
-            if (setButtons) builder.SetCorrection(32).SetButtons();
+            PlayerBuilder builder = new KunoichiBuilder(content)
+                .SetPosition(position)
+                .SetName(name)
+                .SetAttributes(attributes)
+                .SetDefaultAbility(flip)
+                .SetAbilities(flip);
+            return builder.GetPlayer();
+        }
+
+        public override Player CreatePlayerWithButtons(ContentManager content, Vector2 position, SpriteEffects flip, Attributes attributes, string name)
+        {
+            PlayerBuilder builder = new KunoichiBuilder(content)
+                .SetPosition(position)
+                .SetName(name)
+                .SetAttributes(attributes)
+                .SetDefaultAbility(flip)
+                .SetAbilities(flip)
+                .SetCorrection(32)
+                .SetButtons();
             return builder.GetPlayer();
         }
     }

@@ -9,7 +9,7 @@ namespace SignalR.Sandalai.PlayerClasses
 {
     public class SkeletonPlayer : Player
     {
-        public SkeletonPlayer(string connId) : base(connId)
+        public SkeletonPlayer(string connId, string name) : base(connId, name)
         {
             ClassName = "Skeleton";
             BaseAttributes = new Attributes()

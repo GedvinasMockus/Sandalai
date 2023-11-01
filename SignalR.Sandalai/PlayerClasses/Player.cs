@@ -11,11 +11,13 @@ namespace SignalR.Sandalai.PlayerClasses
     {
         public string ConnectionId { get; private set; }
         public string ClassName { get; protected set; }
+        public string Name { get; private set; }
         public Attributes BaseAttributes { get; protected set; }
         public Vector2 Position { get; set; }
-        public Player(string connId)
+        public Player(string connId, string name)
         {
             ConnectionId = connId;
+            Name = name;
         }
 
         public override Prototype Clone()
@@ -29,16 +31,7 @@ namespace SignalR.Sandalai.PlayerClasses
         }
         public PlayerInfo GetInfo()
         {
-            return new PlayerInfo(Position, BaseAttributes, ClassName, ConnectionId);
-        }
-
-        public void Update(Player sender, string ability, BattleInfo info)
-        {
-            var clients = GlobalHost.ConnectionManager.GetHubContext<MainHub>().Clients;
-            if (sender.ConnectionId == ConnectionId)
-                clients.Client(ConnectionId).BattleInfoUpdated(info);
-            else
-                clients.Client(ConnectionId).AbilityUsed(ability, info);
+            return new PlayerInfo(Position, BaseAttributes, ClassName, Name, ConnectionId);
         }
         public abstract void JumpLeft();
 

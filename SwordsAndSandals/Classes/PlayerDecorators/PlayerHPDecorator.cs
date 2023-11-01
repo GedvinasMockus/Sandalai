@@ -14,28 +14,23 @@ namespace SwordsAndSandals.Classes.PlayerDecorators
     public class PlayerHPDecorator : PlayerDecorator
     {
         private Text text;
-        public PlayerHPDecorator(Player p) : base(p)
+        public PlayerHPDecorator(Player p, Text text) : base(p)
         {
-
+            this.text = text;
         }
 
         public override void Draw(SpriteBatch batch)
         {
             base.Draw(batch);
-            // float textHeight = text.Font.MeasureString(text.TextString).Y;
-            // text.Position = new Vector2(Position.X, Position.Y + textHeight * text.TextSize);
-            // text.Draw(batch);
+            float textHeight = text.Font.MeasureString(text.TextString).Y;
+            text.Position = new Vector2(Position.X, Position.Y + 2 * textHeight * text.TextSize);
+            text.Draw(batch);
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             base.Update(gameTime, sprites);
-            text.TextString = BaseAttributes.CurrHealth + "/" + BaseAttributes.MaxHealth;
-        }
-
-        public void AddText(Text text)
-        {
-            this.text = text;
+            text.TextString = "HP: " + BaseAttributes.CurrHealth + "/" + BaseAttributes.MaxHealth;
         }
     }
 }

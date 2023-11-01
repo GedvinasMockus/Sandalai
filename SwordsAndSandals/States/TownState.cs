@@ -5,8 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Classes;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.Command.StateChangeCommand;
+using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
-using SwordsAndSandals.Music;
 
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,6 @@ namespace SwordsAndSandals.States
     public class TownState : State
     {
         private Background background;
-        private IMusic music;
         private List<Button> buttons;
         private PlayerFactory playerFactory;
         private Player player;
@@ -48,14 +47,18 @@ namespace SwordsAndSandals.States
 
         public override void LoadContent(ContentManager content)
         {
-            player = playerFactory.CreatePlayer(content, new Vector2(screenWidth / 2, 800f), SpriteEffects.None, new Stats.Attributes(), false);
+            Attributes attributes = new Attributes()
+            {
+                MaxHealth = 1000,
+                CurrHealth = 1000,
+                BaseDistance = 300,
+                ArmourRating = 10
+            };
+            player = playerFactory.CreatePlayerWithoutButtons(content, new Vector2(screenWidth / 2, 800f), SpriteEffects.None, attributes, "tylerAdin");
 
             Texture2D shopTexture = content.Load<Texture2D>("Views/Town/Shop");
             Texture2D arenaTexture = content.Load<Texture2D>("Views/Town/Arena");
             background = new Background(content.Load<Texture2D>("Background/Town/Town"));
-
-            music = new MusicPlayer(content);
-            music.stopSong();
 
             Button enterShop = new Button(shopTexture, 1f, SpriteEffects.None)
             {

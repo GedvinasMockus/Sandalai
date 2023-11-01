@@ -61,8 +61,6 @@ namespace SwordsAndSandals.States
             WeaponFactory weaponFactory = GetPlayerWeaponFactory(battleInfo.Player1.ClassName);
             Vector2 p1Pos = new Vector2(battleInfo.Player1.Position.X * screenWidth, battleInfo.Player1.Position.Y * screenHeight);
             Vector2 p2Pos = new Vector2(battleInfo.Player2.Position.X * screenWidth, battleInfo.Player2.Position.Y * screenHeight);
-            //ITarget target = new PlayerAdapter();
-
             PlayerFactory p1Factory = GetPlayerFactory(battleInfo.Player1.ClassName);
             PlayerFactory p2Factory = GetPlayerFactory(battleInfo.Player2.ClassName);
 
@@ -95,11 +93,8 @@ namespace SwordsAndSandals.States
                 BaseDistance = battleInfo.Player2.BaseAttributes.BaseDistance * screenWidth,
                 ArmourRating = battleInfo.Player2.BaseAttributes.ArmourRating
             };
-            //player = target.ProcessPlayer(battleInfo.Player1, content, p1Pos, p1flip, p1Attributes, false);
-            //opponent = target.ProcessPlayer(battleInfo.Player2, content, p2Pos, p2flip, p2Attributes, false);
-            player = p1Factory.CreatePlayer(content, p1Pos, p1flip, p1Attributes, false);
-            opponent = p2Factory.CreatePlayer(content, p2Pos, p2flip, p2Attributes, false);
-
+            player = p1Factory.CreatePlayerWithoutButtons(content, p1Pos, p1flip, p1Attributes, battleInfo.Player1.Name);
+            opponent = p2Factory.CreatePlayerWithoutButtons(content, p2Pos, p2flip, p2Attributes, battleInfo.Player2.Name);
             player.AddAbilityDoneHandler(OnAbilityDone);
             opponent.AddAbilityDoneHandler(OnAbilityDone);
 
@@ -129,6 +124,18 @@ namespace SwordsAndSandals.States
                     return new SamuraiWeaponFactory();
                 default:
                     return new SkeletonWeaponFactory();
+            }
+        }
+        public PlayerFactory GetPlayerFactory(string className)
+        {
+            switch (className)
+            {
+                case "Kunoichi":
+                    return new KunoichiFactory();
+                case "Samurai":
+                    return new SamuraiFactory();
+                default:
+                    return new SkeletonFactory();
             }
         }
         private void DeterminePlayerDirection(float p1x, float p2x, out SpriteEffects p1flip, out SpriteEffects p2flip)
