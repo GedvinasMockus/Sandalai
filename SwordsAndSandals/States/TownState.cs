@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Command;
 using SwordsAndSandals.Command.StateChangeCommand;
+using SwordsAndSandals.Classes;
 using SwordsAndSandals.UI;
 
 using System;
@@ -15,76 +16,76 @@ namespace SwordsAndSandals.States
     {
         private Background background;
         private List<Button> buttons;
-        private List<Component> components;
+        private PlayerFactory playerFactory;
+        private Player player;
+        public static string playerClass;
 
         private int screenWidth;
         private int screenHeight;
-        public TownState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
+
+        public TownState(GraphicsDeviceManager graphicsDevice, string className) : base(graphicsDevice)
         {
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
+            playerClass = className;
+
+            playerFactory = GetPlayerFactory(playerClass);
+        }
+
+        private void EnterShop_Click(object sender, EventArgs e)
+        {
+            CommandHelper.ExecuteCommand(new ShopStateCommand(graphicsDevice));
         }
 
         private void FindBattleButton_Click(object sender, EventArgs e)
         {
+            ConnectionManager.Instance.Invoke("AddToLobby", playerClass);
+            ConnectionManager.Instance.Invoke("FindOpponent");
             CommandHelper.ExecuteCommand(new LoadingScreenStateCommand(graphicsDevice));
-        }
-        private void BackButton_Click(object sender, EventArgs e)
-        {
-            CommandHelper.UndoCommand();
         }
 
         public override void LoadContent(ContentManager content)
         {
-            Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
-            SpriteFont buttonFont = content.Load<SpriteFont>("Fonts/vinque");
-            background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
-            Text text = new Text(buttonFont)
-            {
-                Position = new Vector2(screenWidth / 2, screenHeight / 8),
-                TextString = "Town",
-                TextSize = 2f,
-                PenColour = Color.Orange,
-                OutlineColor = Color.Black,
-            };
-            Button findBattle = new Button(buttonTexture, buttonFont, "Find battle", 2.0f, SpriteEffects.None)
-            {
-                Position = new Vector2(screenWidth / 2, screenHeight / 2 + 100)
-            };
-            //findBattle.Click += FindBattleButton_Click;
-            Button backbutton = new Button(buttonTexture, buttonFont, "Back", 2f, SpriteEffects.None)
-            {
-                Position = new Vector2(screenWidth / 6, 7 * screenHeight / 8),
-            };
-            backbutton.Click += BackButton_Click;
+            player = playerFactory.CreatePlayer(content, new Vector2(screenWidth / 2, 800f), SpriteEffects.None, new Stats.Attributes(), false);
 
+            Texture2D shopTexture = content.Load<Texture2D>("Views/Town/Shop");
+            Texture2D arenaTexture = content.Load<Texture2D>("Views/Town/Arena");
+            background = new Background(content.Load<Texture2D>("Background/Town/Town"));
+
+            Button enterShop = new Button(shopTexture, 1f, SpriteEffects.None)
+            {
+                Position = new Vector2(325f, 300f)
+            };
+            enterShop.Click += EnterShop_Click;
+            Button enterArena = new Button(arenaTexture, 1f, SpriteEffects.None)
+            {
+                Position = new Vector2(1580f, 280f)
+            };
+            enterArena.Click += FindBattleButton_Click;
             buttons = new List<Button>()
             {
-                findBattle,
-                backbutton
-            };
-            components = new List<Component>()
-            {
-                text,
+                enterShop,
+                enterArena
             };
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
+
             background.Draw(spriteBatch);
+            player.Draw(spriteBatch);
             foreach (var b in buttons)
             {
                 b.Draw(spriteBatch);
             }
-            foreach (var c in components)
-            {
-                c.Draw(spriteBatch);
-            }
+
             spriteBatch.End();
         }
+
         public override void UnloadContent()
         {
+            throw new NotImplementedException();
         }
 
         public override void Update(GameTime gameTime)
@@ -92,6 +93,21 @@ namespace SwordsAndSandals.States
             foreach (var b in buttons)
             {
                 b.Update(gameTime);
+            }
+
+            player.Update(gameTime, null);
+        }
+
+        private PlayerFactory GetPlayerFactory(string className)
+        {
+            switch (className)
+            {
+                case "Kunoichi":
+                    return new KunoichiFactory();
+                case "Samurai":
+                    return new SamuraiFactory();
+                default:
+                    return new SkeletonFactory();
             }
         }
     }
