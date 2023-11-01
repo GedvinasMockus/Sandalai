@@ -1,5 +1,4 @@
-﻿using SwordsAndSandals.Objects.Stats;
-
+﻿using SwordsAndSandals.Stats;
 using System.Numerics;
 
 namespace SwordsAndSandals.InfoStructs
