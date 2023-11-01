@@ -25,6 +25,30 @@
 /processorParam:TextureFormat=Color
 /build:Background/Battleground/PNG/Battleground4/Bright/back_trees.png
 
+#begin Background/Town/EnterShop.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Background/Town/EnterShop.png
+
+#begin Background/Town/FindBattle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Background/Town/FindBattle.png
+
 #begin Background/Town/Town.png
 /importer:TextureImporter
 /processor:TextureProcessor

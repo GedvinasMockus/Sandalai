@@ -16,34 +16,50 @@ namespace SwordsAndSandals.States
         private List<Button> buttons;
         private PlayerFactory playerFactory;
         private Player player;
+        public static string playerClass;
 
         private int screenWidth;
         private int screenHeight;
+
         public TownState(GraphicsDeviceManager graphicsDevice, string className) : base(graphicsDevice)
         {
-            playerFactory = GetPlayerFactory(className);
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
+            playerClass = className;
+
+            playerFactory = GetPlayerFactory(playerClass);
+        }
+
+        private void EnterShop_Click(object sender, EventArgs e)
+        {
+            StateManager.Instance.ChangeState(new ShopState(graphicsDevice));
         }
 
         private void FindBattleButton_Click(object sender, EventArgs e)
         {
+            ConnectionManager.Instance.Invoke("AddToLobby", playerClass);
+            ConnectionManager.Instance.Invoke("FindOpponent");
             StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice));
         }
+
         public override void LoadContent(ContentManager content)
         {
             player = playerFactory.CreatePlayer(content, new Vector2(screenWidth / 2, 800f), SpriteEffects.None, false);
+
             Texture2D shopTexture = content.Load<Texture2D>("Views/Town/Shop");
             Texture2D arenaTexture = content.Load<Texture2D>("Views/Town/Arena");
             background = new Background(content.Load<Texture2D>("Background/Town/Town"));
-            Button enterShop = new Button(shopTexture, 1.0f, SpriteEffects.None)
+
+            Button enterShop = new Button(shopTexture, 1f, SpriteEffects.None)
             {
                 Position = new Vector2(325f, 300f)
             };
-            Button enterArena = new Button(arenaTexture, 1.0f, SpriteEffects.None)
+            enterShop.Click += EnterShop_Click;
+            Button enterArena = new Button(arenaTexture, 1f, SpriteEffects.None)
             {
                 Position = new Vector2(1580f, 280f)
             };
+            enterArena.Click += FindBattleButton_Click;
             buttons = new List<Button>()
             {
                 enterShop,
@@ -54,12 +70,14 @@ namespace SwordsAndSandals.States
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
+
             background.Draw(spriteBatch);
             player.Draw(spriteBatch);
             foreach (var b in buttons)
             {
                 b.Draw(spriteBatch);
             }
+
             spriteBatch.End();
         }
 
@@ -74,6 +92,7 @@ namespace SwordsAndSandals.States
             {
                 b.Update(gameTime);
             }
+
             player.Update(gameTime, null);
         }
 

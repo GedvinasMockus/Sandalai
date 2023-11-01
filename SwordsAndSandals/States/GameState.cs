@@ -64,7 +64,7 @@ namespace SwordsAndSandals.States
         private void LogoutButton_Click(object sender, System.EventArgs e)
         {
             ConnectionManager.Instance.Invoke("LeaveBattle");
-            StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
+            StateManager.Instance.ChangeState(new TownState(graphicsDevice, TownState.playerClass));
         }
 
         private void OnAbilityUsed(object sender, AbilityUsedEventArgs e)

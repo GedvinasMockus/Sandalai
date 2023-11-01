@@ -38,7 +38,7 @@ namespace SwordsAndSandals
             });
             ConnectionManager.Instance.AddHandler("BattleLeft", () =>
             {
-                StateManager.Instance.ChangeState(new CharacterSelectionState(_graphics));
+                StateManager.Instance.ChangeState(new TownState(_graphics, TownState.playerClass));
             });
             ConnectionManager.Instance.AddHandler("BackToLoading", () =>
             {

@@ -26,7 +26,7 @@ namespace SwordsAndSandals.States
         private void LeaveLobby_Click(object sender, EventArgs e)
         {
             ConnectionManager.Instance.Invoke("RemoveFromLobby");
-            StateManager.Instance.ChangeState(new CharacterSelectionState(graphicsDevice));
+            StateManager.Instance.ChangeState(new TownState(graphicsDevice, TownState.playerClass));
         }
 
         public override void LoadContent(ContentManager content)
@@ -34,7 +34,7 @@ namespace SwordsAndSandals.States
             Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
             Texture2D spinnerTexture = content.Load<Texture2D>("Objects/Gear");
             SpriteFont font = content.Load<SpriteFont>("Fonts/vinque");
-            background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
+            background = new Background(content.Load<Texture2D>("Background/Town/FindBattle"));
             Spinner spinner = new Spinner(spinnerTexture, Color.DarkOrange, new Vector2(screenWidth / 2, screenHeight / 3), 1.0f, 1.0f);
             Button leaveLobby = new Button(buttonTexture, font, "Leave lobby", 2f, SpriteEffects.None)
             {
