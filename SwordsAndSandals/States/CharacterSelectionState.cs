@@ -44,7 +44,7 @@ namespace SwordsAndSandals.States
         {
             ConnectionManager.Instance.Invoke("AddToLobby", classes[spriteIndex]);
             ConnectionManager.Instance.Invoke("FindOpponent");
-            CommandHelper.ExecuteCommand(new LoadingScreenStateCommand(graphicsDevice));
+            CommandHelper.ExecuteCommand(new TownStateCommand(graphicsDevice));
         }
         private void LeaveSelectionButton_Click(object sender, EventArgs e)
         {
