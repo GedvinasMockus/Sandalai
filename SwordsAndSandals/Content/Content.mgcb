@@ -956,6 +956,18 @@
 /processorParam:TextureFormat=Color
 /build:Icons/Icon_41.png
 
+#begin Music/BattleMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/BattleMusic.mp3
+
+#begin Music/CharacterSelectMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/CharacterSelectMusic.mp3
+
 #begin Objects/Dot.png
 /importer:TextureImporter
 /processor:TextureProcessor

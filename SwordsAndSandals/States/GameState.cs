@@ -8,6 +8,7 @@ using SwordsAndSandals.Items;
 using SwordsAndSandals.Sprites;
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
+using SwordsAndSandals.Music;
 
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace SwordsAndSandals.States
         //private WeaponFactory p2weaponFactory;
 
         private Background background;
+        private IMusic music;
         private List<Button> buttons;
 
         private int screenWidth;
@@ -60,6 +62,18 @@ namespace SwordsAndSandals.States
                     return new SamuraiWeaponFactory();
                 default:
                     return new SkeletonWeaponFactory();
+            }
+        }
+        public PlayerFactory GetPlayerFactory(string className)
+        {
+            switch (className)
+            {
+                case "Kunoichi":
+                    return new KunoichiFactory();
+                case "Samurai":
+                    return new SamuraiFactory();
+                default:
+                    return new SkeletonFactory();
             }
         }
 
@@ -95,6 +109,11 @@ namespace SwordsAndSandals.States
             PlayerFactory p2Factory = GetPlayerFactory(battleInfo.Player2.ClassName);
 
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
+
+            music = new MusicPlayerAdapter(content);
+            music.stopSong();
+            music.playSong("BattleMusic");
+
             //p1Weapons = new List<Weapon>()
             //{
             //    p1weaponFactory.CreateMeleeWeapon(content, new Vector2(32,32)),
