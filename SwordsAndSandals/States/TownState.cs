@@ -2,8 +2,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-using SwordsAndSandals.UI;
+using SwordsAndSandals.Command;
+using SwordsAndSandals.Command.StateChangeCommand;
 using SwordsAndSandals.Classes;
+using SwordsAndSandals.UI;
 
 using System;
 using System.Collections.Generic;
@@ -32,14 +34,14 @@ namespace SwordsAndSandals.States
 
         private void EnterShop_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new ShopState(graphicsDevice));
+            CommandHelper.ExecuteCommand(new ShopStateCommand(graphicsDevice));
         }
 
         private void FindBattleButton_Click(object sender, EventArgs e)
         {
             ConnectionManager.Instance.Invoke("AddToLobby", playerClass);
             ConnectionManager.Instance.Invoke("FindOpponent");
-            StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice));
+            CommandHelper.ExecuteCommand(new LoadingScreenStateCommand(graphicsDevice));
         }
 
         public override void LoadContent(ContentManager content)

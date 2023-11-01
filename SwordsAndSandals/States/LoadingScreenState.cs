@@ -25,7 +25,6 @@ namespace SwordsAndSandals.States
         private void LeaveLobby_Click(object sender, EventArgs e)
         {
             ConnectionManager.Instance.Invoke("RemoveFromLobby");
-            StateManager.Instance.ChangeState(new TownState(graphicsDevice, TownState.playerClass));
             CommandHelper.UndoCommand();
         }
 

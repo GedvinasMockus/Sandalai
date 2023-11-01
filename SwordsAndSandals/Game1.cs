@@ -62,13 +62,11 @@ namespace SwordsAndSandals
             });
             ConnectionManager.Instance.AddHandler("BattleLeft", () =>
             {
-                StateManager.Instance.ChangeState(new TownState(_graphics, TownState.playerClass));
-                CommandHelper.UndoCommand(2);
+                CommandHelper.ExecuteCommand(new LoadingScreenStateCommand(_graphics));
             });
             ConnectionManager.Instance.AddHandler("BackToLoading", () =>
             {
                 ConnectionManager.Instance.Invoke("FindOpponent");
-                CommandHelper.UndoCommand();
             });
             ConnectionManager.Instance.AddHandler<List<BattleInfo>>("SpectateBattleInfo", (info) =>
             {

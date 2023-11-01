@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using SwordsAndSandals.Command;
+
 using SwordsAndSandals.States;
 
 namespace SwordsAndSandals.Command.StateChangeCommand
@@ -14,7 +14,7 @@ namespace SwordsAndSandals.Command.StateChangeCommand
 
         public void Execute()
         {
-            State townState = new TownState(graphicsDeviceManager);
+            State townState = new TownState(graphicsDeviceManager, TownState.playerClass);
             StateManager.Instance.ChangeState(townState);
         }
     }

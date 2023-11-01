@@ -42,10 +42,9 @@ namespace SwordsAndSandals.States
         }
         private void SelectCharacterButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new TownState(graphicsDevice, classes[spriteIndex]));
             ConnectionManager.Instance.Invoke("AddToLobby", classes[spriteIndex]);
             ConnectionManager.Instance.Invoke("FindOpponent");
-            CommandHelper.ExecuteCommand(new LoadingScreenStateCommand(graphicsDevice));
+            CommandHelper.ExecuteCommand(new TownStateCommand(graphicsDevice));
         }
         private void LeaveSelectionButton_Click(object sender, EventArgs e)
         {
