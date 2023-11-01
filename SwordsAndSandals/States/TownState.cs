@@ -33,11 +33,7 @@ namespace SwordsAndSandals.States
         {
             CommandHelper.UndoCommand();
         }
-        private void SpectateBattleButton_Click(object sender, EventArgs e)
-        {
-            ConnectionManager.Instance.Invoke("AddSpectator");
-            CommandHelper.ExecuteCommand(new BattleListStateCommand(graphicsDevice));
-        }
+
         public override void LoadContent(ContentManager content)
         {
             Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
@@ -61,16 +57,11 @@ namespace SwordsAndSandals.States
                 Position = new Vector2(screenWidth / 6, 7 * screenHeight / 8),
             };
             backbutton.Click += BackButton_Click;
-            Button spectateBattleButton = new Button(buttonTexture, buttonFont, "Spectate battles", 2.0f, SpriteEffects.None)
-            {
-                Position = new Vector2(screenWidth / 2, screenHeight / 2 + 200)
-            };
-            spectateBattleButton.Click += SpectateBattleButton_Click;
+
             buttons = new List<Button>()
             {
                 findBattle,
-                backbutton,
-                spectateBattleButton
+                backbutton
             };
             components = new List<Component>()
             {
