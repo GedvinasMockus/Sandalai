@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+
 using SwordsAndSandals.Command;
 using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.UI;
 using SwordsAndSandals.UI.Grid;
+
 using System;
 using System.Collections.Generic;
 
@@ -19,7 +21,6 @@ namespace SwordsAndSandals.States
         private int screenWidth;
         private int screenHeight;
 
-        private List<Button> SpectateButtons = new List<Button>();
         private Texture2D buttonTexture;
         private Texture2D dotTexture;
         private SpriteFont font;
@@ -106,26 +107,29 @@ namespace SwordsAndSandals.States
             components.Clear();
             if (info.Count > 0)
             {
-                GridTable gridTable = new GridTable(font, dotTexture, new Vector2(screenWidth / 2, screenHeight / 2), 300, 5);
-                gridTable.AddColumn("Player 1");
-                gridTable.AddColumn("Player 2");
-                gridTable.AddColumn("Start time");
-                gridTable.AddColumn("");
+                GridTable gridTable = new GridTable(font, dotTexture, Color.Orange, new Vector2(screenWidth / 2, screenHeight / 2), 300, 6);
+
+                GridRow gridRow = new GridRow();
+                gridRow.AddCell(new TextCell(font, Color.White, "Player 1"));
+                gridRow.AddCell(new TextCell(font, Color.White, "Player 2"));
+                gridRow.AddCell(new TextCell(font, Color.White, "Start time"));
+                gridRow.AddCell(new TextCell(font, Color.White, ""));
+                gridTable.AddRow(gridRow);
 
                 foreach (BattleInfo item in info)
                 {
                     GridRow row = new GridRow();
-                    Button spectate = new Button(buttonTexture, font, "Spectate", 1f, SpriteEffects.None);
+                    row.AddCell(new TextCell(font, Color.White, item.Player1.ClassName));
+                    row.AddCell(new TextCell(font, Color.White, item.Player2.ClassName));
+                    row.AddCell(new TextCell(font, Color.White, item.StartTime));
+
                     EventHandler handler = (o, e) =>
                     {
                         ConnectionManager.Instance.Invoke("SpectateMatch", item.Player1.ConnectionID, item.Player2.ConnectionID);
                     };
-                    spectate.Click += handler;
-                    SpectateButtons.Add(spectate);
-                    row.AddData(new GridColumn(item.Player1.ClassName));
-                    row.AddData(new GridColumn(item.Player2.ClassName));
-                    row.AddData(new GridColumn(item.StartTime));
-                    row.AddButton(spectate);
+                    ButtonCell cell = new ButtonCell(font, buttonTexture, "Spectate", 1f);
+                    cell.AddHandler(handler);
+                    row.AddCell(cell);
                     gridTable.AddRow(row);
                 }
                 components.Add(gridTable);

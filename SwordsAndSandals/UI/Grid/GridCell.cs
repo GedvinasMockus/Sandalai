@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SwordsAndSandals.UI.Grid
 {
-    internal class GridCell
+    public abstract class GridCell
     {
+        public abstract void Update(GameTime gameTime);
+        public abstract void Draw(SpriteBatch spriteBatch);
+        public abstract void AddPosition(Vector2 position, float width, float wPadding, float hPadding);
     }
 }
