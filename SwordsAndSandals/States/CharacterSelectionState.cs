@@ -1,12 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-
+using Microsoft.Xna.Framework.Media;
 using SwordsAndSandals.Classes;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.Command.StateChangeCommand;
 using SwordsAndSandals.Sprites;
 using SwordsAndSandals.UI;
+using SwordsAndSandals.Music;
 
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace SwordsAndSandals.States
     public class CharacterSelectionState : State
     {
         private Background background;
+        private IMusic music;
         private List<Player> sprites;
         private List<string> classes;
         private List<Button> buttons;
@@ -56,6 +58,12 @@ namespace SwordsAndSandals.States
             Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
             SpriteFont buttonFont = content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
+            //ITarget target = new ITarget();
+
+            music = new MusicPlayer(content);
+            music.stopSong();
+            music.playSong("Music/CharacterSelectMusic");
+
             Vector2 spritePos = new Vector2(screenWidth / 2, screenHeight / 2 + arrowTexture.Height / 2 * 0.15f);
             sprites = new List<Player>()
             {

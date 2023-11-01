@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.Command.StateChangeCommand;
 using SwordsAndSandals.UI;
+using SwordsAndSandals.Music;
 
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace SwordsAndSandals
     {
         private List<Button> buttons;
         private Background background;
+        private IMusic music;
 
         private int screenWidth;
         private int screenHeight;
@@ -49,6 +51,10 @@ namespace SwordsAndSandals
             Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
             SpriteFont buttonFont = content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
+
+            music = new MusicPlayer(content);
+            music.stopSong();
+
             Button CharacterSelectionButton = new Button(buttonTexture, buttonFont, "Select character", 2f, SpriteEffects.None)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 100)

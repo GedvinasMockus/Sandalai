@@ -6,6 +6,7 @@ using SwordsAndSandals.Armour;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
+using SwordsAndSandals.Music;
 
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace SwordsAndSandals.States
     {
         private List<string> buyNames;
         private Background background;
+        private IMusic music;
         private List<Button> buttons;
         private int buttonsCount;
         // Change to server side
@@ -70,6 +72,9 @@ namespace SwordsAndSandals.States
             Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
             SpriteFont buttonFont = content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(content.Load<Texture2D>("Background/Town/EnterShop"));
+
+            music = new MusicPlayer(content);
+            music.stopSong();
 
             Button leaveShop = new Button(buttonTexture, buttonFont, "Leave shop", 2f, SpriteEffects.None)
             {
