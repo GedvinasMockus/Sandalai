@@ -8,6 +8,7 @@ using SwordsAndSandals.Items;
 using SwordsAndSandals.Sprites;
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
+using SwordsAndSandals.Music;
 using System;
 using System.Collections.Generic;
 
@@ -24,6 +25,7 @@ namespace SwordsAndSandals.States
         public bool BattleInfoAvailable { get; set; }
 
         private Background background;
+        private IMusic music;
         private List<Button> buttons;
 
         private Player player;
@@ -41,14 +43,34 @@ namespace SwordsAndSandals.States
             p1sprites = new List<Sprite>();
             p2sprites = new List<Sprite>();
         }
+
+        public PlayerFactory GetPlayerFactory(string className)
+        {
+            switch (className)
+            {
+                case "Kunoichi":
+                    return new KunoichiFactory();
+                case "Samurai":
+                    return new SamuraiFactory();
+                default:
+                    return new SkeletonFactory();
+            }
+        }
         public override void LoadContent(ContentManager content)
         {
             WeaponFactory weaponFactory = GetPlayerWeaponFactory(battleInfo.Player1.ClassName);
             Vector2 p1Pos = new Vector2(battleInfo.Player1.Position.X * screenWidth, battleInfo.Player1.Position.Y * screenHeight);
             Vector2 p2Pos = new Vector2(battleInfo.Player2.Position.X * screenWidth, battleInfo.Player2.Position.Y * screenHeight);
-            ITarget target = new PlayerAdapter();
+            //ITarget target = new PlayerAdapter();
+
+            PlayerFactory p1Factory = GetPlayerFactory(battleInfo.Player1.ClassName);
+            PlayerFactory p2Factory = GetPlayerFactory(battleInfo.Player2.ClassName);
 
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
+
+            music = new MusicPlayer(content);
+            music.stopSong();
+
             //p1Weapons = new List<Weapon>()
             //{
             //    p1weaponFactory.CreateMeleeWeapon(content, new Vector2(32,32)),
@@ -73,8 +95,11 @@ namespace SwordsAndSandals.States
                 BaseDistance = battleInfo.Player2.BaseAttributes.BaseDistance * screenWidth,
                 ArmourRating = battleInfo.Player2.BaseAttributes.ArmourRating
             };
-            player = target.ProcessPlayer(battleInfo.Player1, content, p1Pos, p1flip, p1Attributes, false);
-            opponent = target.ProcessPlayer(battleInfo.Player2, content, p2Pos, p2flip, p2Attributes, false);
+            //player = target.ProcessPlayer(battleInfo.Player1, content, p1Pos, p1flip, p1Attributes, false);
+            //opponent = target.ProcessPlayer(battleInfo.Player2, content, p2Pos, p2flip, p2Attributes, false);
+            player = p1Factory.CreatePlayer(content, p1Pos, p1flip, p1Attributes, false);
+            opponent = p2Factory.CreatePlayer(content, p2Pos, p2flip, p2Attributes, false);
+
             player.AddAbilityDoneHandler(OnAbilityDone);
             opponent.AddAbilityDoneHandler(OnAbilityDone);
 

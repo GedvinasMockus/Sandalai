@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Command;
 using SwordsAndSandals.UI;
+using SwordsAndSandals.Music;
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace SwordsAndSandals.States
     public class ShopState : State
     {
         private Background background;
+        private IMusic music;
         private List<Button> buttons;
 
         private int screenWidth;
@@ -34,6 +36,9 @@ namespace SwordsAndSandals.States
             Texture2D buttonTexture = content.Load<Texture2D>("Views/Button");
             SpriteFont buttonFont = content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(content.Load<Texture2D>("Background/Town/EnterShop"));
+
+            music = new MusicPlayer(content);
+            music.stopSong();
 
             Button leaveShop = new Button(buttonTexture, buttonFont, "Leave shop", 2f, SpriteEffects.None)
             {

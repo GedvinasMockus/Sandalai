@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.UI;
+using SwordsAndSandals.Music;
 using System;
 using System.Collections.Generic;
 
@@ -13,6 +14,7 @@ namespace SwordsAndSandals.States
         private List<Button> buttons;
         private List<Component> components;
         private Background background;
+        private IMusic music;
         private GameWindow gw;
 
         private int screenWidth;
@@ -34,6 +36,10 @@ namespace SwordsAndSandals.States
             Texture2D cursorTexture = content.Load<Texture2D>("Views/Cursor");
             SpriteFont font = content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
+
+            music = new MusicPlayer(content);
+            music.stopSong();
+
             Text text = new Text(font)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 8),
