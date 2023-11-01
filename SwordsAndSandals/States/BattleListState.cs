@@ -1,12 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-
+using SwordsAndSandals.Command;
 using SwordsAndSandals.InfoStructs;
-using SwordsAndSandals.Objects;
-using SwordsAndSandals.Objects.Grid;
-using SwordsAndSandals.States.Command;
-
+using SwordsAndSandals.UI;
+using SwordsAndSandals.UI.Grid;
 using System;
 using System.Collections.Generic;
 

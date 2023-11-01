@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using SwordsAndSandals.Command;
+using SwordsAndSandals.Command.StateChangeCommand;
 using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.States;
-using SwordsAndSandals.States.Command;
 
 using System;
 using System.Collections.Generic;

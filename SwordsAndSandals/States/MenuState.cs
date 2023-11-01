@@ -2,8 +2,9 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-using SwordsAndSandals.Objects;
-using SwordsAndSandals.States.Command;
+using SwordsAndSandals.Command;
+using SwordsAndSandals.Command.StateChangeCommand;
+using SwordsAndSandals.UI;
 
 using System;
 using System.Collections.Generic;
@@ -37,10 +38,10 @@ namespace SwordsAndSandals
         {
             CommandHelper.UndoCommand();
         }
-
-        private void TownButton_Click(object sender, EventArgs e)
+        private void SpectateBattleButton_Click(object sender, EventArgs e)
         {
-            CommandHelper.ExecuteCommand(new TownStateCommand(graphicsDevice));
+            ConnectionManager.Instance.Invoke("AddSpectator");
+            CommandHelper.ExecuteCommand(new BattleListStateCommand(graphicsDevice));
         }
 
         public override void LoadContent(ContentManager content)
@@ -63,17 +64,17 @@ namespace SwordsAndSandals
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 300)
             };
             exitButton.Click += ExitButton_Click;
-            Button townButton = new Button(buttonTexture, buttonFont, "Town", 2f, SpriteEffects.None)
+            Button spectateBattleButton = new Button(buttonTexture, buttonFont, "Spectate battles", 2.0f, SpriteEffects.None)
             {
                 Position = new Vector2(10 * screenWidth / 11, screenHeight / 15)
             };
-            townButton.Click += TownButton_Click;
+            spectateBattleButton.Click += SpectateBattleButton_Click;
             buttons = new List<Button>()
             {
                 CharacterSelectionButton,
                 settingsButton,
                 exitButton,
-                townButton
+                spectateBattleButton
             };
         }
 
