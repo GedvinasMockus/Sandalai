@@ -27,24 +27,29 @@ namespace SwordsAndSandals.Classes
             product.Position = pos;
             return this;
         }
+        public override PlayerBuilder SetName(string name)
+        {
+            Text text = new Text(content.Load<SpriteFont>("Fonts/vinque"))
+            {
+                PenColour = Color.Orange,
+                TextSize = 0.75f,
+                TextString = name,
+            };
+            PlayerNameDecorator decorator = new PlayerNameDecorator(product, text);
+            product = decorator;
+            return this;
+        }
         public override PlayerBuilder SetAttributes(Attributes attributes)
         {
             product.BaseAttributes = attributes;
-            PlayerHPDecorator decorator1 = new PlayerHPDecorator(product);
             Text text = new Text(content.Load<SpriteFont>("Fonts/vinque"))
             {
                 PenColour = Color.DarkRed,
                 TextSize = 0.75f,
+                TextString = "HP:" + attributes.CurrHealth + "/" + attributes.MaxHealth,
             };
-            decorator1.AddText(text);
-            PlayerArmourDecorator decorator2 = new PlayerArmourDecorator(decorator1);
-            Text text2 = new Text(content.Load<SpriteFont>("Fonts/vinque"))
-            {
-                PenColour = Color.Gray,
-                TextSize = 0.75f,
-            };
-            decorator2.AddText(text2);
-            product = decorator2;
+            PlayerHPDecorator decorator = new PlayerHPDecorator(product, text);
+            product = decorator;
             return this;
         }
         public override PlayerBuilder SetDefaultAbility(SpriteEffects flip)

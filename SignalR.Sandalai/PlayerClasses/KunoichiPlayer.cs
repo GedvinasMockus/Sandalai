@@ -10,13 +10,13 @@ namespace SignalR.Sandalai.PlayerClasses
 {
     public class KunoichiPlayer : Player
     {
-        public KunoichiPlayer(string connId) : base(connId)
+        public KunoichiPlayer(string connId, string name) : base(connId, name)
         {
             ClassName = "Kunoichi";
             BaseAttributes = new Attributes()
             {
                 MaxHealth = 1000,
-                CurrHealth = 500,
+                CurrHealth = 1000,
                 BaseDistance = 35f/192f,
                 ArmourRating = 10
             };

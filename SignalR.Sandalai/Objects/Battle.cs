@@ -1,4 +1,5 @@
-﻿using SignalR.Sandalai.InfoStructs;
+﻿using Microsoft.AspNet.SignalR;
+using SignalR.Sandalai.InfoStructs;
 using SignalR.Sandalai.PlayerClasses;
 
 using System;
@@ -48,18 +49,14 @@ namespace SignalR.Sandalai.Objects
             return new BattleInfo(Player1.GetInfo(), Player2.GetInfo(), BattleStarted);
         }
 
-        public void Notify(Player sender, string ability)
-        {
-            Player1.Update(sender, ability, GetInfo(Player1));
-            Player2.Update(sender, ability, GetInfo(Player2));
-        }
-
         public void AbilityUsed(string ability, string id)
         {
             Player sender = FindPlayerById(id);
             Player other = FindAnyOtherPlayerById(id);
             Act(ability, sender, other);
-            Notify(sender, ability);
+            var clients = GlobalHost.ConnectionManager.GetHubContext<MainHub>().Clients;
+            clients.Client(sender.ConnectionId).BattleInfoUpdated(GetInfo(sender));
+            clients.Client(other.ConnectionId).AbilityUsed(ability, GetInfo(other));
             int playerNum = Player1.ConnectionId.Equals(id) ? 0 : 1;
             NotifySpectators(playerNum, ability, GetInfo(sender));
         }
