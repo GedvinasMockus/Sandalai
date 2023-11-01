@@ -24,7 +24,7 @@ namespace SignalR.Sandalai
         public void AddToLobby(string className)
         {
             Console.WriteLine("Connected");
-            lobby.AddUser(Context.ConnectionId, className);
+            lobby.AddUser(Context.ConnectionId, className, "tylerAdin");
             Console.WriteLine(Context.ConnectionId);
         }
         public void RemoveFromLobby()
@@ -80,7 +80,7 @@ namespace SignalR.Sandalai
                 Console.WriteLine(Context.ConnectionId);
                 Player other = battle.FindAnyOtherPlayerById(Context.ConnectionId);
                 lobby.RemoveUser(Context.ConnectionId);
-                lobby.AddUser(other.ConnectionId, other.ClassName);
+                lobby.AddUser(other.ConnectionId, other.ClassName, "tylerAdin");
                 Clients.Client(other.ConnectionId).BackToLoading();
             }
 
@@ -106,7 +106,7 @@ namespace SignalR.Sandalai
                 Player other = battle.FindAnyOtherPlayerById(Context.ConnectionId);
                 Console.WriteLine("Disonnected");
                 Console.WriteLine(Context.ConnectionId);
-                lobby.AddUser(other.ConnectionId, other.ClassName);
+                lobby.AddUser(other.ConnectionId, other.ClassName, "tylerAdin");
                 Clients.Client(other.ConnectionId).BackToLoading();
             }
             return base.OnDisconnected(stopCalled);

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Abilities;
@@ -101,12 +101,6 @@ namespace SwordsAndSandals.Classes
         public virtual void RemoveAbilityDoneHandler(EventHandler handler)
         {
             AbilityDone -= handler;
-        }
-
-        public static Player GetNewPlayer(PlayerFactory playerFactory, ContentManager content, Vector2 position, SpriteEffects flip, Attributes attributes, bool setButtons)
-        {
-            Player player = playerFactory.CreatePlayer(content, position, flip, attributes, setButtons);
-            return player;
         }
     }
 }

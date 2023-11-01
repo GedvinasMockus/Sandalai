@@ -29,15 +29,29 @@ namespace SwordsAndSandals.Classes
             return this;
         }
 
+        public override PlayerBuilder SetName(string name)
+        {
+            Text text = new Text(content.Load<SpriteFont>("Fonts/vinque"))
+            {
+                PenColour = Color.Orange,
+                TextSize = 0.75f,
+                TextString = name,
+            };
+            PlayerNameDecorator decorator = new PlayerNameDecorator(product, text);
+            product = decorator;
+            return this;
+        }
+
         public override PlayerBuilder SetAttributes(Attributes attributes)
         {
             product.BaseAttributes = attributes;
-            PlayerHPDecorator decorator = new PlayerHPDecorator(product);
             Text text = new Text(content.Load<SpriteFont>("Fonts/vinque"))
             {
-                PenColour = Color.Orange
+                PenColour = Color.DarkRed,
+                TextSize = 0.75f,
+                TextString = "HP:" + attributes.CurrHealth + "/" + attributes.MaxHealth,
             };
-            decorator.AddText(text);
+            PlayerHPDecorator decorator = new PlayerHPDecorator(product, text);
             product = decorator;
             return this;
         }

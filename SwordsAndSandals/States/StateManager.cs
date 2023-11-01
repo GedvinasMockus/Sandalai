@@ -21,7 +21,7 @@ namespace SwordsAndSandals.States
                 return instance;
             }
         }
-        private StateManager() { }
+        private StateManager() {}
 
         public void SetContentManager(ContentManager content)
         {

@@ -8,16 +8,16 @@ namespace SignalR.Sandalai.PlayerClasses
 {
     public class PlayerFactory
     {
-        public Player CreatePlayer(string connid, string className)
+        public Player CreatePlayer(string connid, string className, string name)
         {
             switch(className)
             {
                 case "Kunoichi":
-                    return new KunoichiPlayer(connid);
+                    return new KunoichiPlayer(connid, name);
                 case "Samurai":
-                    return new SamuraiPlayer(connid);
+                    return new SamuraiPlayer(connid, name);
                 case "Skeleton":
-                    return new SkeletonPlayer(connid);
+                    return new SkeletonPlayer(connid, name);
                 default:
                     return null;
             }

@@ -20,6 +20,8 @@ namespace SwordsAndSandals.Classes
 
         public abstract PlayerBuilder SetPosition(Vector2 pos);
 
+        public abstract PlayerBuilder SetName(string name);
+
         public abstract PlayerBuilder SetAttributes(Attributes attributes);
 
         public abstract PlayerBuilder SetDefaultAbility(SpriteEffects flip);
