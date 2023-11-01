@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using SwordsAndSandals.Classes;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.Command.StateChangeCommand;
-using SwordsAndSandals.Classes;
 using SwordsAndSandals.UI;
 
 using System;
