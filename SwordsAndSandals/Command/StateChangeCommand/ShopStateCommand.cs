@@ -7,6 +7,7 @@ namespace SwordsAndSandals.Command.StateChangeCommand
     public class ShopStateCommand : ICommand
     {
         private GraphicsDeviceManager graphicsDeviceManager;
+        
         public ShopStateCommand(GraphicsDeviceManager graphicsDeviceManager)
         {
             this.graphicsDeviceManager = graphicsDeviceManager;

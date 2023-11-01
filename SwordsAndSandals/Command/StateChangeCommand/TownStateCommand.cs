@@ -8,6 +8,7 @@ namespace SwordsAndSandals.Command.StateChangeCommand
     {
         private GraphicsDeviceManager graphicsDeviceManager;
         private string playerClass;
+        
         public TownStateCommand(GraphicsDeviceManager graphicsDeviceManager, string playerClass)
         {
             this.graphicsDeviceManager = graphicsDeviceManager;
