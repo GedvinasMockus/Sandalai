@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.UI;
+using SwordsAndSandals.Music;
 using System;
 using System.Collections.Generic;
 
@@ -13,7 +14,7 @@ namespace SwordsAndSandals.States
         private List<Button> buttons;
         private List<Component> components;
         private Background background;
-        private Music music;
+        private IMusic music;
         private GameWindow gw;
 
         private int screenWidth;

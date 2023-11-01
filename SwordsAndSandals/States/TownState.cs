@@ -6,6 +6,7 @@ using SwordsAndSandals.Classes;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.Command.StateChangeCommand;
 using SwordsAndSandals.UI;
+using SwordsAndSandals.Music;
 
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace SwordsAndSandals.States
     public class TownState : State
     {
         private Background background;
-        private Music music;
+        private IMusic music;
         private List<Button> buttons;
         private PlayerFactory playerFactory;
         private Player player;

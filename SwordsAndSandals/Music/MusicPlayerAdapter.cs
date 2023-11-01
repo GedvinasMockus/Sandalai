@@ -7,20 +7,20 @@ using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.Stats;
 using System;
 
-namespace SwordsAndSandals
+namespace SwordsAndSandals.Music
 {
-    internal class MusicPlayerAdapter : Music
+    internal class MusicPlayerAdapter : IMusic
     {
         ContentManager content;
         MusicLoader musicLoader;
 
         public MusicPlayerAdapter(ContentManager con)
         {
-            this.content = con;
+            content = con;
             musicLoader = new MusicLoader();
         }
 
-        public void playSong(String songPath)
+        public void playSong(string songPath)
         {
             Song song = musicLoader.getSongFromURI(songPath);
             MediaPlayer.Play(song);

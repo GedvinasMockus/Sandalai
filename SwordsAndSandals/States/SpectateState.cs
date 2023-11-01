@@ -8,6 +8,7 @@ using SwordsAndSandals.Items;
 using SwordsAndSandals.Sprites;
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
+using SwordsAndSandals.Music;
 using System;
 using System.Collections.Generic;
 
@@ -24,7 +25,7 @@ namespace SwordsAndSandals.States
         public bool BattleInfoAvailable { get; set; }
 
         private Background background;
-        private Music music;
+        private IMusic music;
         private List<Button> buttons;
 
         private Player player;

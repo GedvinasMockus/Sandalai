@@ -7,11 +7,11 @@ using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.Stats;
 using System;
 
-namespace SwordsAndSandals
+namespace SwordsAndSandals.Music
 {
-    internal interface Music
+    internal interface IMusic
     {
-        void playSong(String songPath);
+        void playSong(string songPath);
 
         void stopSong();
     }

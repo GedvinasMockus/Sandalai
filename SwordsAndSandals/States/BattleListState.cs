@@ -6,6 +6,7 @@ using SwordsAndSandals.Command;
 using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.UI;
 using SwordsAndSandals.UI.Grid;
+using SwordsAndSandals.Music;
 
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace SwordsAndSandals.States
         private List<Button> buttons;
         private List<Component> components = new List<Component>();
         private Background background;
-        private Music music;
+        private IMusic music;
 
         private int screenWidth;
         private int screenHeight;

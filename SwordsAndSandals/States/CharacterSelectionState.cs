@@ -7,6 +7,7 @@ using SwordsAndSandals.Command;
 using SwordsAndSandals.Command.StateChangeCommand;
 using SwordsAndSandals.Sprites;
 using SwordsAndSandals.UI;
+using SwordsAndSandals.Music;
 
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace SwordsAndSandals.States
     public class CharacterSelectionState : State
     {
         private Background background;
-        private Music music;
+        private IMusic music;
         private List<Player> sprites;
         private List<string> classes;
         private List<Button> buttons;

@@ -6,18 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SwordsAndSandals
+namespace SwordsAndSandals.Music
 {
-    internal class MusicPlayer : Music
+    internal class MusicPlayer : IMusic
     {
         ContentManager content;
 
         public MusicPlayer(ContentManager con)
         {
-            this.content = con;
+            content = con;
         }
 
-        public void playSong(String songPath)
+        public void playSong(string songPath)
         {
             MediaPlayer.Play(content.Load<Song>(songPath));
             MediaPlayer.IsRepeating = true;

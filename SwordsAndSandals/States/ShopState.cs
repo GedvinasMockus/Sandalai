@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Command;
 using SwordsAndSandals.UI;
+using SwordsAndSandals.Music;
 
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace SwordsAndSandals.States
     public class ShopState : State
     {
         private Background background;
-        private Music music;
+        private IMusic music;
         private List<Button> buttons;
 
         private int screenWidth;

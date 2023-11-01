@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SwordsAndSandals
+namespace SwordsAndSandals.Music
 {
     public class MusicLoader
     {
         public Song getSongFromURI(string songPath)
         {
-            String fullPath = "Content/Music/" + songPath + ".ogg";
+            string fullPath = "Content/Music/" + songPath + ".ogg";
             Uri uri = new Uri(fullPath, UriKind.Relative);
             Song song = Song.FromUri("song", uri);
 
