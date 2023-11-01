@@ -7,7 +7,6 @@ using SwordsAndSandals.Objects;
 using SwordsAndSandals.Objects.Classes;
 using SwordsAndSandals.Objects.Items.Weapons;
 using SwordsAndSandals.Objects.Stats;
-using SwordsAndSandals.States.Command;
 
 using System;
 using System.Collections.Generic;
@@ -66,9 +65,6 @@ namespace SwordsAndSandals.States
         private void LogoutButton_Click(object sender, EventArgs e)
         {
             ConnectionManager.Instance.Invoke("LeaveBattle");
-            ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
-            undoCommand.Execute();
-            //StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
         }
 
         public void OnAbilityDone(object sender, EventArgs e)

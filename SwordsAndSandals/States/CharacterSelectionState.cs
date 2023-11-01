@@ -42,14 +42,11 @@ namespace SwordsAndSandals.States
         {
             ConnectionManager.Instance.Invoke("AddToLobby", classes[spriteIndex]);
             ConnectionManager.Instance.Invoke("FindOpponent");
-            ICommand changeStateCommand = new ChangeStateCommand(new LoadingScreenState(graphicsDevice));
-            changeStateCommand.Execute();
-            //StateManager.Instance.ChangeState(new LoadingScreenState(graphicsDevice));
+            CommandHelper.ExecuteCommand(new LoadingScreenStateCommand(graphicsDevice));
         }
         private void LeaveSelectionButton_Click(object sender, EventArgs e)
         {
-            ICommand undoCommand = new UndoCommand(StateManager.Instance.commandHistory);
-            undoCommand.Execute();
+            CommandHelper.UndoCommand();
         }
 
         public override void LoadContent(ContentManager content)
