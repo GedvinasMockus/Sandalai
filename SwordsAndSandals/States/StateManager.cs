@@ -48,6 +48,5 @@ namespace SwordsAndSandals.States
         {
             return CurrentState == null;
         }
-
     }
 }

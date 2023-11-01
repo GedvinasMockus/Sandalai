@@ -1,38 +1,149 @@
 ﻿using SignalR.Sandalai.InfoStructs;
+using SignalR.Sandalai.PlayerClasses;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace SignalR.Sandalai.Objects
 {
-    public class Battle
+    public class Battle : IBattleSubject
     {
-        public Player Player1 { get; private set; }
-        public Player Player2 { get; private set; }
         private const float Pos1x = 1f / 6;
         private const float Pos2x = 5f / 6;
         private const float PosGround = 11f / 17;
-        public Battle(Player player1, Player player2)
+        public List<Spectator> SpectatorObserver { get; private set; }
+        public Player Player1 { get; private set; }
+        public Player Player2 { get; private set; }
+        public string BattleStarted { get; private set; }
+        public Battle(Player Player1, Player Player2)
         {
-            this.Player1 = player1;
-            this.Player2 = player2;
+            this.Player1 = Player1;
+            this.Player2 = Player2;
+            SpectatorObserver = new List<Spectator>();
         }
+
+
         public void BattleStart()
         {
-            this.Player1.Position = new Vector2(Pos1x, PosGround);
-            this.Player2.Position = new Vector2(Pos2x, PosGround);
-            this.Player1.Flip = FlipEnum.None;
-            this.Player2.Flip = FlipEnum.FlipHorizontally;
+            Player1.Position = new Vector2(Pos1x, PosGround);
+            Player2.Position = new Vector2(Pos2x, PosGround);
+            BattleStarted = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
+
         public void BattleStop()
         {
-            this.Player1.Position = new Vector2(-1, -1);
-            this.Player2.Position = new Vector2(-1, -1);
-            this.Player1.Flip = FlipEnum.None;
-            this.Player2.Flip = FlipEnum.None;
+            Player1.Position = new Vector2(-1, -1);
+            Player2.Position = new Vector2(-1, -1);
         }
-        public BattleInfo GetInfo(bool flip)
+
+        public BattleInfo GetInfo(Player current)
         {
-            return flip ? new BattleInfo(Player2.GetInfo(), Player1.GetInfo()) : new BattleInfo(Player1.GetInfo(), Player2.GetInfo());
+            Player other = FindAnyOtherPlayerById(current.ConnectionId);
+            return new BattleInfo(current.GetInfo(), other.GetInfo());
+        }
+        public BattleInfo GetInfo()
+        {
+            return new BattleInfo(Player1.GetInfo(), Player2.GetInfo(), BattleStarted);
+        }
+
+        public void Notify(Player sender, string ability)
+        {
+            Player1.Update(sender, ability, GetInfo(Player1));
+            Player2.Update(sender, ability, GetInfo(Player2));
+        }
+
+        public void AbilityUsed(string ability, string id)
+        {
+            Player sender = FindPlayerById(id);
+            Player other = FindAnyOtherPlayerById(id);
+            Act(ability, sender, other);
+            Notify(sender, ability);
+            int playerNum = Player1.ConnectionId.Equals(id) ? 0 : 1;
+            NotifySpectators(playerNum, ability, GetInfo(sender));
+        }
+
+
+        public Player FindPlayerById(string id)
+        {
+            return Player1.ConnectionId.Equals(id) ? Player1 : Player2;
+        }
+
+        public Player FindAnyOtherPlayerById(string id)
+        {
+            return Player1.ConnectionId.Equals(id) ? Player2 : Player1;
+        }
+
+        private void Act(string ability, Player current, Player other)
+        {
+            switch (ability)
+            {
+                case "Run_left":
+                    current.RunLeft();
+                    break;
+                case "Run_right":
+                    current.RunRight();
+                    break;
+                case "Jump_left":
+                    current.JumpLeft();
+                    break;
+                case "Jump_right":
+                    current.JumpRight();
+                    break;
+                case "Melee_attack_left":
+                    current.MeleeAttackLeft(other);
+                    break;
+                case "Melee_attack_right":
+                    current.MeleeAttackRight(other);
+                    break;
+                case "Ranged_attack_left":
+                    current.MeleeAttackLeft(other);
+                    break;
+                case "Ranged_attack_right":
+                    current.MeleeAttackRight(other);
+                    break;
+            }
+        }
+
+        public void AddToBattle(Spectator spectator)
+        {
+            lock (SpectatorObserver)
+            {
+                SpectatorObserver.Add(spectator);
+            }
+        }
+
+        public void RemoveFromBattle(string connectionId)
+        {
+            Spectator spectator;
+            lock (SpectatorObserver)
+            {
+                spectator = SpectatorObserver.FirstOrDefault((b) => b.ConnectionId == connectionId);
+                SpectatorObserver.Remove(spectator);
+            }
+        }
+
+        public void NotifySpectators(int playerNum, string ability, BattleInfo info)
+        {
+            foreach (var spectator in SpectatorObserver)
+            {
+                spectator.SendBattleInfo(playerNum, ability, info);
+            }
+        }
+
+        public List<Spectator> DetachAll()
+        {
+            List<Spectator> observerCopy = new List<Spectator>(SpectatorObserver);
+            lock (SpectatorObserver)
+            {
+                foreach (var spectator in SpectatorObserver)
+                {
+                    spectator.RemoveFromSpectate();
+                }
+                SpectatorObserver.Clear();
+            }
+            return observerCopy;
         }
     }
 }

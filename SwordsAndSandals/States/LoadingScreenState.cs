@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-
-using SwordsAndSandals.Objects;
-
+using SwordsAndSandals.Command;
+using SwordsAndSandals.UI;
 using System;
 using System.Collections.Generic;
 
@@ -27,6 +26,7 @@ namespace SwordsAndSandals.States
         {
             ConnectionManager.Instance.Invoke("RemoveFromLobby");
             StateManager.Instance.ChangeState(new TownState(graphicsDevice, TownState.playerClass));
+            CommandHelper.UndoCommand();
         }
 
         public override void LoadContent(ContentManager content)
@@ -58,7 +58,6 @@ namespace SwordsAndSandals.States
             {
                 leaveLobby
             };
-
         }
 
         public override void Draw(SpriteBatch spriteBatch)

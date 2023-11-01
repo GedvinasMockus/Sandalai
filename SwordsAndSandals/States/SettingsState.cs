@@ -1,10 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-
-using SwordsAndSandals.Objects;
-using SwordsAndSandals.States;
-
+using SwordsAndSandals.Command;
+using SwordsAndSandals.UI;
 using System;
 using System.Collections.Generic;
 
@@ -26,7 +24,7 @@ namespace SwordsAndSandals
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
+            CommandHelper.UndoCommand();
         }
 
         public override void LoadContent(ContentManager content)

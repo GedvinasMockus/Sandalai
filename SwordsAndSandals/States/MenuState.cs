@@ -2,8 +2,9 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-using SwordsAndSandals.Objects;
-using SwordsAndSandals.States;
+using SwordsAndSandals.Command;
+using SwordsAndSandals.Command.StateChangeCommand;
+using SwordsAndSandals.UI;
 
 using System;
 using System.Collections.Generic;
@@ -25,17 +26,22 @@ namespace SwordsAndSandals
 
         private void SettingButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new SettingsState(graphicsDevice));
+            CommandHelper.ExecuteCommand(new SettingsStateCommand(graphicsDevice));
         }
 
         private void CharacterSelection_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new CharacterSelectionState(graphicsDevice));
+            CommandHelper.ExecuteCommand(new CharacterSelectionStateCommand(graphicsDevice));
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(null);
+            CommandHelper.UndoCommand();
+        }
+        private void SpectateBattleButton_Click(object sender, EventArgs e)
+        {
+            ConnectionManager.Instance.Invoke("AddSpectator");
+            CommandHelper.ExecuteCommand(new BattleListStateCommand(graphicsDevice));
         }
 
         public override void LoadContent(ContentManager content)
@@ -58,13 +64,21 @@ namespace SwordsAndSandals
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 300)
             };
             exitButton.Click += ExitButton_Click;
+            Button spectateBattleButton = new Button(buttonTexture, buttonFont, "Spectate battles", 2.0f, SpriteEffects.None)
+            {
+                Position = new Vector2(10 * screenWidth / 11, screenHeight / 15)
+            };
+            spectateBattleButton.Click += SpectateBattleButton_Click;
             buttons = new List<Button>()
             {
                 CharacterSelectionButton,
                 settingsButton,
-                exitButton
+                exitButton,
+                spectateBattleButton
             };
         }
+
+
 
         public override void Draw(SpriteBatch spriteBatch)
         {

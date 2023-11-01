@@ -1,5 +1,5 @@
 ﻿using SignalR.Sandalai.Objects;
-
+using SignalR.Sandalai.PlayerClasses;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,12 +7,14 @@ namespace SignalR.Sandalai
 {
     public class Lobby
     {
-        private Dictionary<string, Player> MyUsers;
+        private Dictionary<string, Player> myUsers;
+        private PlayerFactory factory;
         private static object Obj = new object();
         private static volatile Lobby instance;
         private Lobby()
         {
-            MyUsers = new Dictionary<string, Player>();
+            myUsers = new Dictionary<string, Player>();
+            factory = new PlayerFactory();
         }
         public static Lobby Instance
         {
@@ -33,36 +35,35 @@ namespace SignalR.Sandalai
         }
         public void AddUser(string userId, string className)
         {
-            lock (MyUsers)
+            lock (myUsers)
             {
-                MyUsers.Add(userId, new Player(userId, className));
+                myUsers.Add(userId, factory.CreatePlayer(userId, className));
             }
         }
         public void RemoveUser(string userId)
         {
-            lock (MyUsers)
+            lock (myUsers)
             {
-                MyUsers.Remove(userId);
+                myUsers.Remove(userId);
             }
         }
-        public Player FindAnotherUser(string userId)
+        public void TakePair(string id1, out Player p1, out Player p2)
         {
-            Player anotherUser;
-            lock (MyUsers)
+            p1 = null;
+            p2 = null;
+            lock(myUsers)
             {
-                anotherUser = MyUsers.FirstOrDefault(pair => !pair.Key.Equals(userId)).Value;
+                if(myUsers.TryGetValue(id1, out p1))
+                {
+                    string id2 = myUsers.FirstOrDefault(pair => !pair.Key.Equals(id1)).Key;
+                    if(id2 != null)
+                    {
+                        p2 = myUsers[id2];
+                        myUsers.Remove(id1);
+                        myUsers.Remove(id2);
+                    }
+                }
             }
-            return anotherUser;
-        }
-        public Player GetUser(string userId)
-        {
-            Player player;
-            lock (MyUsers)
-            {
-                player = MyUsers[userId];
-            }
-            return player;
         }
     }
-
 }

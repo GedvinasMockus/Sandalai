@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-using SwordsAndSandals.Objects;
-using SwordsAndSandals.Objects.Classes;
+using SwordsAndSandals.UI;
+using SwordsAndSandals.Classes;
 
 using System;
 using System.Collections.Generic;
@@ -44,7 +44,7 @@ namespace SwordsAndSandals.States
 
         public override void LoadContent(ContentManager content)
         {
-            player = playerFactory.CreatePlayer(content, new Vector2(screenWidth / 2, 800f), SpriteEffects.None, false);
+            player = playerFactory.CreatePlayer(content, new Vector2(screenWidth / 2, 800f), SpriteEffects.None, new Stats.Attributes(), false);
 
             Texture2D shopTexture = content.Load<Texture2D>("Views/Town/Shop");
             Texture2D arenaTexture = content.Load<Texture2D>("Views/Town/Arena");

@@ -2,8 +2,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-using SwordsAndSandals.Objects;
-using SwordsAndSandals.Objects.Classes;
+using SwordsAndSandals.Classes;
+using SwordsAndSandals.Command;
+using SwordsAndSandals.Command.StateChangeCommand;
+using SwordsAndSandals.Sprites;
+using SwordsAndSandals.UI;
 
 using System;
 using System.Collections.Generic;
@@ -40,10 +43,13 @@ namespace SwordsAndSandals.States
         private void SelectCharacterButton_Click(object sender, EventArgs e)
         {
             StateManager.Instance.ChangeState(new TownState(graphicsDevice, classes[spriteIndex]));
+            ConnectionManager.Instance.Invoke("AddToLobby", classes[spriteIndex]);
+            ConnectionManager.Instance.Invoke("FindOpponent");
+            CommandHelper.ExecuteCommand(new LoadingScreenStateCommand(graphicsDevice));
         }
         private void LeaveSelectionButton_Click(object sender, EventArgs e)
         {
-            StateManager.Instance.ChangeState(new MenuState(graphicsDevice));
+            CommandHelper.UndoCommand();
         }
 
         public override void LoadContent(ContentManager content)

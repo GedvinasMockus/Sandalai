@@ -1,10 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using SwordsAndSandals.Command;
+using SwordsAndSandals.Command.StateChangeCommand;
 using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.States;
 
 using System;
+using System.Collections.Generic;
 
 namespace SwordsAndSandals
 {
@@ -24,26 +27,83 @@ namespace SwordsAndSandals
         protected override void Initialize()
         {
             ConnectionManager.Instance.AddHub("MainHub");
-            ConnectionManager.Instance.AddHandler("OpponentFound", info =>
+            ConnectionManager.Instance.AddHandler<BattleInfo>("OpponentFound", (info) =>
             {
-                BattleInfo bInfo = info.ToObject<BattleInfo>();
-                StateManager.Instance.ChangeState(new GameState(_graphics, bInfo));
+                CommandHelper.ExecuteCommand(new GameStateCommand(_graphics, info));
             });
-            ConnectionManager.Instance.AddHandler<string>("AbilityUsed", (name) =>
+            ConnectionManager.Instance.AddHandler<string, BattleInfo>("AbilityUsed", (name, info) =>
             {
+                //TODO refactor battle state update
                 if (StateManager.Instance.CurrentState is GameState)
                 {
-                    (StateManager.Instance.CurrentState as GameState).opponent.UseAbility(name);
+                    GameState battle = (StateManager.Instance.CurrentState as GameState);
+                    battle.MakeOpponentUseAbility(name);
+                    EventHandler handler = new EventHandler((o, e) =>
+                    {
+                        battle.UpdateBattleInfo(info);
+                    });
+                    battle.BattleUpdateNeeded += handler;
+                    battle.BattleInfoAvailable = true;
+                }
+            });
+            ConnectionManager.Instance.AddHandler<BattleInfo>("BattleInfoUpdated", (info) =>
+            {
+                //TODO refactor battle state update
+                if (StateManager.Instance.CurrentState is GameState)
+                {
+                    GameState battle = (StateManager.Instance.CurrentState as GameState);
+                    EventHandler handler = new EventHandler((o, e) =>
+                    {
+                        battle.UpdateBattleInfo(info);
+                    });
+                    battle.BattleUpdateNeeded += handler;
+                    battle.BattleInfoAvailable = true;
                 }
             });
             ConnectionManager.Instance.AddHandler("BattleLeft", () =>
             {
                 StateManager.Instance.ChangeState(new TownState(_graphics, TownState.playerClass));
+                CommandHelper.UndoCommand(2);
             });
             ConnectionManager.Instance.AddHandler("BackToLoading", () =>
             {
                 ConnectionManager.Instance.Invoke("FindOpponent");
-                StateManager.Instance.ChangeState(new LoadingScreenState(_graphics));
+                CommandHelper.UndoCommand();
+            });
+            ConnectionManager.Instance.AddHandler<List<BattleInfo>>("SpectateBattleInfo", (info) =>
+            {
+                if (StateManager.Instance.CurrentState is BattleListState)
+                {
+                    BattleListState battleListState = (StateManager.Instance.CurrentState as BattleListState);
+                    EventHandler handler = new EventHandler((o, e) =>
+                    {
+                        battleListState.UpdateGrid(info);
+                    });
+                    battleListState.UpdateNeeded += handler;
+                    battleListState.InfoAvailable = true;
+                }
+            });
+            ConnectionManager.Instance.AddHandler<BattleInfo>("ShowMatch", (info) =>
+            {
+                CommandHelper.ExecuteCommand(new SpectateStateCommand(_graphics, info));
+            });
+            ConnectionManager.Instance.AddHandler<string, int, BattleInfo>("AbilityUsedSpectate", (name, player, info) =>
+            {
+                if (StateManager.Instance.CurrentState is SpectateState)
+                {
+                    SpectateState battle = (StateManager.Instance.CurrentState as SpectateState);
+                    battle.MakeUseAbility(player, name);
+                    EventHandler handler = new EventHandler((o, e) =>
+                    {
+                        battle.UpdateBattleInfo(player, info);
+                    });
+                    battle.BattleUpdateNeeded += handler;
+                    battle.BattleInfoAvailable = true;
+                }
+            });
+            ConnectionManager.Instance.AddHandler("BackToBattleList", () =>
+            {
+                CommandHelper.UndoCommand();
             });
             ConnectionManager.Instance.StartConnection();
             _graphics.PreferredBackBufferWidth = _screenWidth;
@@ -56,7 +116,7 @@ namespace SwordsAndSandals
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             StateManager.Instance.SetContentManager(Content);
-            StateManager.Instance.ChangeState(new MenuState(_graphics));
+            CommandHelper.ExecuteCommand(new MenuStateCommand(_graphics));
         }
 
         protected override void Update(GameTime gameTime)
