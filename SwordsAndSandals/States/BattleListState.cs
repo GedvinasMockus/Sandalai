@@ -17,6 +17,7 @@ namespace SwordsAndSandals.States
         private List<Button> buttons;
         private List<Component> components = new List<Component>();
         private Background background;
+        private Music music;
 
         private int screenWidth;
         private int screenHeight;
@@ -46,6 +47,10 @@ namespace SwordsAndSandals.States
             dotTexture = content.Load<Texture2D>("Objects/Dot");
             font = content.Load<SpriteFont>("Fonts/vinque");
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
+
+            music = new MusicPlayer(content);
+            music.stopSong();
+
             text = new Text(font)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 8),
