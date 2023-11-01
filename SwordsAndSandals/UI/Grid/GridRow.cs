@@ -1,25 +1,37 @@
-﻿using System.Collections.Generic;
-using SwordsAndSandals.UI;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+using System.Collections.Generic;
 
 namespace SwordsAndSandals.UI.Grid
 {
     public class GridRow
     {
-        public List<GridColumn> Columns { get; set; }
-        public List<Button> Buttons { get; set; }
-
+        public List<GridCell> Columns { get; private set; }
+        public int RowNum { get; set; }
         public GridRow()
         {
-            Columns = new List<GridColumn>();
-            Buttons = new List<Button>();
+            Columns = new List<GridCell>();
         }
-        public void AddData(GridColumn column)
+        public void AddCell(GridCell column)
         {
             Columns.Add(column);
         }
-        public void AddButton(Button spectate)
+        public void Draw(SpriteBatch spriteBatch, Vector2 table, float width, float padding)
         {
-            Buttons.Add(spectate);
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                float cellX = table.X + i * width;
+                Columns[i].AddPosition(new Vector2(cellX, table.Y), width, padding, RowNum * padding);
+                Columns[i].Draw(spriteBatch);
+            }
+        }
+        public void Update(GameTime gameTime)
+        {
+            foreach (var cell in Columns)
+            {
+                cell.Update(gameTime);
+            }
         }
     }
 }
