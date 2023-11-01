@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using SwordsAndSandals.Classes;
 using SwordsAndSandals.InfoStructs;
-using SwordsAndSandals.Objects.Classes;
-using SwordsAndSandals.Objects.Stats;
+using SwordsAndSandals.Stats;
 
 namespace SwordsAndSandals
 {
