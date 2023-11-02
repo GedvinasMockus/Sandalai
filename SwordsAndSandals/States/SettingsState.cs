@@ -14,7 +14,6 @@ namespace SwordsAndSandals
         private List<Component> components;
         private List<Button> buttons;
         private Background background;
-        private IMusic music;
 
         private int screenWidth;
         private int screenHeight;

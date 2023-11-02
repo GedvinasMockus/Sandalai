@@ -5,7 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Classes;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.Command.StateChangeCommand;
+
 using SwordsAndSandals.Music;
+
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
 
@@ -61,6 +63,9 @@ namespace SwordsAndSandals.States
             Texture2D shopTexture = content.Load<Texture2D>("Views/Town/Shop");
             Texture2D arenaTexture = content.Load<Texture2D>("Views/Town/Arena");
             background = new Background(content.Load<Texture2D>("Background/Town/Town"));
+
+            music = new MusicPlayer(content);
+            music.stopSong();
 
             Button enterShop = new Button(shopTexture, 1f, SpriteEffects.None)
             {

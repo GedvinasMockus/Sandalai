@@ -2,12 +2,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SwordsAndSandals.Music;
 
 namespace SwordsAndSandals
 {
     public abstract class State
     {
         protected GraphicsDeviceManager graphicsDevice;
+        protected internal IMusic music;
 
         public State(GraphicsDeviceManager graphicsDevice)
         {

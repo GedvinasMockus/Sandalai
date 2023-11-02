@@ -36,7 +36,6 @@ namespace SwordsAndSandals.States
         //private WeaponFactory p2weaponFactory;
 
         private Background background;
-        private IMusic music;
         private List<Button> buttons;
 
         private int screenWidth;

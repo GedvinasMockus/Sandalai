@@ -9,7 +9,7 @@ using System;
 
 namespace SwordsAndSandals.Music
 {
-    internal interface IMusic
+    public interface IMusic
     {
         void playSong(string songPath);
 

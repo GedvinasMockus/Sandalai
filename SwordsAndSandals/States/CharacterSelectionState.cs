@@ -17,7 +17,6 @@ namespace SwordsAndSandals.States
     public class CharacterSelectionState : State
     {
         private Background background;
-        private IMusic music;
         private List<Player> sprites;
         private List<string> classes;
         private List<Button> buttons;
