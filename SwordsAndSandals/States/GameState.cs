@@ -36,7 +36,6 @@ namespace SwordsAndSandals.States
         //private WeaponFactory p2weaponFactory;
 
         private Background background;
-        private IMusic music;
         private List<Button> buttons;
 
         private int screenWidth;
@@ -64,19 +63,6 @@ namespace SwordsAndSandals.States
                     return new SkeletonWeaponFactory();
             }
         }
-        public PlayerFactory GetPlayerFactory(string className)
-        {
-            switch (className)
-            {
-                case "Kunoichi":
-                    return new KunoichiFactory();
-                case "Samurai":
-                    return new SamuraiFactory();
-                default:
-                    return new SkeletonFactory();
-            }
-        }
-
         public PlayerFactory GetPlayerFactory(string className)
         {
             switch (className)

@@ -25,7 +25,6 @@ namespace SwordsAndSandals.States
         public bool BattleInfoAvailable { get; set; }
 
         private Background background;
-        private IMusic music;
         private List<Button> buttons;
 
         private Player player;
@@ -124,18 +123,6 @@ namespace SwordsAndSandals.States
                     return new SamuraiWeaponFactory();
                 default:
                     return new SkeletonWeaponFactory();
-            }
-        }
-        public PlayerFactory GetPlayerFactory(string className)
-        {
-            switch (className)
-            {
-                case "Kunoichi":
-                    return new KunoichiFactory();
-                case "Samurai":
-                    return new SamuraiFactory();
-                default:
-                    return new SkeletonFactory();
             }
         }
         private void DeterminePlayerDirection(float p1x, float p2x, out SpriteEffects p1flip, out SpriteEffects p2flip)

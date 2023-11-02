@@ -17,7 +17,6 @@ namespace SwordsAndSandals.States
     {
         private List<string> buyNames;
         private Background background;
-        private IMusic music;
         private List<Button> buttons;
         private int buttonsCount;
         // Change to server side

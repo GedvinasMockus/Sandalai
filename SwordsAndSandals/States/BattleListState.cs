@@ -18,7 +18,6 @@ namespace SwordsAndSandals.States
         private List<Button> buttons;
         private List<Component> components = new List<Component>();
         private Background background;
-        private IMusic music;
 
         private int screenWidth;
         private int screenHeight;

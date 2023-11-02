@@ -14,7 +14,6 @@ namespace SwordsAndSandals.States
         private List<Button> buttons;
         private List<Component> components;
         private Background background;
-        private IMusic music;
         private GameWindow gw;
 
         private int screenWidth;
