@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SignalR.Sandalai
 {
-    public abstract class Prototype
+    public interface Prototype
     {
 
-        public abstract Prototype Clone();
+        Prototype Clone();
     }
 }

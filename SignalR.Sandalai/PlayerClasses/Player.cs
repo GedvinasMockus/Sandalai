@@ -20,12 +20,14 @@ namespace SignalR.Sandalai.PlayerClasses
             Name = name;
         }
 
-        public override Prototype Clone()
+        public Prototype Clone()
         {
             Player player = (Player)this.MemberwiseClone();
             player.ConnectionId = String.Copy(ConnectionId);
             player.ClassName = String.Copy(ClassName);
             player.Position = new Vector2(this.Position.X, this.Position.Y);
+
+            //Player player = this;
 
             return player;
         }
