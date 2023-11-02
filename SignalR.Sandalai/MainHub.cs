@@ -13,31 +13,25 @@ namespace SignalR.Sandalai
 {
     public class MainHub : Hub, ISubject
     {
-        private readonly Lobby lobby;
         public static List<Battle> battleList = new List<Battle>();
         public static List<Spectator> spectatorList = new List<Spectator>();
-        public MainHub() : this(Lobby.Instance) { }
-        public MainHub(Lobby lobby)
-        {
-            this.lobby = lobby;
-        }
         public void AddToLobby(string className)
         {
             Console.WriteLine("Connected");
-            lobby.AddUser(Context.ConnectionId, className, "tylerAdin");
+            Lobby.Instance.AddUser(Context.ConnectionId, className, "tylerAdin");
             Console.WriteLine(Context.ConnectionId);
         }
         public void RemoveFromLobby()
         {
             Console.WriteLine("Disonnected");
-            lobby.RemoveUser(Context.ConnectionId);
+            Lobby.Instance.RemoveUser(Context.ConnectionId);
             Console.WriteLine(Context.ConnectionId);
         }
         public void FindOpponent()
         {
             Player p1;
             Player p2;
-            lobby.TakePair(Context.ConnectionId, out p1, out p2);
+            Lobby.Instance.TakePair(Context.ConnectionId, out p1, out p2);
             if (p1 != null && p2 != null)
             {
                 Battle battle = new Battle(p1, p2);
@@ -79,8 +73,8 @@ namespace SignalR.Sandalai
                 Console.WriteLine("Disonnected");
                 Console.WriteLine(Context.ConnectionId);
                 Player other = battle.FindAnyOtherPlayerById(Context.ConnectionId);
-                lobby.RemoveUser(Context.ConnectionId);
-                lobby.AddUser(other.ConnectionId, other.ClassName, "tylerAdin");
+                Lobby.Instance.RemoveUser(Context.ConnectionId);
+                Lobby.Instance.AddUser(other.ConnectionId, other.ClassName, "tylerAdin");
                 Clients.Client(other.ConnectionId).BackToLoading();
             }
 
@@ -98,7 +92,7 @@ namespace SignalR.Sandalai
                 battleList.Remove(battle);
             }
             Notify();
-            if (battle == null) lobby.RemoveUser(Context.ConnectionId);
+            if (battle == null) Lobby.Instance.RemoveUser(Context.ConnectionId);
             else
             {
                 battle.BattleStop();
@@ -106,7 +100,7 @@ namespace SignalR.Sandalai
                 Player other = battle.FindAnyOtherPlayerById(Context.ConnectionId);
                 Console.WriteLine("Disonnected");
                 Console.WriteLine(Context.ConnectionId);
-                lobby.AddUser(other.ConnectionId, other.ClassName, "tylerAdin");
+                Lobby.Instance.AddUser(other.ConnectionId, other.ClassName, "tylerAdin");
                 Clients.Client(other.ConnectionId).BackToLoading();
             }
             return base.OnDisconnected(stopCalled);
@@ -174,14 +168,16 @@ namespace SignalR.Sandalai
         public void LeaveSpectateBattle()
         {
             Battle battle;
+            IBattleSpectatorObserver observer;
             lock (battleList)
             {
                 battle = battleList.FirstOrDefault((b) => b.SpectatorObserver.Any((a) => a.ConnectionId == Context.ConnectionId));
-                battle.RemoveFromBattle(Context.ConnectionId);
+                observer = battle.SpectatorObserver.FirstOrDefault((a) => a.ConnectionId == Context.ConnectionId);
+                battle.RemoveFromBattle(observer);
                 AddSpectator();
             }
         }
-        public void AddAllSpectators(List<Spectator> list)
+        public void AddAllSpectators(List<IBattleSpectatorObserver> list)
         {
             lock (spectatorList)
             {
