@@ -58,7 +58,8 @@ namespace SignalR.Sandalai
                     string id2 = myUsers.FirstOrDefault(pair => !pair.Key.Equals(id1)).Key;
                     if(id2 != null)
                     {
-                        p2 = myUsers[id2];
+                        p1 = (Player)p1.Clone();
+                        p2 = (Player)myUsers[id2].Clone();
                         myUsers.Remove(id1);
                         myUsers.Remove(id2);
                     }
