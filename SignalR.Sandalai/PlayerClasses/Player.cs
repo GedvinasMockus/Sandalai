@@ -7,7 +7,7 @@ using System.Numerics;
 
 namespace SignalR.Sandalai.PlayerClasses
 {
-    public abstract class Player : Prototype
+    public abstract class Player : IPrototype
     {
         public string ConnectionId { get; private set; }
         public string ClassName { get; protected set; }
@@ -20,12 +20,14 @@ namespace SignalR.Sandalai.PlayerClasses
             Name = name;
         }
 
-        public override Prototype Clone()
+        public IPrototype Clone()
         {
             Player player = (Player)this.MemberwiseClone();
             player.ConnectionId = String.Copy(ConnectionId);
             player.ClassName = String.Copy(ClassName);
             player.Position = new Vector2(this.Position.X, this.Position.Y);
+
+            //Player player = this;
 
             return player;
         }
