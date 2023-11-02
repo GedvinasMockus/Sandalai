@@ -8,7 +8,7 @@ namespace SignalR.Sandalai.Objects
 {
     public class Spectator : IObserver, IBattleSpectatorObserver
     {
-        public string ConnectionId { get; private set; }
+        public string ConnectionId { get; set; }
 
         public Spectator(string connectionId)
         {

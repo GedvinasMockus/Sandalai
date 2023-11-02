@@ -5,7 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Classes;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.Command.StateChangeCommand;
+
 using SwordsAndSandals.Music;
+
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
 
@@ -20,6 +22,7 @@ namespace SwordsAndSandals.States
         private List<Button> buttons;
         private PlayerFactory playerFactory;
         private Player player;
+        private IMusic music;
         public static string playerClass;
 
         private int screenWidth;
@@ -79,6 +82,8 @@ namespace SwordsAndSandals.States
                 enterShop,
                 enterArena
             };
+            music = new MusicPlayer(content);
+            music.stopSong();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
