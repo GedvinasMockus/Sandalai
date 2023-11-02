@@ -1,14 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+
 using SwordsAndSandals.Classes;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.Items;
+using SwordsAndSandals.Music;
 using SwordsAndSandals.Sprites;
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
-using SwordsAndSandals.Music;
+
 using System;
 using System.Collections.Generic;
 

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNet.SignalR;
+
 using SignalR.Sandalai.InfoStructs;
 using SignalR.Sandalai.PlayerClasses;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 
 namespace SignalR.Sandalai.Objects
@@ -14,7 +14,7 @@ namespace SignalR.Sandalai.Objects
         private const float Pos1x = 1f / 6;
         private const float Pos2x = 5f / 6;
         private const float PosGround = 11f / 17;
-        public List<Spectator> SpectatorObserver { get; private set; }
+        public List<IBattleSpectatorObserver> SpectatorObserver { get; private set; }
         public Player Player1 { get; private set; }
         public Player Player2 { get; private set; }
         public string BattleStarted { get; private set; }
@@ -22,7 +22,7 @@ namespace SignalR.Sandalai.Objects
         {
             this.Player1 = Player1;
             this.Player2 = Player2;
-            SpectatorObserver = new List<Spectator>();
+            SpectatorObserver = new List<IBattleSpectatorObserver>();
         }
 
 
@@ -103,7 +103,7 @@ namespace SignalR.Sandalai.Objects
             }
         }
 
-        public void AddToBattle(Spectator spectator)
+        public void AddToBattle(IBattleSpectatorObserver spectator)
         {
             lock (SpectatorObserver)
             {
@@ -111,12 +111,10 @@ namespace SignalR.Sandalai.Objects
             }
         }
 
-        public void RemoveFromBattle(string connectionId)
+        public void RemoveFromBattle(IBattleSpectatorObserver spectator)
         {
-            Spectator spectator;
             lock (SpectatorObserver)
             {
-                spectator = SpectatorObserver.FirstOrDefault((b) => b.ConnectionId == connectionId);
                 SpectatorObserver.Remove(spectator);
             }
         }
@@ -129,14 +127,14 @@ namespace SignalR.Sandalai.Objects
             }
         }
 
-        public List<Spectator> DetachAll()
+        public List<IBattleSpectatorObserver> DetachAll()
         {
-            List<Spectator> observerCopy = new List<Spectator>(SpectatorObserver);
+            List<IBattleSpectatorObserver> observerCopy = new List<IBattleSpectatorObserver>(SpectatorObserver);
             lock (SpectatorObserver)
             {
                 foreach (var spectator in SpectatorObserver)
                 {
-                    spectator.RemoveFromSpectate();
+                    (spectator as Spectator).RemoveFromSpectate();
                 }
                 SpectatorObserver.Clear();
             }
