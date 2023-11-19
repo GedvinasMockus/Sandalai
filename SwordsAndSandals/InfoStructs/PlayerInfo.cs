@@ -18,5 +18,16 @@ namespace SwordsAndSandals.InfoStructs
             ConnectionID = connectionId;
             Name = name;
         }
+
+        public Attributes GetPlayerAttributes(int width)
+        {
+            return new Attributes()
+            {
+                MaxHealth = BaseAttributes.MaxHealth,
+                CurrHealth = BaseAttributes.CurrHealth,
+                BaseDistance = BaseAttributes.BaseDistance * width,
+                ArmourRating = BaseAttributes.ArmourRating
+            };
+        }
     }
 }

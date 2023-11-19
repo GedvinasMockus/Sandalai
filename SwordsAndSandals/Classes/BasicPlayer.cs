@@ -14,15 +14,15 @@ namespace SwordsAndSandals.Classes
             animation.Draw(batch, new Vector2(Position.X, Position.Y - animation.Scale * animation.frameHeight / 2), Origin);
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites)
+        public override void Update(GameTime gameTime)
         {
             animation.Update(gameTime);
-            Active.Update(gameTime, this, sprites);
-            if (Active != Abilities["Idle"] && Active.done == true)
+            Active.UpdateState(gameTime, this);
+            if (Active.done == true)
             {
                 AbilityFinished();
                 Active = Abilities["Idle"];
-                Active.Prepare(this);
+                Active.prepared = false;
             }
         }
     }

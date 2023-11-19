@@ -5,8 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Abilities;
 using SwordsAndSandals.Animations;
 using SwordsAndSandals.Classes.PlayerDecorators;
+using SwordsAndSandals.Sprites;
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
+using System.Collections.Generic;
 
 namespace SwordsAndSandals.Classes
 {
@@ -61,7 +63,7 @@ namespace SwordsAndSandals.Classes
             return this;
         }
 
-        public override PlayerBuilder SetAbilities(SpriteEffects flip)
+        public override PlayerBuilder SetAbilities(SpriteEffects flip, List<Sprite> ctx)
         {
             product.AddAbility("Sleep", new Idle(new SamuraiIdleAnimation(content, 0.1f, flip, true)));
             product.AddAbility("Jump_left", new Jump(product.BaseAttributes.BaseDistance * -1.2f, 50, new SamuraiJumpAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));

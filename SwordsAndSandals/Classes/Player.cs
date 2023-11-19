@@ -20,7 +20,6 @@ namespace SwordsAndSandals.Classes
         public virtual Ability Active { get; set; }
 
         protected Dictionary<string, Button> Buttons = new Dictionary<string, Button>();
-        protected Dictionary<string, EventHandler> Handlers = new Dictionary<string, EventHandler>();
         protected Dictionary<string, Ability> Abilities = new Dictionary<string, Ability>();
         public MeleeWeapon Melee { get; set; }
         public RangedWeapon Ranged { get; set; }
@@ -38,24 +37,20 @@ namespace SwordsAndSandals.Classes
 
         public virtual void AddButton(string name, Texture2D texture, float scale, SpriteEffects flip)
         {
-            EventHandler handler = (o, e) =>
+            Button button = new Button(texture, scale, flip);
+            button.Click += (o, e) =>
             {
                 ConnectionManager.Instance.Invoke("AbilityUsed", name);
                 UseAbility(name);
             };
-            Handlers.Add(name, handler);
-            Button button = new Button(texture, scale, flip);
-            button.Click += handler;
             Buttons.Add(name, button);
         }
 
         public virtual void RemoveButton(string name)
         {
-            EventHandler handler = Handlers[name];
-            Handlers.Remove(name);
             Button button = Buttons[name];
             Buttons.Remove(name);
-            button.Click -= handler;
+            button.RemoveAllHandlers();
         }
 
         public virtual List<Button> GetButtonValues()
@@ -76,8 +71,7 @@ namespace SwordsAndSandals.Classes
         public virtual void UseAbility(string name)
         {
             Active = Abilities[name];
-            Active.Prepare(this);
-            Active.done = false;
+            Active.prepared = false;
         }
 
 

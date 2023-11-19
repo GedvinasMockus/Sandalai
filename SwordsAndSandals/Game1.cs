@@ -38,11 +38,7 @@ namespace SwordsAndSandals
                 {
                     GameState battle = (StateManager.Instance.CurrentState as GameState);
                     battle.MakeOpponentUseAbility(name);
-                    EventHandler handler = new EventHandler((o, e) =>
-                    {
-                        battle.UpdateBattleInfo(info);
-                    });
-                    battle.BattleUpdateNeeded += handler;
+                    battle.BInfo = info;
                     battle.BattleInfoAvailable = true;
                 }
             });
@@ -52,11 +48,7 @@ namespace SwordsAndSandals
                 if (StateManager.Instance.CurrentState is GameState)
                 {
                     GameState battle = (StateManager.Instance.CurrentState as GameState);
-                    EventHandler handler = new EventHandler((o, e) =>
-                    {
-                        battle.UpdateBattleInfo(info);
-                    });
-                    battle.BattleUpdateNeeded += handler;
+                    battle.BInfo = info;
                     battle.BattleInfoAvailable = true;
                 }
             });
@@ -94,9 +86,10 @@ namespace SwordsAndSandals
                     battle.MakeUseAbility(player, name);
                     EventHandler handler = new EventHandler((o, e) =>
                     {
-                        battle.UpdateBattleInfo(player, info);
+                        battle.UpdateBattleInfo(player);
                     });
-                    battle.BattleUpdateNeeded += handler;
+                    battle.BInfo = info;
+                    battle.BattleUpdate += handler;
                     battle.BattleInfoAvailable = true;
                 }
             });

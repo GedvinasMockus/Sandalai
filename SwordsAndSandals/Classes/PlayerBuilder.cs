@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SwordsAndSandals.Sprites;
 using SwordsAndSandals.Stats;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace SwordsAndSandals.Classes
 
         public abstract PlayerBuilder SetDefaultAbility(SpriteEffects flip);
 
-        public abstract PlayerBuilder SetAbilities(SpriteEffects flip);
+        public abstract PlayerBuilder SetAbilities(SpriteEffects flip, List<Sprite> ctx);
 
         public abstract PlayerBuilder SetCorrection(int correctionY);
 

@@ -18,13 +18,12 @@ namespace SwordsAndSandals.Abilities
 
         }
 
-        public override void Prepare(Player player)
+        protected override void NextState(GameTime gameTime, Player player)
         {
-            animation.Reset();
-            player.animation = animation;
+            return;
         }
 
-        public override void Update(GameTime gameTime, Player player, List<Sprite> sprites)
+        protected override void CheckIfDone()
         {
             return;
         }

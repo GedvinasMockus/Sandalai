@@ -5,8 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Abilities;
 using SwordsAndSandals.Animations;
 using SwordsAndSandals.Classes.PlayerDecorators;
+using SwordsAndSandals.Sprites;
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
+using System.Collections.Generic;
 
 namespace SwordsAndSandals.Classes
 {
@@ -60,16 +62,16 @@ namespace SwordsAndSandals.Classes
             return this;
 
         }
-        public override PlayerBuilder SetAbilities(SpriteEffects flip)
+        public override PlayerBuilder SetAbilities(SpriteEffects flip, List<Sprite> ctx)
         {
             product.AddAbility("Sleep", new Idle(new SkeletonIdleAnimation(content, 0.1f, flip, true)));
-            product.AddAbility("Ranged_attack_left", new RangedAttack(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Arrow"), new SkeletonRangedAttackAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false), -800));
+            product.AddAbility("Ranged_attack_left", new RangedAttack(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Arrow"), new SkeletonRangedAttackAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false), -800, ctx));
             product.AddAbility("Melee_attack_left", new Idle(new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
             product.AddAbility("Run_left", new Run(product.BaseAttributes.BaseDistance * -1f, new SkeletonWalkAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
             product.AddAbility("Evasion", new Idle(new SkeletonIdleAnimation(content, 0.1f, flip, true)));
             product.AddAbility("Run_right", new Run(product.BaseAttributes.BaseDistance * 1f, new SkeletonWalkAnimation(content, 0.1f, SpriteEffects.None, false)));
             product.AddAbility("Melee_attack_right", new Idle(new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.None, false)));
-            product.AddAbility("Ranged_attack_right", new RangedAttack(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Arrow"), new SkeletonRangedAttackAnimation(content, 0.1f, SpriteEffects.None, false), 800));
+            product.AddAbility("Ranged_attack_right", new RangedAttack(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Arrow"), new SkeletonRangedAttackAnimation(content, 0.1f, SpriteEffects.None, false), 800, ctx));
             return this;
         }
         public override PlayerBuilder SetCorrection(int correctionY)

@@ -32,18 +32,8 @@ namespace SwordsAndSandals.Animations
                 return new Rectangle((int)(Position.X - anim.frameWidth / 2 * anim.Scale), (int)(Position.Y - anim.frameHeight / 2 * anim.Scale), (int)(anim.frameWidth * anim.Scale), (int)(anim.frameHeight * anim.Scale));
             }
         }
-        public AnimatedSprite(Animation animation, Vector2 position)
-        {
-            this.animation = animation;
-            Position = position;
-        }
-
-        public AnimatedSprite()
-        {
-
-        }
 
         public abstract void Draw(SpriteBatch batch);
-        public abstract void Update(GameTime gameTime, List<Sprite> sprites);
+        public abstract void Update(GameTime gameTime);
     }
 }

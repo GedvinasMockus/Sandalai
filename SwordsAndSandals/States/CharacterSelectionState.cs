@@ -123,7 +123,7 @@ namespace SwordsAndSandals.States
             {
                 b.Update(gameTime);
             }
-            sprites[spriteIndex].Update(gameTime, new List<Sprite>());
+            sprites[spriteIndex].Update(gameTime);
         }
         public override void UnloadContent()
         {

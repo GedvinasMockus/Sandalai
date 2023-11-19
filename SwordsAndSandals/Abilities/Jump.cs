@@ -29,29 +29,26 @@ namespace SwordsAndSandals.Abilities
             accelerationY = -2 * velocityY / animation.Duration;
         }
 
-        public override void Prepare(Player player)
+        protected override void NextState(GameTime gameTime, Player player)
         {
-            animation.Reset();
-            player.animation = animation;
+            float elapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
+            velocityHolder = new Vector2(velocityHolder.X, velocityHolder.Y + accelerationY * elapsed);
+            Vector2 delta = new Vector2(velocityHolder.X * elapsed, velocityHolder.Y * elapsed + accelerationY * elapsed * elapsed / 2);
+            player.Position = new Vector2(player.Position.X + delta.X, Math.Min(groundY, player.Position.Y + delta.Y));
+            currDistanceX += Math.Abs(delta.X);
+        }
+
+        protected override void CheckIfDone()
+        {
+            if (currDistanceX >= Math.Abs(maxDistanceX)) done = true;
+        }
+
+        protected override void Prepare(Player player)
+        {
             currDistanceX = 0;
             velocityHolder = new Vector2(velocityX, velocityY);
             groundY = player.Position.Y;
-        }
-
-        public override void Update(GameTime gameTime, Player player, List<Sprite> sprites)
-        {
-            if (currDistanceX < Math.Abs(maxDistanceX))
-            {
-                float elapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                velocityHolder = new Vector2(velocityHolder.X, velocityHolder.Y + accelerationY * elapsed);
-                Vector2 delta = new Vector2(velocityHolder.X * elapsed, velocityHolder.Y * elapsed + accelerationY * elapsed * elapsed / 2);
-                player.Position = new Vector2(player.Position.X + delta.X, Math.Min(groundY, player.Position.Y + delta.Y));
-                currDistanceX += Math.Abs(delta.X);
-            }
-            else
-            {
-                done = true;
-            }
+            base.Prepare(player);
         }
     }
 }

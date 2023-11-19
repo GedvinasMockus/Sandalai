@@ -25,10 +25,8 @@ namespace SignalR.Sandalai.PlayerClasses
             Player player = (Player)this.MemberwiseClone();
             player.ConnectionId = String.Copy(ConnectionId);
             player.ClassName = String.Copy(ClassName);
+            player.Name = String.Copy(Name);
             player.Position = new Vector2(this.Position.X, this.Position.Y);
-
-            //Player player = this;
-
             return player;
         }
         public PlayerInfo GetInfo()

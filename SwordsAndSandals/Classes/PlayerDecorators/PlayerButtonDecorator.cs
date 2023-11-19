@@ -33,9 +33,9 @@ namespace SwordsAndSandals.Classes.PlayerDecorators
             }
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites)
+        public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime, sprites);
+            base.Update(gameTime);
             foreach (var b in wrapee.GetButtonValues())
             {
                 b.Update(gameTime);
