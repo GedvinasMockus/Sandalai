@@ -19,7 +19,7 @@ namespace SwordsAndSandals.Classes.PlayerDecorators
         {
             base.Draw(batch);
             int numIcons = wrapee.GetButtonCount();
-            float radius = animation.Scale * animation.frameHeight / 2;
+            float radius = animation.Scale * animation.FrameHeight / 2;
             float angleIncrement = MathHelper.TwoPi / numIcons;
             int index = 0;
             foreach (var b in wrapee.GetButtonValues())
@@ -27,7 +27,7 @@ namespace SwordsAndSandals.Classes.PlayerDecorators
                 float angle = index * angleIncrement;
                 float xOffset = -(float)Math.Sin(angle) * radius;
                 float yOffset = -(float)Math.Cos(angle) * radius;
-                b.Position = new Vector2(Position.X + xOffset, Position.Y - animation.Scale * (animation.frameHeight / 2 - CorrectionY) + yOffset);
+                b.Position = new Vector2(Position.X + xOffset, Position.Y - animation.Scale * (animation.FrameHeight / 2 - CorrectionY) + yOffset);
                 b.Draw(batch);
                 index++;
             }

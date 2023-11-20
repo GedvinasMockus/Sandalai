@@ -16,14 +16,24 @@ namespace SwordsAndSandals.Abilities
     {
         private float timer;
         private Texture2D texture;
+
         private float velocityX;
+        private int collisionWidth;
+        private int collisionHeight;
+        private Vector2 rectPoint;
+
         private bool projectileSpawned;
+
         private List<Sprite> spawnCtx;
-        public RangedAttack(Texture2D texture, RangedAttackAnimation animation, float velocityX, List<Sprite> ctx) : base(animation)
+        public RangedAttack(Texture2D texture, float velocityX, int width, int height, Vector2 rectPoint, RangedAttackAnimation animation, List<Sprite> ctx) : base(animation)
         {
             this.texture = texture;
-            this.velocityX = velocityX;
             spawnCtx = ctx;
+
+            this.velocityX = velocityX;
+            collisionWidth = width;
+            collisionHeight = height;
+            this.rectPoint = rectPoint;
 
             timer = 0;
             projectileSpawned = false;
@@ -33,17 +43,20 @@ namespace SwordsAndSandals.Abilities
         {
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
             RangedAttackAnimation rangedAnimation = (animation as RangedAttackAnimation);
-            if (!projectileSpawned && timer >= rangedAnimation.spawnDuration)
+            if (!projectileSpawned && timer >= rangedAnimation.SpawnDuration)
             {
-                Vector2 origin = new Vector2(player.animation.frameWidth / 2, player.animation.frameHeight / 2);
-                Vector2 playerOrigin = new Vector2(player.Position.X, player.Position.Y - player.animation.Scale * player.animation.frameHeight / 2);
-                Vector2 shift = rangedAnimation.relativePosition - origin;
-                Projectile p = new Projectile(texture, playerOrigin + shift * player.animation.Scale)
+                Vector2 origin = new Vector2(player.animation.FrameWidth / 2, player.animation.FrameHeight / 2);
+                Vector2 playerPos = new Vector2(player.Position.X, player.Position.Y - player.animation.Scale * player.animation.FrameHeight / 2);
+                Vector2 shift = rangedAnimation.RelativePosition - origin;
+                Projectile p = new Projectile(texture, playerPos + shift * player.animation.Scale)
                 {
                     Rotation = 0,
-                    Scale = player.animation.Scale * 37f / 45f,
+                    Scale = player.animation.Scale * rangedAnimation.ProjectileWidth / collisionWidth,
                     Flip = player.animation.Flip,
-                    Velocity = new Vector2(velocityX, 0)
+                    Velocity = new Vector2(velocityX, 0),
+                    CollisionWidth = collisionWidth,
+                    CollisionHeight = collisionHeight,
+                    CollisionRectPoint = rectPoint
                 };
                 spawnCtx.Add(p);
                 projectileSpawned = true;

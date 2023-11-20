@@ -17,10 +17,14 @@ namespace SwordsAndSandals.Animations
             texture = content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Shot_1");
             Scale = 3.0f;
             totalFrames = 15;
-            frameWidth = texture.Width / totalFrames;
-            frameHeight = texture.Height;
+            FrameWidth = texture.Width / totalFrames;
+            FrameHeight = texture.Height;
             projectileSpawnFrame = 12;
-            relativePosition = new Vector2(71, 76);
+            RelativePosition = new Vector2(71, 76);
+            ProjectileWidth = 37;
+            CollisionWidth = 14;
+            CollisionHeight = 64;
+            CollisionRectPoint = new Vector2(52, 64);
         }
     }
 }

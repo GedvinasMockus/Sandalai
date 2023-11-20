@@ -11,8 +11,11 @@ namespace SwordsAndSandals.Animations
 {
     public abstract class Animation
     {
-        public int frameWidth { get; protected set; }
-        public int frameHeight { get; protected set; }
+        public int FrameWidth { get; protected set; }
+        public int FrameHeight { get; protected set; }
+        public int CollisionWidth { get; protected set; }
+        public int CollisionHeight { get; protected set; }
+        public Vector2 CollisionRectPoint { get; protected set; }
 
         protected SpriteEffects flip;
         public SpriteEffects Flip
@@ -52,7 +55,7 @@ namespace SwordsAndSandals.Animations
             this.flipChangeable = flipChangeable;
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
             if (timer >= frameDuration)
@@ -62,9 +65,9 @@ namespace SwordsAndSandals.Animations
             }
         }
 
-        public void Draw(SpriteBatch batch, Vector2 position, Vector2 origin)
+        public virtual void Draw(SpriteBatch batch, Vector2 position, Vector2 origin)
         {
-            Rectangle frameRect = new Rectangle(currentFrame * frameHeight, 0, frameWidth, frameHeight);
+            Rectangle frameRect = new Rectangle(currentFrame * FrameWidth, 0, FrameWidth, FrameHeight);
             batch.Draw(texture, position, frameRect, Color.White, Rotation, origin, Scale, Flip, 1);
         }
 

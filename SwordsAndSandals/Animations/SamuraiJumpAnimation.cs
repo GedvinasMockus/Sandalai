@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,11 @@ namespace SwordsAndSandals.Animations
             Scale = 3.0f;
             texture = content.Load<Texture2D>("Character/Samurai/Samurai_Commander/Jump");
             totalFrames = 7;
-            frameWidth = texture.Width / totalFrames;
-            frameHeight = texture.Height;
+            FrameWidth = texture.Width / totalFrames;
+            FrameHeight = texture.Height;
+            CollisionWidth = 16;
+            CollisionHeight = 68;
+            CollisionRectPoint = new Vector2(51, 60);
         }
     }
 }
