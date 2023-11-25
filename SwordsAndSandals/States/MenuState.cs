@@ -35,6 +35,11 @@ namespace SwordsAndSandals
             CommandHelper.ExecuteCommand(new CharacterSelectionStateCommand(graphicsDevice));
         }
 
+        private void BenchmarkButton_Click(object sender, EventArgs e)
+        {
+            CommandHelper.ExecuteCommand(new BenchmarkStateCommand(graphicsDevice));
+        }
+
         private void ExitButton_Click(object sender, EventArgs e)
         {
             CommandHelper.UndoCommand();
@@ -64,9 +69,14 @@ namespace SwordsAndSandals
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 200)
             };
             settingsButton.Click += SettingButton_Click;
+            Button benchmarkButton = new Button(buttonTexture, buttonFont, "Benchmark", 2f, SpriteEffects.None)
+            {
+                Position = new Vector2(screenWidth / 2, screenHeight / 2 + 300),
+            };
+            benchmarkButton.Click += BenchmarkButton_Click;
             Button exitButton = new Button(buttonTexture, buttonFont, "Exit", 2f, SpriteEffects.None)
             {
-                Position = new Vector2(screenWidth / 2, screenHeight / 2 + 300)
+                Position = new Vector2(screenWidth / 2, screenHeight / 2 + 400)
             };
             exitButton.Click += ExitButton_Click;
             Button spectateBattleButton = new Button(buttonTexture, buttonFont, "Spectate battles", 2.0f, SpriteEffects.None)
@@ -78,6 +88,7 @@ namespace SwordsAndSandals
             {
                 CharacterSelectionButton,
                 settingsButton,
+                benchmarkButton,
                 exitButton,
                 spectateBattleButton
             };

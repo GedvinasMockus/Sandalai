@@ -21,9 +21,10 @@ namespace SwordsAndSandals.Classes
 
         protected Dictionary<string, Button> Buttons = new Dictionary<string, Button>();
         protected Dictionary<string, Ability> Abilities = new Dictionary<string, Ability>();
-        public MeleeWeapon Melee { get; set; }
-        public RangedWeapon Ranged { get; set; }
-        public ShieldWeapon Shield { get; set; }
+
+        //public MeleeWeapon Melee { get; set; }
+        //public RangedWeapon Ranged { get; set; }
+        //public ShieldWeapon Shield { get; set; }
 
         public virtual void AddAbility(string name, Ability ability)
         {

@@ -46,25 +46,12 @@ namespace SwordsAndSandals.States
             p2sprites = new List<Sprite>();
         }
 
-        public PlayerFactory GetPlayerFactory(string className)
-        {
-            switch (className)
-            {
-                case "Kunoichi":
-                    return new KunoichiFactory();
-                case "Samurai":
-                    return new SamuraiFactory();
-                default:
-                    return new SkeletonFactory();
-            }
-        }
         public override void LoadContent(ContentManager content)
         {
             WeaponFactory weaponFactory = GetPlayerWeaponFactory(BInfo.Player1.ClassName);
             Vector2 p1Pos = new Vector2(BInfo.Player1.Position.X * screenWidth, BInfo.Player1.Position.Y * screenHeight);
             Vector2 p2Pos = new Vector2(BInfo.Player2.Position.X * screenWidth, BInfo.Player2.Position.Y * screenHeight);
-            PlayerFactory p1Factory = GetPlayerFactory(BInfo.Player1.ClassName);
-            PlayerFactory p2Factory = GetPlayerFactory(BInfo.Player2.ClassName);
+            PlayerFactory factory = new PlayerFactory(content);
 
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
 
@@ -83,8 +70,8 @@ namespace SwordsAndSandals.States
 
             Attributes p1Attributes = BInfo.Player1.GetPlayerAttributes(screenWidth);
             Attributes p2Attributes = BInfo.Player2.GetPlayerAttributes(screenWidth);
-            player = p1Factory.CreatePlayerWithoutButtons(content, p1Pos, p1flip, p1sprites, p1Attributes, BInfo.Player1.Name);
-            opponent = p2Factory.CreatePlayerWithoutButtons(content, p2Pos, p2flip, p2sprites, p2Attributes, BInfo.Player2.Name);
+            player = factory.CreatePlayerWithoutButtons(BInfo.Player1.ClassName, p1Pos, p1flip, p1sprites, p1Attributes, BInfo.Player1.Name);
+            opponent = factory.CreatePlayerWithoutButtons(BInfo.Player1.ClassName, p2Pos, p2flip, p2sprites, p2Attributes, BInfo.Player2.Name);
             player.AddAbilityDoneHandler(OnAbilityDone);
             opponent.AddAbilityDoneHandler(OnAbilityDone);
 

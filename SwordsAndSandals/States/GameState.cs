@@ -17,8 +17,6 @@ namespace SwordsAndSandals.States
 {
     public class GameState : State
     {
-        //TODO refactor and optimize collisions and sprite code !!!!!!!!!!!!!!!!!!!!
-
         public BattleInfo BInfo { get; set; }
         public bool BattleInfoAvailable { get; set; }
         private bool turnDone;
@@ -61,18 +59,6 @@ namespace SwordsAndSandals.States
                     return new SkeletonWeaponFactory();
             }
         }
-        public PlayerFactory GetPlayerFactory(string className)
-        {
-            switch (className)
-            {
-                case "Kunoichi":
-                    return new KunoichiFactory();
-                case "Samurai":
-                    return new SamuraiFactory();
-                default:
-                    return new SkeletonFactory();
-            }
-        }
 
         private void LogoutButton_Click(object sender, EventArgs e)
         {
@@ -89,8 +75,7 @@ namespace SwordsAndSandals.States
             WeaponFactory weaponFactory = GetPlayerWeaponFactory(BInfo.Player1.ClassName);
             Vector2 p1Pos = new Vector2(BInfo.Player1.Position.X * screenWidth, BInfo.Player1.Position.Y * screenHeight);
             Vector2 p2Pos = new Vector2(BInfo.Player2.Position.X * screenWidth, BInfo.Player2.Position.Y * screenHeight);
-            PlayerFactory p1Factory = GetPlayerFactory(BInfo.Player1.ClassName);
-            PlayerFactory p2Factory = GetPlayerFactory(BInfo.Player2.ClassName);
+            PlayerFactory factory = new PlayerFactory(content);
 
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
 
@@ -110,8 +95,8 @@ namespace SwordsAndSandals.States
             DeterminePlayerDirection(p1Pos.X, p2Pos.X, out p1flip, out p2flip);
             Attributes p1Attributes = BInfo.Player1.GetPlayerAttributes(screenWidth);
             Attributes p2Attributes = BInfo.Player2.GetPlayerAttributes(screenWidth);
-            player = p1Factory.CreatePlayerWithButtons(content, p1Pos, p1flip, p1sprites, p1Attributes, BInfo.Player1.Name);
-            opponent = p2Factory.CreatePlayerWithoutButtons(content, p2Pos, p2flip, p2sprites, p2Attributes, BInfo.Player2.Name);
+            player = factory.CreatePlayerWithButtons(BInfo.Player1.ClassName, p1Pos, p1flip, p1sprites, p1Attributes, BInfo.Player1.Name);
+            opponent = factory.CreatePlayerWithoutButtons(BInfo.Player2.ClassName, p2Pos, p2flip, p2sprites, p2Attributes, BInfo.Player2.Name);
             player.AddAbilityDoneHandler(OnAbilityDone);
             opponent.AddAbilityDoneHandler(OnAbilityDone);
 

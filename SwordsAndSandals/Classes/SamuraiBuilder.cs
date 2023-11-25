@@ -14,9 +14,10 @@ namespace SwordsAndSandals.Classes
 {
     public class SamuraiBuilder : PlayerBuilder
     {
-        public SamuraiBuilder(ContentManager content)
+        public SamuraiBuilder(ContentManager content, AnimationFactory factory)
         {
             this.content = content;
+            animationFactory = factory;
             product = new Samurai();
         }
 
@@ -57,7 +58,7 @@ namespace SwordsAndSandals.Classes
         }
         public override PlayerBuilder SetDefaultAbility(SpriteEffects flip)
         {
-            product.animation = new SamuraiIdleAnimation(content, 0.1f, flip, true);
+            product.animation = animationFactory.CreateAnimation("SamuraiIdle", content, 3.0f, 0.1f, flip);
             product.Active = new Idle(product.animation); ;
             product.AddAbility("Idle", product.Active);
             return this;
@@ -65,19 +66,14 @@ namespace SwordsAndSandals.Classes
 
         public override PlayerBuilder SetAbilities(SpriteEffects flip, List<Sprite> ctx)
         {
-            product.AddAbility("Sleep", new Idle(new SamuraiIdleAnimation(content, 0.1f, flip, true)));
-            product.AddAbility("Jump_left", new Jump(product.BaseAttributes.BaseDistance * -1.2f, 50, new SamuraiJumpAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
-            product.AddAbility("Melee_attack_left", new Idle(new SamuraiIdleAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
-            product.AddAbility("Run_left", new Run(product.BaseAttributes.BaseDistance * -1f, new SamuraiRunAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
-            product.AddAbility("Shield", new Idle(new SamuraiIdleAnimation(content, 0.1f, flip, true)));
-            product.AddAbility("Run_right", new Run(product.BaseAttributes.BaseDistance * 1f, new SamuraiRunAnimation(content, 0.1f, SpriteEffects.None, false)));
-            product.AddAbility("Melee_attack_right", new Idle(new SamuraiIdleAnimation(content, 0.1f, SpriteEffects.None, false)));
-            product.AddAbility("Jump_right", new Jump(product.BaseAttributes.BaseDistance * 1.2f, 50, new SamuraiJumpAnimation(content, 0.1f, SpriteEffects.None, false)));
-            return this;
-        }
-        public override PlayerBuilder SetCorrection(int correctionY)
-        {
-            product.CorrectionY = correctionY;
+            product.AddAbility("Sleep", new Idle(animationFactory.CreateAnimation("SamuraiIdle", content, 3.0f, 0.1f, flip)));
+            product.AddAbility("Jump_left", new Jump(product.BaseAttributes.BaseDistance * -1.2f, 50, animationFactory.CreateAnimation("SamuraiJump", content, 3.0f, 0.1f, SpriteEffects.FlipHorizontally)));
+            product.AddAbility("Melee_attack_left", new Idle(animationFactory.CreateAnimation("SamuraiIdle", content, 3.0f, 0.1f, flip)));
+            product.AddAbility("Run_left", new Run(product.BaseAttributes.BaseDistance * -1f, animationFactory.CreateAnimation("SamuraiRun", content, 3.0f, 0.1f, SpriteEffects.FlipHorizontally)));
+            product.AddAbility("Shield", new Idle(animationFactory.CreateAnimation("SamuraiIdle", content, 3.0f, 0.1f, flip)));
+            product.AddAbility("Run_right", new Run(product.BaseAttributes.BaseDistance * 1f, animationFactory.CreateAnimation("SamuraiRun", content, 3.0f, 0.1f, SpriteEffects.None)));
+            product.AddAbility("Melee_attack_right", new Idle(animationFactory.CreateAnimation("SamuraiIdle", content, 3.0f, 0.1f, flip)));
+            product.AddAbility("Jump_right", new Jump(product.BaseAttributes.BaseDistance * 1.2f, 50, animationFactory.CreateAnimation("SamuraiJump", content, 3.0f, 0.1f, SpriteEffects.None)));
             return this;
         }
 
@@ -112,7 +108,9 @@ namespace SwordsAndSandals.Classes
         }
         public override Player GetPlayer()
         {
-            return product;
+            Player complete = product;
+            reset();
+            return complete;
         }
     }
 }

@@ -14,14 +14,31 @@ namespace SwordsAndSandals.Animations
         {
             get
             {
-                return projectileSpawnFrame * frameDuration;
+                return ProjectileSpawnFrame * frameDuration;
             }
         }
-        public Vector2 RelativePosition { get; protected set; }
-        public int ProjectileWidth { get; protected set; }
-
-        protected int projectileSpawnFrame;
-        public RangedAttackAnimation(float duration, SpriteEffects flip, bool flipChangeable) : base(duration, flip, flipChangeable)
+        public Vector2 RelativePosition
+        {
+            get
+            {
+                return (Shared as RangedAttackAnimationShared).RelativePosition;
+            }
+        }
+        public int ProjectileWidth
+        {
+            get
+            {
+                return (Shared as RangedAttackAnimationShared).ProjectileWidth;
+            }
+        }
+        public int ProjectileSpawnFrame
+        {
+            get
+            {
+                return (Shared as RangedAttackAnimationShared).ProjectileSpawnFrame;
+            }
+        }
+        public RangedAttackAnimation(RangedAttackAnimationShared shared, float duration, SpriteEffects flip) : base(shared, duration, flip)
         {
 
         }
