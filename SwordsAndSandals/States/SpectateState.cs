@@ -21,10 +21,11 @@ namespace SwordsAndSandals.States
         private int screenWidth;
         private int screenHeight;
 
-        private BattleInfo battleInfo;
-        private bool turnDone;
-        public event EventHandler BattleUpdateNeeded;
+        public event EventHandler BattleUpdate;
+
+        public BattleInfo BInfo { get; set; }
         public bool BattleInfoAvailable { get; set; }
+        private bool turnDone;
 
         private Background background;
         private List<Button> buttons;
@@ -38,32 +39,19 @@ namespace SwordsAndSandals.States
         {
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
-            battleInfo = bInfo;
+            BInfo = bInfo;
             turnDone = false;
             BattleInfoAvailable = false;
             p1sprites = new List<Sprite>();
             p2sprites = new List<Sprite>();
         }
 
-        public PlayerFactory GetPlayerFactory(string className)
-        {
-            switch (className)
-            {
-                case "Kunoichi":
-                    return new KunoichiFactory();
-                case "Samurai":
-                    return new SamuraiFactory();
-                default:
-                    return new SkeletonFactory();
-            }
-        }
         public override void LoadContent(ContentManager content)
         {
-            WeaponFactory weaponFactory = GetPlayerWeaponFactory(battleInfo.Player1.ClassName);
-            Vector2 p1Pos = new Vector2(battleInfo.Player1.Position.X * screenWidth, battleInfo.Player1.Position.Y * screenHeight);
-            Vector2 p2Pos = new Vector2(battleInfo.Player2.Position.X * screenWidth, battleInfo.Player2.Position.Y * screenHeight);
-            PlayerFactory p1Factory = GetPlayerFactory(battleInfo.Player1.ClassName);
-            PlayerFactory p2Factory = GetPlayerFactory(battleInfo.Player2.ClassName);
+            WeaponFactory weaponFactory = GetPlayerWeaponFactory(BInfo.Player1.ClassName);
+            Vector2 p1Pos = new Vector2(BInfo.Player1.Position.X * screenWidth, BInfo.Player1.Position.Y * screenHeight);
+            Vector2 p2Pos = new Vector2(BInfo.Player2.Position.X * screenWidth, BInfo.Player2.Position.Y * screenHeight);
+            PlayerFactory factory = new PlayerFactory(content);
 
             background = new Background(content.Load<Texture2D>("Background/Battleground/PNG/Battleground4/Bright/back_trees"));
 
@@ -80,22 +68,10 @@ namespace SwordsAndSandals.States
             SpriteEffects p2flip;
             DeterminePlayerDirection(p1Pos.X, p2Pos.X, out p1flip, out p2flip);
 
-            Attributes p1Attributes = new Attributes()
-            {
-                MaxHealth = battleInfo.Player1.BaseAttributes.MaxHealth,
-                CurrHealth = battleInfo.Player1.BaseAttributes.CurrHealth,
-                BaseDistance = battleInfo.Player1.BaseAttributes.BaseDistance * screenWidth,
-                ArmourRating = battleInfo.Player1.BaseAttributes.ArmourRating
-            };
-            Attributes p2Attributes = new Attributes()
-            {
-                MaxHealth = battleInfo.Player2.BaseAttributes.MaxHealth,
-                CurrHealth = battleInfo.Player2.BaseAttributes.CurrHealth,
-                BaseDistance = battleInfo.Player2.BaseAttributes.BaseDistance * screenWidth,
-                ArmourRating = battleInfo.Player2.BaseAttributes.ArmourRating
-            };
-            player = p1Factory.CreatePlayerWithoutButtons(content, p1Pos, p1flip, p1Attributes, battleInfo.Player1.Name);
-            opponent = p2Factory.CreatePlayerWithoutButtons(content, p2Pos, p2flip, p2Attributes, battleInfo.Player2.Name);
+            Attributes p1Attributes = BInfo.Player1.GetPlayerAttributes(screenWidth);
+            Attributes p2Attributes = BInfo.Player2.GetPlayerAttributes(screenWidth);
+            player = factory.CreatePlayerWithoutButtons(BInfo.Player1.ClassName, p1Pos, p1flip, p1sprites, p1Attributes, BInfo.Player1.Name);
+            opponent = factory.CreatePlayerWithoutButtons(BInfo.Player1.ClassName, p2Pos, p2flip, p2sprites, p2Attributes, BInfo.Player2.Name);
             player.AddAbilityDoneHandler(OnAbilityDone);
             opponent.AddAbilityDoneHandler(OnAbilityDone);
 
@@ -154,37 +130,25 @@ namespace SwordsAndSandals.States
                 opponent.UseAbility(name);
 
         }
-        public void UpdateBattleInfo(int playerNum, BattleInfo info)
+        public void UpdateBattleInfo(int playerNum)
         {
-            Attributes p1attrs = new Attributes()
-            {
-                MaxHealth = info.Player1.BaseAttributes.MaxHealth,
-                CurrHealth = info.Player1.BaseAttributes.CurrHealth,
-                BaseDistance = info.Player1.BaseAttributes.BaseDistance * screenWidth,
-                ArmourRating = info.Player1.BaseAttributes.ArmourRating
-            };
-            Attributes p2attrs = new Attributes()
-            {
-                MaxHealth = info.Player2.BaseAttributes.MaxHealth,
-                CurrHealth = info.Player2.BaseAttributes.CurrHealth,
-                BaseDistance = info.Player2.BaseAttributes.BaseDistance * screenWidth,
-                ArmourRating = info.Player2.BaseAttributes.ArmourRating
-            };
+            Attributes p1attrs = BInfo.Player1.GetPlayerAttributes(screenWidth);
+            Attributes p2attrs = BInfo.Player2.GetPlayerAttributes(screenWidth);
             if (playerNum == 0)
             {
-                player.Position = info.Player1.Position * new Vector2(screenWidth, screenHeight);
+                player.Position = BInfo.Player1.Position * new Vector2(screenWidth, screenHeight);
                 player.BaseAttributes = p1attrs;
-                opponent.Position = info.Player2.Position * new Vector2(screenWidth, screenHeight);
+                opponent.Position = BInfo.Player2.Position * new Vector2(screenWidth, screenHeight);
                 opponent.BaseAttributes = p2attrs;
             }
             else
             {
-                opponent.Position = info.Player1.Position * new Vector2(screenWidth, screenHeight);
+                opponent.Position = BInfo.Player1.Position * new Vector2(screenWidth, screenHeight);
                 opponent.BaseAttributes = p1attrs;
-                player.Position = info.Player2.Position * new Vector2(screenWidth, screenHeight);
+                player.Position = BInfo.Player2.Position * new Vector2(screenWidth, screenHeight);
                 player.BaseAttributes = p2attrs;
             }
-            BattleUpdateNeeded = null;
+            BattleUpdate = null;
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -212,8 +176,8 @@ namespace SwordsAndSandals.States
 
         public override void Update(GameTime gameTime)
         {
-            player.Update(gameTime, p1sprites);
-            opponent.Update(gameTime, p2sprites);
+            player.Update(gameTime);
+            opponent.Update(gameTime);
             SpriteEffects p1flip;
             SpriteEffects p2flip;
             DeterminePlayerDirection(player.Position.X, opponent.Position.X, out p1flip, out p2flip);
@@ -228,19 +192,29 @@ namespace SwordsAndSandals.States
             {
                 turnDone = false;
                 BattleInfoAvailable = false;
-                BattleUpdateNeeded?.Invoke(this, new EventArgs());
+                BattleUpdate?.Invoke(this, new EventArgs());
             }
 
-            foreach (var s1 in p1sprites)
+            for (int i = 0; i < p1sprites.Count; i++)
             {
-                s1.Update(gameTime);
+                Sprite s = p1sprites[i];
+                if (s.Rectangle.Intersects(opponent.Rectangle))
+                {
+                    p1sprites.RemoveAt(i);
+                    i--;
+                }
+                s.Update(gameTime);
             }
-            p1sprites.RemoveAll(s => Intersects(s.Rectangle, opponent.Rectangle));
-            foreach (var s2 in p2sprites)
+            for (int i = 0; i < p2sprites.Count; i++)
             {
-                s2.Update(gameTime);
+                Sprite s = p2sprites[i];
+                if (s.Rectangle.Intersects(player.Rectangle))
+                {
+                    p2sprites.RemoveAt(i);
+                    i--;
+                }
+                s.Update(gameTime);
             }
-            p2sprites.RemoveAll(s => Intersects(s.Rectangle, player.Rectangle));
         }
     }
 }

@@ -20,29 +20,29 @@ namespace SwordsAndSandals.Abilities
         {
             maxDistanceX = distanceX;
             velocityX = maxDistanceX / animation.Duration;
-        }
 
-        public override void Prepare(Player player)
-        {
-            animation.Reset();
-            player.animation = animation;
             currDistanceX = 0;
             velocityHolder = new Vector2(velocityX, 0);
         }
 
-        public override void Update(GameTime gameTime, Player player, List<Sprite> sprites)
+        protected override void NextState(GameTime gameTime, Player player)
         {
-            if (currDistanceX < Math.Abs(maxDistanceX))
-            {
-                float elapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                Vector2 delta = velocityHolder * elapsed;
-                player.Position += delta;
-                currDistanceX += Math.Abs(delta.X);
-            }
-            else
-            {
-                done = true;
-            }
+            float elapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
+            Vector2 delta = velocityHolder * elapsed;
+            player.Position += delta;
+            currDistanceX += Math.Abs(delta.X);
+        }
+
+        protected override void CheckIfDone()
+        {
+            if (currDistanceX >= Math.Abs(maxDistanceX)) done = true;
+        }
+
+        protected override void Prepare(Player player)
+        {
+            currDistanceX = 0;
+            velocityHolder = new Vector2(velocityX, 0);
+            base.Prepare(player);
         }
     }
 }

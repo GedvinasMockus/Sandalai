@@ -22,28 +22,25 @@ namespace SwordsAndSandals.Animations
             set
             {
                 anim = value;
-                Origin = new Vector2(anim.frameWidth / 2, anim.frameHeight / 2);
+                Origin = new Vector2(anim.FrameWidth / 2, anim.FrameHeight / 2);
             }
         }
         public virtual Rectangle Rectangle
         {
             get
             {
-                return new Rectangle((int)(Position.X - anim.frameWidth / 2 * anim.Scale), (int)(Position.Y - anim.frameHeight / 2 * anim.Scale), (int)(anim.frameWidth * anim.Scale), (int)(anim.frameHeight * anim.Scale));
+                Vector2 startPoint = anim.Flip == SpriteEffects.FlipHorizontally ?
+                    new Vector2(anim.FrameWidth - anim.CollisionRectPoint.X - anim.CollisionWidth, anim.CollisionRectPoint.Y) :
+                    anim.CollisionRectPoint;
+                Vector2 shift = (startPoint - Origin) * anim.Scale;
+                int collisionWidth = (int)(anim.CollisionWidth * anim.Scale);
+                int collisionHeight = (int)(anim.CollisionHeight * anim.Scale);
+                Vector2 rectPos = Position + shift;
+                return new Rectangle((int)rectPos.X, (int)rectPos.Y, collisionWidth, collisionHeight);
             }
-        }
-        public AnimatedSprite(Animation animation, Vector2 position)
-        {
-            this.animation = animation;
-            Position = position;
-        }
-
-        public AnimatedSprite()
-        {
-
         }
 
         public abstract void Draw(SpriteBatch batch);
-        public abstract void Update(GameTime gameTime, List<Sprite> sprites);
+        public abstract void Update(GameTime gameTime);
     }
 }

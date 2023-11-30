@@ -5,16 +5,19 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Abilities;
 using SwordsAndSandals.Animations;
 using SwordsAndSandals.Classes.PlayerDecorators;
+using SwordsAndSandals.Sprites;
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
+using System.Collections.Generic;
 
 namespace SwordsAndSandals.Classes
 {
     public class SkeletonBuilder : PlayerBuilder
     {
-        public SkeletonBuilder(ContentManager content)
+        public SkeletonBuilder(ContentManager content, AnimationFactory factory)
         {
             this.content = content;
+            animationFactory = factory;
             product = new Skeleton();
         }
 
@@ -54,29 +57,25 @@ namespace SwordsAndSandals.Classes
         }
         public override PlayerBuilder SetDefaultAbility(SpriteEffects flip)
         {
-            product.animation = new SkeletonIdleAnimation(content, 0.1f, flip, true);
+            product.animation = animationFactory.CreateAnimation("SkeletonIdle", content, 3.0f, 0.1f, flip);
             product.Active = new Idle(product.animation);
             product.AddAbility("Idle", product.Active);
             return this;
 
         }
-        public override PlayerBuilder SetAbilities(SpriteEffects flip)
+        public override PlayerBuilder SetAbilities(SpriteEffects flip, List<Sprite> ctx)
         {
-            product.AddAbility("Sleep", new Idle(new SkeletonIdleAnimation(content, 0.1f, flip, true)));
-            product.AddAbility("Ranged_attack_left", new RangedAttack(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Arrow"), new SkeletonRangedAttackAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false), -800));
-            product.AddAbility("Melee_attack_left", new Idle(new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
-            product.AddAbility("Run_left", new Run(product.BaseAttributes.BaseDistance * -1f, new SkeletonWalkAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
-            product.AddAbility("Evasion", new Idle(new SkeletonIdleAnimation(content, 0.1f, flip, true)));
-            product.AddAbility("Run_right", new Run(product.BaseAttributes.BaseDistance * 1f, new SkeletonWalkAnimation(content, 0.1f, SpriteEffects.None, false)));
-            product.AddAbility("Melee_attack_right", new Idle(new SkeletonIdleAnimation(content, 0.1f, SpriteEffects.None, false)));
-            product.AddAbility("Ranged_attack_right", new RangedAttack(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Arrow"), new SkeletonRangedAttackAnimation(content, 0.1f, SpriteEffects.None, false), 800));
+            product.AddAbility("Sleep", new Idle(animationFactory.CreateAnimation("SkeletonIdle", content, 3.0f, 0.1f, flip)));
+            product.AddAbility("Ranged_attack_left", new RangedAttack(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Arrow"), -800, 45, 3, new Vector2(2, 23), (RangedAttackAnimation)animationFactory.CreateAnimation("SkeletonShoot", content, 3.0f, 0.1f, SpriteEffects.FlipHorizontally), ctx));
+            product.AddAbility("Melee_attack_left", new Idle(animationFactory.CreateAnimation("SkeletonIdle", content, 3.0f, 0.1f, flip)));
+            product.AddAbility("Run_left", new Run(product.BaseAttributes.BaseDistance * -1f, animationFactory.CreateAnimation("SkeletonWalk",content, 3.0f, 0.1f,SpriteEffects.FlipHorizontally)));
+            product.AddAbility("Evasion", new Idle(animationFactory.CreateAnimation("SkeletonIdle", content, 3.0f, 0.1f, flip)));
+            product.AddAbility("Run_right", new Run(product.BaseAttributes.BaseDistance * 1f, animationFactory.CreateAnimation("SkeletonWalk",content, 3.0f, 0.1f,SpriteEffects.None)));
+            product.AddAbility("Melee_attack_right", new Idle(animationFactory.CreateAnimation("SkeletonIdle", content, 3.0f, 0.1f, flip)));
+            product.AddAbility("Ranged_attack_right", new RangedAttack(content.Load<Texture2D>("Character/Skeleton/Skeleton_Archer/Arrow"), 800, 45, 3, new Vector2(2, 23), (RangedAttackAnimation)animationFactory.CreateAnimation("SkeletonShoot", content, 3.0f, 0.1f, SpriteEffects.None), ctx));
             return this;
         }
-        public override PlayerBuilder SetCorrection(int correctionY)
-        {
-            product.CorrectionY = correctionY;
-            return this;
-        }
+
         public override PlayerBuilder SetButtons()
         {
             product.AddButton("Sleep", content.Load<Texture2D>("Icons/Icon_05"), 2.0f, SpriteEffects.None);
@@ -105,7 +104,9 @@ namespace SwordsAndSandals.Classes
         }
         public override Player GetPlayer()
         {
-            return product;
+            Player complete = product;
+            reset();
+            return complete;
         }
     }
 }

@@ -5,16 +5,19 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Abilities;
 using SwordsAndSandals.Animations;
 using SwordsAndSandals.Classes.PlayerDecorators;
+using SwordsAndSandals.Sprites;
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
+using System.Collections.Generic;
 
 namespace SwordsAndSandals.Classes
 {
     public class KunoichiBuilder : PlayerBuilder
     {
-        public KunoichiBuilder(ContentManager content)
+        public KunoichiBuilder(ContentManager content, AnimationFactory factory)
         {
             this.content = content;
+            animationFactory = factory;
             product = new Kunoichi();
         }
 
@@ -58,27 +61,21 @@ namespace SwordsAndSandals.Classes
 
         public override PlayerBuilder SetDefaultAbility(SpriteEffects flip)
         {
-            product.animation = new KunoichiIdleAnimation(content, 0.1f, flip, true);
+            product.animation = animationFactory.CreateAnimation("KunoichiIdle", content, 3.0f, 0.1f, flip);
             product.Active = new Idle(product.animation);
             product.AddAbility("Idle", product.Active);
             return this;
         }
 
-        public override PlayerBuilder SetAbilities(SpriteEffects flip)
+        public override PlayerBuilder SetAbilities(SpriteEffects flip, List<Sprite> ctx)
         {
-            product.AddAbility("Heal", new Idle(new KunoichiIdleAnimation(content, 0.1f, flip, true)));
-            product.AddAbility("Jump_left", new Jump(product.BaseAttributes.BaseDistance * -1.2f, 50, new KunoichiJumpAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
-            product.AddAbility("Melee_attack_left", new Idle(new KunoichiIdleAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
-            product.AddAbility("Run_left", new Run(product.BaseAttributes.BaseDistance * -1f, new KunoichiRunAnimation(content, 0.1f, SpriteEffects.FlipHorizontally, false)));
-            product.AddAbility("Run_right", new Run(product.BaseAttributes.BaseDistance * 1f, new KunoichiRunAnimation(content, 0.1f, SpriteEffects.None, false)));
-            product.AddAbility("Melee_attack_right", new Idle(new KunoichiIdleAnimation(content, 0.1f, SpriteEffects.None, false)));
-            product.AddAbility("Jump_right", new Jump(product.BaseAttributes.BaseDistance * 1.2f, 50, new KunoichiJumpAnimation(content, 0.1f, SpriteEffects.None, false)));
-            return this;
-        }
-
-        public override PlayerBuilder SetCorrection(int correctionY)
-        {
-            product.CorrectionY = correctionY;
+            product.AddAbility("Heal", new Idle(animationFactory.CreateAnimation("KunoichiIdle", content, 3.0f, 0.1f, flip)));
+            product.AddAbility("Jump_left", new Jump(product.BaseAttributes.BaseDistance * -1.2f, 50, animationFactory.CreateAnimation("KunoichiJump", content, 3.0f, 0.1f, SpriteEffects.FlipHorizontally)));
+            product.AddAbility("Melee_attack_left", new Idle(animationFactory.CreateAnimation("KunoichiIdle", content, 3.0f, 0.1f, flip)));
+            product.AddAbility("Run_left", new Run(product.BaseAttributes.BaseDistance * -1f, animationFactory.CreateAnimation("KunoichiRun", content, 3.0f, 0.1f, SpriteEffects.FlipHorizontally)));
+            product.AddAbility("Run_right", new Run(product.BaseAttributes.BaseDistance * 1f, animationFactory.CreateAnimation("KunoichiRun", content, 3.0f, 0.1f, SpriteEffects.None)));
+            product.AddAbility("Melee_attack_right", new Idle(animationFactory.CreateAnimation("KunoichiIdle", content, 3.0f, 0.1f, flip)));
+            product.AddAbility("Jump_right", new Jump(product.BaseAttributes.BaseDistance * 1.2f, 50, animationFactory.CreateAnimation("KunoichiJump", content, 3.0f, 0.1f, SpriteEffects.None)));
             return this;
         }
 
@@ -113,7 +110,9 @@ namespace SwordsAndSandals.Classes
 
         public override Player GetPlayer()
         {
-            return product;
+            Player complete = product;
+            reset();
+            return complete;
         }
     }
 }

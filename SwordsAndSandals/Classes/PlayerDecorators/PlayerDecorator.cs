@@ -73,9 +73,9 @@ namespace SwordsAndSandals.Classes.PlayerDecorators
             wrapee.Draw(batch);
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites)
+        public override void Update(GameTime gameTime)
         {
-            wrapee.Update(gameTime, sprites);
+            wrapee.Update(gameTime);
         }
 
         public override void AddAbilityDoneHandler(EventHandler handler)

@@ -18,11 +18,21 @@ namespace SwordsAndSandals.Sprites
         public SpriteEffects Flip { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
+        public int CollisionWidth { get; set; }
+        public int CollisionHeight { get; set; }
+        public Vector2 CollisionRectPoint { get; set; }
         public Rectangle Rectangle
         {
             get
             {
-                return new Rectangle((int)(Position.X - texture.Width / 2 * Scale), (int)(Position.Y - texture.Height / 2 * Scale), (int)(texture.Width * Scale), (int)(texture.Height * Scale));
+                Vector2 startPoint = Flip == SpriteEffects.FlipHorizontally ?
+                    new Vector2(texture.Width - CollisionRectPoint.X - CollisionWidth, CollisionRectPoint.Y) :
+                    CollisionRectPoint;
+                Vector2 shift = (startPoint - Origin) * Scale;
+                int scaledWidth = (int)(CollisionWidth * Scale);
+                int scaledHeight = (int)(CollisionHeight * Scale);
+                Vector2 rectPos = Position + shift;
+                return new Rectangle((int)rectPos.X, (int)rectPos.Y, scaledWidth, scaledHeight);
             }
         }
 

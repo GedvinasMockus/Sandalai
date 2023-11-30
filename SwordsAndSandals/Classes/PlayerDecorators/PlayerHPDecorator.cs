@@ -27,9 +27,9 @@ namespace SwordsAndSandals.Classes.PlayerDecorators
             text.Draw(batch);
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> sprites)
+        public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime, sprites);
+            base.Update(gameTime);
             text.TextString = "HP: " + BaseAttributes.CurrHealth + "/" + BaseAttributes.MaxHealth;
         }
     }

@@ -11,6 +11,7 @@ using SwordsAndSandals.Music;
 
 using System;
 using System.Collections.Generic;
+using SwordsAndSandals.Animations;
 
 namespace SwordsAndSandals.States
 {
@@ -64,11 +65,12 @@ namespace SwordsAndSandals.States
             music.playSong("Music/CharacterSelectMusic");
 
             Vector2 spritePos = new Vector2(screenWidth / 2, screenHeight / 2 + arrowTexture.Height / 2 * 0.15f);
+            AnimationFactory factory = new AnimationFactory();
             sprites = new List<Player>()
             {
-                new KunoichiBuilder(content).SetPosition(spritePos).SetDefaultAbility(SpriteEffects.None).GetPlayer(),
-                new SamuraiBuilder(content).SetPosition(spritePos).SetDefaultAbility(SpriteEffects.None).GetPlayer(),
-                new SkeletonBuilder(content).SetPosition(spritePos).SetDefaultAbility(SpriteEffects.None).GetPlayer(),
+                new KunoichiBuilder(content, factory).SetPosition(spritePos).SetDefaultAbility(SpriteEffects.None).GetPlayer(),
+                new SamuraiBuilder(content, factory).SetPosition(spritePos).SetDefaultAbility(SpriteEffects.None).GetPlayer(),
+                new SkeletonBuilder(content, factory).SetPosition(spritePos).SetDefaultAbility(SpriteEffects.None).GetPlayer(),
             };
             classes = new List<string>()
             {
@@ -123,7 +125,7 @@ namespace SwordsAndSandals.States
             {
                 b.Update(gameTime);
             }
-            sprites[spriteIndex].Update(gameTime, new List<Sprite>());
+            sprites[spriteIndex].Update(gameTime);
         }
         public override void UnloadContent()
         {

@@ -9,16 +9,31 @@ namespace SwordsAndSandals.Abilities
 {
     public abstract class Ability
     {
-        public bool done { get; set; }
         public Animation animation { get; private set; }
+       public bool done { get; set; }
+       public bool prepared { get; set; } 
 
         public Ability(Animation animation)
         {
-            done = true;
+            done = false;
+            prepared = false;
             this.animation = animation;
         }
+        public void UpdateState(GameTime gameTime, Player player)
+        {
+            if (!prepared) Prepare(player);
+            NextState(gameTime,player);
+            CheckIfDone();
+        }
 
-        public abstract void Prepare(Player player);
-        public abstract void Update(GameTime gameTime, Player player, List<Sprite> sprites);
+        protected abstract void NextState(GameTime gameTime, Player player);
+        protected abstract void CheckIfDone();
+        protected virtual void Prepare(Player player)
+        {
+            animation.Reset();
+            player.animation = animation;
+            done = false;
+            prepared = true;
+        }
     }
 }

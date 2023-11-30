@@ -16,46 +16,63 @@ namespace SwordsAndSandals.Abilities
     {
         private float timer;
         private Texture2D texture;
+
         private float velocityX;
+        private int collisionWidth;
+        private int collisionHeight;
+        private Vector2 rectPoint;
+
         private bool projectileSpawned;
-        public RangedAttack(Texture2D texture, RangedAttackAnimation animation, float velocityX) : base(animation)
+
+        private List<Sprite> spawnCtx;
+        public RangedAttack(Texture2D texture, float velocityX, int width, int height, Vector2 rectPoint, RangedAttackAnimation animation, List<Sprite> ctx) : base(animation)
         {
-            timer = 0;
             this.texture = texture;
+            spawnCtx = ctx;
+
             this.velocityX = velocityX;
+            collisionWidth = width;
+            collisionHeight = height;
+            this.rectPoint = rectPoint;
+
+            timer = 0;
             projectileSpawned = false;
         }
 
-        public override void Prepare(Player player)
-        {
-            animation.Reset();
-            player.animation = animation;
-        }
-
-        public override void Update(GameTime gameTime, Player player, List<Sprite> sprites)
+        protected override void NextState(GameTime gameTime, Player player)
         {
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-            if (!projectileSpawned && timer >= (animation as RangedAttackAnimation).spawnDuration)
+            RangedAttackAnimation rangedAnimation = (animation as RangedAttackAnimation);
+            if (!projectileSpawned && timer >= rangedAnimation.SpawnDuration)
             {
-                Vector2 origin = new Vector2(player.animation.frameWidth / 2, player.animation.frameHeight / 2);
-                Vector2 playerOriginPosition = new Vector2(player.Position.X, player.Position.Y - player.animation.Scale * player.animation.frameHeight / 2);
-                Vector2 shift = (animation as RangedAttackAnimation).relativePosition - origin;
-                Projectile p = new Projectile(texture, playerOriginPosition + shift * player.animation.Scale)
+                Vector2 origin = new Vector2(player.animation.FrameWidth / 2, player.animation.FrameHeight / 2);
+                Vector2 playerPos = new Vector2(player.Position.X, player.Position.Y - player.animation.Scale * player.animation.FrameHeight / 2);
+                Vector2 shift = rangedAnimation.RelativePosition - origin;
+                Projectile p = new Projectile(texture, playerPos + shift * player.animation.Scale)
                 {
                     Rotation = 0,
-                    Scale = player.animation.Scale * 37.0f / 45.0f,
+                    Scale = player.animation.Scale * rangedAnimation.ProjectileWidth / collisionWidth,
                     Flip = player.animation.Flip,
-                    Velocity = new Vector2(velocityX, 0)
+                    Velocity = new Vector2(velocityX, 0),
+                    CollisionWidth = collisionWidth,
+                    CollisionHeight = collisionHeight,
+                    CollisionRectPoint = rectPoint
                 };
-                sprites.Add(p);
+                spawnCtx.Add(p);
                 projectileSpawned = true;
             }
-            if (timer >= animation.Duration)
-            {
-                timer = 0;
-                projectileSpawned = false;
-                done = true;
-            }
+        }
+
+        protected override void CheckIfDone()
+        {
+            if (timer >= animation.Duration) done = true;
+        }
+
+        protected override void Prepare(Player player)
+        {
+            timer = 0;
+            projectileSpawned = false;
+            base.Prepare(player);
         }
     }
 }

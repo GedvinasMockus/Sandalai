@@ -9,10 +9,65 @@ using System.Threading.Tasks;
 
 namespace SwordsAndSandals.Animations
 {
-    public abstract class Animation
+    public class Animation
     {
-        public int frameWidth { get; protected set; }
-        public int frameHeight { get; protected set; }
+        public AnimationShared Shared { get; private set; }
+        public int FrameWidth
+        {
+            get
+            {
+                return Shared.FrameWidth;
+            }
+        }
+        public int FrameHeight
+        {
+            get
+            {
+                return Shared.FrameHeight;
+            }
+        }
+        public int CollisionWidth
+        {
+            get
+            {
+                return Shared.CollisionWidth;
+            }
+        }
+        public int CollisionHeight
+        {
+            get
+            {
+                return Shared.CollisionHeight;
+            }
+        }
+        public Vector2 CollisionRectPoint
+        {
+            get
+            {
+                return Shared.CollisionRectPoint;
+            }
+        }
+        public bool FlipChangeable
+        {
+            get
+            {
+                return Shared.FlipChangeable;
+            }
+        }
+        public int TotalFrames
+        {
+            get
+            {
+                return Shared.TotalFrames;
+            }
+        }
+        public Texture2D Texture
+        {
+            get
+            {
+                return Shared.Texture;
+            }
+        }
 
         protected SpriteEffects flip;
         public SpriteEffects Flip
@@ -23,49 +78,47 @@ namespace SwordsAndSandals.Animations
             }
             set
             {
-                if (flipChangeable) flip = value;
+                if (FlipChangeable) flip = value;
             }
         }
         public float Duration
         {
             get
             {
-                return frameDuration * totalFrames;
+                return frameDuration * TotalFrames;
             }
         }
         public float Scale { get; set; }
         public float Rotation { get; set; }
 
-        protected bool flipChangeable;
-        protected int totalFrames;
         protected int currentFrame;
         protected float frameDuration;
         protected float timer;
-        protected Texture2D texture;
 
-        public Animation(float duration, SpriteEffects flip, bool flipChangeable)
+        public Animation(AnimationShared shared, float duration, SpriteEffects flip)
         {
+            Shared = shared;
+
             frameDuration = duration;
-            timer = 0.0f;
             currentFrame = 0;
+            timer = 0f;
             this.flip = flip;
-            this.flipChangeable = flipChangeable;
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
             if (timer >= frameDuration)
             {
-                currentFrame = (currentFrame + 1) % totalFrames;
+                currentFrame = (currentFrame + 1) % TotalFrames;
                 timer %= frameDuration;
             }
         }
 
-        public void Draw(SpriteBatch batch, Vector2 position, Vector2 origin)
+        public virtual void Draw(SpriteBatch batch, Vector2 position, Vector2 origin)
         {
-            Rectangle frameRect = new Rectangle(currentFrame * frameHeight, 0, frameWidth, frameHeight);
-            batch.Draw(texture, position, frameRect, Color.White, Rotation, origin, Scale, Flip, 1);
+            Rectangle frameRect = new Rectangle(currentFrame * FrameWidth, 0, FrameWidth, FrameHeight);
+            batch.Draw(Texture, position, frameRect, Color.White, Rotation, origin, Scale, Flip, 1);
         }
 
         public void Reset()
