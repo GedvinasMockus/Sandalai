@@ -5,7 +5,7 @@ using System;
 
 namespace SwordsAndSandals.UI.Grid
 {
-    public class ButtonCell : GridCell
+    public class ButtonCell : GridComponent
     {
         public Button CellButton { get; private set; }
         public SpriteFont Font { get; private set; }

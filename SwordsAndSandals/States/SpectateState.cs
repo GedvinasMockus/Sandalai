@@ -71,7 +71,7 @@ namespace SwordsAndSandals.States
             Attributes p1Attributes = BInfo.Player1.GetPlayerAttributes(screenWidth);
             Attributes p2Attributes = BInfo.Player2.GetPlayerAttributes(screenWidth);
             player = factory.CreatePlayerWithoutButtons(BInfo.Player1.ClassName, p1Pos, p1flip, p1sprites, p1Attributes, BInfo.Player1.Name);
-            opponent = factory.CreatePlayerWithoutButtons(BInfo.Player1.ClassName, p2Pos, p2flip, p2sprites, p2Attributes, BInfo.Player2.Name);
+            opponent = factory.CreatePlayerWithoutButtons(BInfo.Player2.ClassName, p2Pos, p2flip, p2sprites, p2Attributes, BInfo.Player2.Name);
             player.AddAbilityDoneHandler(OnAbilityDone);
             opponent.AddAbilityDoneHandler(OnAbilityDone);
 
