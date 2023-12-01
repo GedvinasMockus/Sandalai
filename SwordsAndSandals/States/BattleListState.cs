@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Command;
 using SwordsAndSandals.InfoStructs;
+using SwordsAndSandals.Music;
 using SwordsAndSandals.UI;
 using SwordsAndSandals.UI.Grid;
-using SwordsAndSandals.Music;
 
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace SwordsAndSandals.States
     public class BattleListState : State
     {
         private List<Button> buttons;
-        private List<Component> components = new List<Component>();
+        private List<GridComponent> components = new List<GridComponent>();
         private Background background;
 
         private int screenWidth;
@@ -112,21 +112,21 @@ namespace SwordsAndSandals.States
             components.Clear();
             if (info.Count > 0)
             {
-                GridTable gridTable = new GridTable(font, dotTexture, Color.Orange, new Vector2(screenWidth / 2, screenHeight / 2), 300, 6);
-
-                GridRow gridRow = new GridRow();
-                gridRow.AddCell(new TextCell(font, Color.White, "Player 1"));
-                gridRow.AddCell(new TextCell(font, Color.White, "Player 2"));
-                gridRow.AddCell(new TextCell(font, Color.White, "Start time"));
-                gridRow.AddCell(new TextCell(font, Color.White, ""));
-                gridTable.AddRow(gridRow);
+                GridComponent gridTable = new GridTable(font, dotTexture, Color.Orange, new Vector2(screenWidth / 2, screenHeight / 2), 300, 6);
+                int rowNum = 1;
+                GridComponent gridRow = new GridRow(rowNum);
+                gridRow.Add(new TextCell(font, Color.White, "Player 1"));
+                gridRow.Add(new TextCell(font, Color.White, "Player 2"));
+                gridRow.Add(new TextCell(font, Color.White, "Start time"));
+                gridRow.Add(new TextCell(font, Color.White, ""));
+                gridTable.Add(gridRow);
 
                 foreach (BattleInfo item in info)
                 {
-                    GridRow row = new GridRow();
-                    row.AddCell(new TextCell(font, Color.White, item.Player1.ClassName));
-                    row.AddCell(new TextCell(font, Color.White, item.Player2.ClassName));
-                    row.AddCell(new TextCell(font, Color.White, item.StartTime));
+                    GridComponent row = new GridRow(++rowNum);
+                    row.Add(new TextCell(font, Color.White, item.Player1.ClassName));
+                    row.Add(new TextCell(font, Color.White, item.Player2.ClassName));
+                    row.Add(new TextCell(font, Color.White, item.StartTime));
 
                     EventHandler handler = (o, e) =>
                     {
@@ -134,23 +134,20 @@ namespace SwordsAndSandals.States
                     };
                     ButtonCell cell = new ButtonCell(font, buttonTexture, "Spectate", 1f);
                     cell.AddHandler(handler);
-                    row.AddCell(cell);
-                    gridTable.AddRow(row);
+                    row.Add(cell);
+                    gridTable.Add(row);
                 }
                 components.Add(gridTable);
 
             }
             else
             {
-                Text noMatch = new Text(font)
-                {
-                    Position = new Vector2(screenWidth / 2, screenHeight / 2),
-                    TextString = "No matches to watch!",
-                    TextSize = 2f,
-                    PenColour = Color.Orange,
-                    OutlineColor = Color.Black,
-                };
-                components.Add(noMatch);
+                GridComponent gridTable = new GridTable(font, dotTexture, Color.Orange, new Vector2(screenWidth / 2, screenHeight / 2), 300, 6);
+                int rowNum = 1;
+                GridComponent gridRow = new GridRow(rowNum);
+                gridRow.Add(new TextCell(font, Color.White, "No matches to watch!"));
+                gridTable.Add(gridRow);
+                components.Add(gridTable);
             }
             UpdateNeeded = null;
         }

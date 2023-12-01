@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace SwordsAndSandals.UI.Grid
 {
-    public class GridTable : Component
+    public class GridTable : GridComponent
     {
-        private List<GridRow> data;
+        public override List<GridComponent> Component { get; set; }
         private Vector2 position;
         private Texture2D dot;
         private Texture2D background;
@@ -19,7 +19,7 @@ namespace SwordsAndSandals.UI.Grid
 
         public GridTable(SpriteFont font, Texture2D dot, Color lineColor, Vector2 position, float width, float padding)
         {
-            data = new List<GridRow>();
+            Component = new List<GridComponent>();
             this.font = font;
             this.position = position;
             this.dot = dot;
@@ -29,16 +29,16 @@ namespace SwordsAndSandals.UI.Grid
             this.lineColor = lineColor;
             LineThickness = 2;
         }
-        public void AddRow(GridRow rowData)
+        public override void Add(GridComponent rowData)
         {
-            data.Add(rowData);
+            Component.Add(rowData);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
 
-            float tableWidth = data[0].Columns.Count * width;
-            float tableHeight = (data.Count) * (font.LineSpacing + padding * 2);
+            float tableWidth = Component[0].Component.Count * width;
+            float tableHeight = (Component.Count) * (font.LineSpacing + padding * 2);
 
             float x = position.X - tableWidth / 2;
             float y = position.Y - tableHeight / 2;
@@ -49,25 +49,24 @@ namespace SwordsAndSandals.UI.Grid
 
             dot.SetData(new Color[] { lineColor });
             spriteBatch.Draw(dot, new Rectangle((int)x, (int)(cellY), (int)(tableWidth), LineThickness), lineColor);
-            for (int i = 0; i < data.Count; i++)
+            for (int i = 0; i < Component.Count; i++)
             {
-                data[i].RowNum = i + 1;
-                data[i].Draw(spriteBatch, new Vector2(x, cellY), width, padding);
+                Component[i].AddPosition(new Vector2(x, cellY), width, padding, padding);
+                Component[i].Draw(spriteBatch);
                 cellY += font.LineSpacing + padding;
                 spriteBatch.Draw(dot, new Rectangle((int)x, (int)(cellY + (i + 1) * padding), (int)(tableWidth), LineThickness), lineColor);
             }
 
             float lineX = x;
-            for (int i = 0; i <= data[0].Columns.Count; i++)
+            for (int i = 0; i <= Component[0].Component.Count; i++)
             {
                 spriteBatch.Draw(dot, new Rectangle((int)lineX, (int)y, LineThickness, (int)tableHeight), lineColor);
                 lineX += width;
             }
         }
-
         public override void Update(GameTime gameTime)
         {
-            foreach (var row in data)
+            foreach (var row in Component)
             {
                 row.Update(gameTime);
             }
