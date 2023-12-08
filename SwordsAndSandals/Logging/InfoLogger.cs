@@ -20,7 +20,7 @@ namespace SwordsAndSandals.Logging
             if(Log.LogLevel == "INFO")
             {
                 string timestamp = DateTime.Now.ToString("yyyy_MM_dd-HH:mm:ss: ");
-                string fileName = "Logs/" + timestamp.Split("-")[0] + "_Logs.txt";
+                string fileName = timestamp.Split("-")[0] + "_Logs.txt";
                 timestamp = timestamp.Split("-")[1];
                 string message = timestamp + "[INFO] " + Log.Message;
                 string currentDirectory = Directory.GetCurrentDirectory();

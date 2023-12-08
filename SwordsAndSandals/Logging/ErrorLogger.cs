@@ -20,7 +20,7 @@ namespace SwordsAndSandals.Logging
             if (Log.LogLevel == "ERROR")
             {
                 string timestamp = DateTime.Now.ToString("yyyy_MM_dd-HH:mm:ss: ");
-                string fileName = "Logs/" + timestamp.Split("-")[0] + "_Logs.txt";
+                string fileName = timestamp.Split("-")[0] + "_Logs.txt";
                 string message = timestamp.Split("-")[1] + "[ERROR] " + Log.Message;
                 Debug.WriteLine(message);
                 string currentDirectory = Directory.GetCurrentDirectory();
@@ -30,7 +30,7 @@ namespace SwordsAndSandals.Logging
                     writer.WriteLine(message);
                 }
 
-                fileName = "Logs/" + timestamp.Split("-")[0] + "_Errors.txt";
+                fileName = timestamp.Split("-")[0] + "_Errors.txt";
                 currentDirectory = Directory.GetCurrentDirectory();
                 filePath = Path.Combine(currentDirectory, fileName);
                 using (StreamWriter writer = new StreamWriter(filePath, true))

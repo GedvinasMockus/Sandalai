@@ -20,7 +20,7 @@ namespace SwordsAndSandals.Logging
             if (Log.LogLevel == "WARNING")
             {
                 string timestamp = DateTime.Now.ToString("yyyy_MM_dd-HH:mm:ss: ");
-                string fileName = "Logs/" + timestamp.Split("-")[0] + "_Logs.txt";
+                string fileName = timestamp.Split("-")[0] + "_Logs.txt";
                 timestamp = timestamp.Split("-")[1];
                 string message = timestamp + "[WARNING] " + Log.Message;
                 Debug.WriteLine(message);
