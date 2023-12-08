@@ -12,6 +12,9 @@ using SwordsAndSandals.Music;
 using System;
 using System.Collections.Generic;
 using SwordsAndSandals.Animations;
+using SwordsAndSandals.Logging;
+using System.IO;
+using System.Diagnostics;
 
 namespace SwordsAndSandals.States
 {
@@ -45,6 +48,11 @@ namespace SwordsAndSandals.States
         private void SelectCharacterButton_Click(object sender, EventArgs e)
         {
             CommandHelper.ExecuteCommand(new TownStateCommand(graphicsDevice, classes[spriteIndex]));
+            LogHandler logs = new LogHandler();
+            logs.process(new Log("INFO", "New Character Created"));
+            logs.process(new Log("DEBUG", "New Character Created"));
+            logs.process(new Log("ERROR", "New Character Created"));
+            logs.process(new Log("WARNING", "New Character Created"));
         }
         private void LeaveSelectionButton_Click(object sender, EventArgs e)
         {
