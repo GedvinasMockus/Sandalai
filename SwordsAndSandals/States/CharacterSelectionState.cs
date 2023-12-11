@@ -15,6 +15,7 @@ using SwordsAndSandals.Animations;
 using SwordsAndSandals.Logging;
 using System.IO;
 using System.Diagnostics;
+using SwordsAndSandals.Iterators;
 
 namespace SwordsAndSandals.States
 {
@@ -120,10 +121,17 @@ namespace SwordsAndSandals.States
         {
             spriteBatch.Begin();
             background.Draw(spriteBatch);
-            foreach (var b in buttons)
+            ButtonAggregate agg = new ButtonAggregate(buttons);
+            Iterator iter = agg.CreateIterator("Sorted");
+
+            while (iter.hasMore())
+            {
+                iter.getNext().Draw(spriteBatch);
+            }
+            /*foreach (var b in buttons)
             {
                 b.Draw(spriteBatch);
-            }
+            }*/
             sprites[spriteIndex].Draw(spriteBatch);
             spriteBatch.End();
         }

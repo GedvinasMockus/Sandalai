@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Classes;
 using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.Items;
+using SwordsAndSandals.Iterators;
 using SwordsAndSandals.Music;
 using SwordsAndSandals.Sprites;
 using SwordsAndSandals.Stats;
@@ -118,10 +119,19 @@ namespace SwordsAndSandals.States
             background.Draw(spriteBatch);
             opponent.Draw(spriteBatch);
             player.Draw(spriteBatch);
-            foreach (var b in buttons)
+
+            ButtonAggregate agg = new ButtonAggregate(buttons);
+            Iterator iter = agg.CreateIterator("Forward");
+
+            while (iter.hasMore())
+            {
+                iter.getNext().Draw(spriteBatch);
+            }
+            /*foreach (var b in buttons)
             {
                 b.Draw(spriteBatch);
-            }
+            }*/
+
             foreach (var s1 in p1sprites)
             {
                 s1.Draw(spriteBatch);
@@ -142,10 +152,18 @@ namespace SwordsAndSandals.States
             DeterminePlayerDirection(player.Position.X, opponent.Position.X, out p1flip, out p2flip);
             player.ChangeFlip(p1flip);
             opponent.ChangeFlip(p2flip);
-            foreach (var b in buttons)
+
+            ButtonAggregate agg = new ButtonAggregate(buttons);
+            Iterator iter = agg.CreateIterator("Backward");
+
+            while (iter.hasMore())
+            {
+                iter.getNext().Update(gameTime);
+            }
+            /*foreach (var b in buttons)
             {
                 b.Update(gameTime);
-            }
+            }*/
 
             if (turnDone && BattleInfoAvailable)
             {
