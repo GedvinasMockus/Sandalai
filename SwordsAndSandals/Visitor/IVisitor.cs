@@ -1,4 +1,5 @@
 ﻿using SwordsAndSandals.Classes;
+using SwordsAndSandals.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace SwordsAndSandals.Visitor
 {
     public interface IVisitor
     {
-        void VisitPlayer(Player player);
+        void VisitSpinner(Spinner spinner);
     }
 }
