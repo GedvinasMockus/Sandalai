@@ -6,6 +6,7 @@ using SwordsAndSandals.UI;
 using SwordsAndSandals.Music;
 using System;
 using System.Collections.Generic;
+using SwordsAndSandals.Visitor;
 
 namespace SwordsAndSandals.States
 {
@@ -70,7 +71,18 @@ namespace SwordsAndSandals.States
             background.Draw(spriteBatch);
             foreach (var component in components)
             {
-                component.Draw(spriteBatch);
+                if(component.GetType() == typeof(Spinner))
+                {
+                    Spinner spinner = component as Spinner;
+                    spinner.setSprite(spriteBatch);
+
+                    IVisitor visitor = new DrawVisitor();
+                    spinner.Accept(visitor);
+                }
+                else
+                {
+                    component.Draw(spriteBatch);
+                }
             }
             foreach (var b in buttons)
             {
@@ -83,7 +95,18 @@ namespace SwordsAndSandals.States
         {
             foreach (var component in components)
             {
-                component.Update(gameTime);
+                if (component.GetType() == typeof(Spinner))
+                {
+                    Spinner spinner = component as Spinner;
+                    spinner.setTime(gameTime);
+
+                    IVisitor visitor = new UpdateVisitor();
+                    spinner.Accept(visitor);
+                }
+                else
+                {
+                    component.Update(gameTime);
+                }
             }
             foreach (var b in buttons)
             {
