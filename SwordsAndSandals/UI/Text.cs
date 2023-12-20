@@ -25,6 +25,11 @@ namespace SwordsAndSandals.UI
             this.mediator = mediator;
         }
 
+        public Text(IMediator mediator) : base(mediator)
+        {
+
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             float textWidth = Font.MeasureString(TextString).X * TextSize;
@@ -53,7 +58,7 @@ namespace SwordsAndSandals.UI
 
         public void Invoke(string state, object obj)
         {
-            mediator = new ConcreteMediator();
+            mediator = new ConcreteMediator(mediator);
             mediator.Interaction(state, obj);
         }
     }

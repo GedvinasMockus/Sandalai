@@ -30,6 +30,11 @@ namespace SwordsAndSandals.UI
             this.mediator = mediator;
         }
 
+        public Spinner(IMediator mediator) : base(mediator)
+        {
+
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             this.SpriteBatch.Draw(texture, position, null, color, rotation, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 1);
@@ -62,7 +67,7 @@ namespace SwordsAndSandals.UI
 
         public void Invoke(string state, object obj)
         {
-            mediator = new ConcreteMediator();
+            mediator = new ConcreteMediator(mediator);
             mediator.Interaction(state, obj);
         }
     }

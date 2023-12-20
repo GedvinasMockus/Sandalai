@@ -5,7 +5,7 @@ namespace SwordsAndSandals.Proxy
     public class ProxyItem : IItem
     {
         private List<string> helmets = new() { "Bronze Helmet", "Iron Helmet", "Gold Helmet" };
-        private List<string> platebody = new() { "Bronze Platebody", "Iron Platebody", "Gold Platebody" };
+        private List<string> platebodies = new() { "Bronze Platebody", "Iron Platebody", "Gold Platebody" };
         private List<string> platelegs = new() { "Bronze Platelegs", "Iron Platelegs", "Gold Platelegs" };
 
         private RealItem item = new();

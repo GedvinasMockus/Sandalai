@@ -31,6 +31,7 @@ namespace SwordsAndSandals.States
 
         private int screenWidth;
         private int screenHeight;
+        private IItem item = new ProxyItem();
         private IMediator mediator;
 
         public ShopState(GraphicsDeviceManager graphicsDevice, string playerClass, Caretaker caretaker) : base(graphicsDevice)
@@ -96,7 +97,6 @@ namespace SwordsAndSandals.States
             Button button = sender as Button;
             Armour.Armour armour;
             string armourName;
-            IItem item = new ProxyItem();
 
             switch (button.Text.Remove(0, 4))
             {
@@ -144,7 +144,7 @@ namespace SwordsAndSandals.States
             {
                 Position = new Vector2(225f, 900f)
             };
-            leaveShop.Invoke("ShopState", leaveShop.GetType().ToString());
+            leaveShop.Invoke("ShopState", leaveShop.GetType());
             leaveShop.Click += LeaveShopButton_Click;
             buttons = new List<Button>()
             {
@@ -161,7 +161,7 @@ namespace SwordsAndSandals.States
                 buttons.Add(button);
                 button.Click += BuyItem_Click;
                 xPosition += 325f;
-                button.Invoke("ShopState", button.GetType().ToString());
+                button.Invoke("ShopState", button.GetType());
             }
 
             armourText = new Text(content.Load<SpriteFont>("Fonts/vinque"), mediator)
@@ -170,7 +170,7 @@ namespace SwordsAndSandals.States
                 PenColour = Color.Orange,
                 Position = new Vector2(1600f, 800f)
             };
-            armourText.Invoke("ShopState", armourText.GetType().ToString());
+            armourText.Invoke("ShopState", armourText.GetType());
         }
 
         public override void Draw(SpriteBatch spriteBatch)

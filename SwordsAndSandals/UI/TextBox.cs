@@ -54,6 +54,11 @@ namespace SwordsAndSandals.UI
             this.mediator = mediator;
         }
 
+        public TextBox(IMediator mediator) : base(mediator)
+        {
+
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(TextureInput, Position, null, Color.White, 0f, new Vector2(TextureInput.Width / 2, TextureInput.Height / 2), InputScale, SpriteEffects.None, 0);
@@ -102,7 +107,7 @@ namespace SwordsAndSandals.UI
 
         public void Invoke(string state, object obj)
         {
-            mediator = new ConcreteMediator();
+            mediator = new ConcreteMediator(mediator);
             mediator.Interaction(state, obj);
         }
     }
