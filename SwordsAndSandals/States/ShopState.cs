@@ -8,6 +8,7 @@ using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
 using SwordsAndSandals.Music;
 using SwordsAndSandals.Proxy;
+using SwordsAndSandals.Memento;
 
 using System;
 using System.Collections.Generic;
@@ -25,11 +26,12 @@ namespace SwordsAndSandals.States
         private Attributes attributes;
         // Change to server side
         private string playerClass;
+        private Caretaker caretaker;
 
         private int screenWidth;
         private int screenHeight;
 
-        public ShopState(GraphicsDeviceManager graphicsDevice, string playerClass) : base(graphicsDevice)
+        public ShopState(GraphicsDeviceManager graphicsDevice, string playerClass, Caretaker caretaker) : base(graphicsDevice)
         {
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
@@ -38,10 +40,52 @@ namespace SwordsAndSandals.States
             buttonsCount = buyNames.Count + 1;
 
             this.playerClass = playerClass;
+
+            this.caretaker = caretaker;
+            Memento memento = caretaker.GetLastMemento();
+            if (memento != null)
+            {
+                SetMemento(memento);
+            }
+        }
+
+        public void SetButtons(List<Button> buttons)
+        {
+            this.buttons = buttons;
+        }
+
+        public void SetBuyNames(List<string> buyNames)
+        {
+            this.buyNames = buyNames;
+        }
+
+        public void SetAttributes(Attributes attributes)
+        {
+            this.attributes = attributes;
+        }
+
+        public void SetButtonsCount(int buttonsCount)
+        {
+            this.buttonsCount = buttonsCount;
+        }
+
+        public Memento CreateMemento()
+        {
+            return new Memento(this.buttons, this.buyNames, this.attributes, this.buttonsCount);
+        }
+
+        public void SetMemento(Memento memento)
+        {
+            this.buttons = memento.GetSavedButtons();
+            this.buyNames = memento.GetSavedBuyNames();
+            this.attributes = memento.GetSavedAttributes();
+            this.buttonsCount = memento.GetSavedButtonsCount();
         }
 
         private void LeaveShopButton_Click(object sender, EventArgs e)
         {
+            caretaker.SaveShopState(this.buttons, this.buyNames, this.attributes, this.buttonsCount);
+
             CommandHelper.UndoCommand();
         }
 
@@ -49,28 +93,33 @@ namespace SwordsAndSandals.States
         {
             Button button = sender as Button;
             Armour.Armour armour;
+            string armourName;
             IItem item = new ProxyItem();
 
             switch (button.Text.Remove(0, 4))
             {
                 case "Bronze Helmet":
-                    if (item.CheckItemAvailability(playerClass, "Bronze Helmet"))
+                    armourName = "Bronze Helmet";
+                    if (item.CheckItemAvailability(playerClass, armourName))
                     {
                         armour = new Helmet(new Bronze());
                         attributes.ArmourRating += armour.EquipArmour().ArmourRating;
 
                         buttons.Remove(button);
+                        buyNames.Remove(armourName);
                         buttonsCount--;
                     }
 
                     break;
                 case "Iron Platebody":
-                    if (item.CheckItemAvailability(playerClass, "Iron Platebody"))
+                    armourName = "Iron Platebody";
+                    if (item.CheckItemAvailability(playerClass, armourName))
                     {
                         armour = new Platebody(new Iron());
                         attributes.ArmourRating += armour.EquipArmour().ArmourRating;
 
                         buttons.Remove(button);
+                        buyNames.Remove(armourName);
                         buttonsCount--;
                     }
 
@@ -153,6 +202,42 @@ namespace SwordsAndSandals.States
                 "Bronze Helmet",
                 "Iron Platebody"
             };
+        }
+
+        public class Memento
+        {
+            private List<Button> buttons;
+            private List<string> buyNames;
+            private Attributes attributes;
+            private int buttonsCount;
+
+            public Memento(List<Button> buttonsToSave, List<string> buyNamesToSave, Attributes attributesToSave, int buttonsCountToSave)
+            {
+                this.buttons = buttonsToSave;
+                this.buyNames = buyNamesToSave;
+                this.attributes = attributesToSave;
+                this.buttonsCount = buttonsCountToSave;
+            }
+
+            public List<Button> GetSavedButtons()
+            {
+                return this.buttons;
+            }
+
+            public List<string> GetSavedBuyNames()
+            {
+                return this.buyNames;
+            }
+
+            public Attributes GetSavedAttributes()
+            {
+                return this.attributes;
+            }
+
+            public int GetSavedButtonsCount()
+            {
+                return this.buttonsCount;
+            }
         }
     }
 }

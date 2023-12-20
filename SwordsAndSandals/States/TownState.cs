@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Classes;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.Command.StateChangeCommand;
-
+using SwordsAndSandals.Memento;
 using SwordsAndSandals.Music;
 
 using SwordsAndSandals.Stats;
@@ -23,20 +23,22 @@ namespace SwordsAndSandals.States
         private Player player;
         private IMusic music;
         public string playerClass;
+        private Caretaker caretaker;
 
         private int screenWidth;
         private int screenHeight;
 
-        public TownState(GraphicsDeviceManager graphicsDevice, string className) : base(graphicsDevice)
+        public TownState(GraphicsDeviceManager graphicsDevice, string className, Caretaker caretaker) : base(graphicsDevice)
         {
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
             playerClass = className;
+            this.caretaker = caretaker;
         }
 
         private void EnterShop_Click(object sender, EventArgs e)
         {
-            CommandHelper.ExecuteCommand(new ShopStateCommand(graphicsDevice, playerClass));
+            CommandHelper.ExecuteCommand(new ShopStateCommand(graphicsDevice, playerClass, caretaker));
         }
 
         private void FindBattleButton_Click(object sender, EventArgs e)

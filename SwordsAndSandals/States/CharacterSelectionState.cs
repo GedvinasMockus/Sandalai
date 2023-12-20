@@ -16,6 +16,7 @@ using SwordsAndSandals.Logging;
 using System.IO;
 using System.Diagnostics;
 using SwordsAndSandals.Iterators;
+using SwordsAndSandals.Memento;
 
 namespace SwordsAndSandals.States
 {
@@ -48,7 +49,8 @@ namespace SwordsAndSandals.States
         }
         private void SelectCharacterButton_Click(object sender, EventArgs e)
         {
-            CommandHelper.ExecuteCommand(new TownStateCommand(graphicsDevice, classes[spriteIndex]));
+            Caretaker caretaker = new(graphicsDevice, classes[spriteIndex]);
+            CommandHelper.ExecuteCommand(new TownStateCommand(graphicsDevice, classes[spriteIndex], caretaker));
             LogHandler logs = new LogHandler();
             logs.process(new Log("INFO", "New Character Created"));
             logs.process(new Log("DEBUG", "New Character Created"));

@@ -8,7 +8,7 @@ namespace SwordsAndSandals.Proxy
         private List<string> platebody = new() { "Bronze Platebody", "Iron Platebody", "Gold Platebody" };
         private List<string> platelegs = new() { "Bronze Platelegs", "Iron Platelegs", "Gold Platelegs" };
 
-        private RealItem item = new(); 
+        private RealItem item = new();
 
         public bool CheckItemAvailability(string playerClass, string armour)
         {
@@ -16,7 +16,7 @@ namespace SwordsAndSandals.Proxy
             {
                 return false;
             }
-            else if (playerClass.Equals("Samurai") && (!platebody.Contains(armour) || !platelegs.Contains(armour)))
+            else if (playerClass.Equals("Samurai") && helmets.Contains(armour))
             {
                 return false;
             }
