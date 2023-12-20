@@ -7,6 +7,7 @@ using SwordsAndSandals.Command;
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
 using SwordsAndSandals.Music;
+using SwordsAndSandals.Proxy;
 
 using System;
 using System.Collections.Generic;
@@ -23,17 +24,20 @@ namespace SwordsAndSandals.States
         private Text armourText;
         private Attributes attributes;
         // Change to server side
+        private string playerClass;
 
         private int screenWidth;
         private int screenHeight;
 
-        public ShopState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
+        public ShopState(GraphicsDeviceManager graphicsDevice, string playerClass) : base(graphicsDevice)
         {
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
 
             PopulateBuyNamesList();
             buttonsCount = buyNames.Count + 1;
+
+            this.playerClass = playerClass;
         }
 
         private void LeaveShopButton_Click(object sender, EventArgs e)
@@ -45,23 +49,33 @@ namespace SwordsAndSandals.States
         {
             Button button = sender as Button;
             Armour.Armour armour;
+            IItem item = new ProxyItem();
 
             switch (button.Text.Remove(0, 4))
             {
                 case "Bronze Helmet":
-                    armour = new Helmet(new Bronze());
-                    attributes.ArmourRating += armour.EquipArmour().ArmourRating;
+                    if (item.CheckItemAvailability(playerClass, "Bronze Helmet"))
+                    {
+                        armour = new Helmet(new Bronze());
+                        attributes.ArmourRating += armour.EquipArmour().ArmourRating;
+
+                        buttons.Remove(button);
+                        buttonsCount--;
+                    }
 
                     break;
                 case "Iron Platebody":
-                    armour = new Platebody(new Iron());
-                    attributes.ArmourRating += armour.EquipArmour().ArmourRating;
+                    if (item.CheckItemAvailability(playerClass, "Iron Platebody"))
+                    {
+                        armour = new Platebody(new Iron());
+                        attributes.ArmourRating += armour.EquipArmour().ArmourRating;
+
+                        buttons.Remove(button);
+                        buttonsCount--;
+                    }
 
                     break;
             }
-
-            buttons.Remove(button);
-            buttonsCount--;
 
             armourText.TextString = "Armour: " + attributes.ArmourRating;
         }

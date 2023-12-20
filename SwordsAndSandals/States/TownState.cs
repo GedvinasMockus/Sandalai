@@ -36,7 +36,7 @@ namespace SwordsAndSandals.States
 
         private void EnterShop_Click(object sender, EventArgs e)
         {
-            CommandHelper.ExecuteCommand(new ShopStateCommand(graphicsDevice));
+            CommandHelper.ExecuteCommand(new ShopStateCommand(graphicsDevice, playerClass));
         }
 
         private void FindBattleButton_Click(object sender, EventArgs e)
