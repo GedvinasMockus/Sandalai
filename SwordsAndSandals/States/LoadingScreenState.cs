@@ -7,6 +7,7 @@ using SwordsAndSandals.Music;
 using System;
 using System.Collections.Generic;
 using SwordsAndSandals.Visitor;
+using SwordsAndSandals.Mediator;
 
 namespace SwordsAndSandals.States
 {
@@ -18,6 +19,8 @@ namespace SwordsAndSandals.States
 
         private int screenWidth;
         private int screenHeight;
+        private IMediator mediator;
+
         public LoadingScreenState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
         {
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
@@ -40,13 +43,13 @@ namespace SwordsAndSandals.States
             music = new MusicPlayer(content);
             music.stopSong();
 
-            Spinner spinner = new Spinner(spinnerTexture, Color.DarkOrange, new Vector2(screenWidth / 2, screenHeight / 3), 1.0f, 1.0f);
-            Button leaveLobby = new Button(buttonTexture, font, "Leave lobby", 2f, SpriteEffects.None)
+            Spinner spinner = new Spinner(spinnerTexture, Color.DarkOrange, new Vector2(screenWidth / 2, screenHeight / 3), 1.0f, 1.0f, mediator);
+            Button leaveLobby = new Button(buttonTexture, font, "Leave lobby", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 100)
             };
             leaveLobby.Click += LeaveLobby_Click;
-            Text text = new Text(font)
+            Text text = new Text(font, mediator)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 8),
                 TextString = "Waiting for opponent",
@@ -71,7 +74,7 @@ namespace SwordsAndSandals.States
             background.Draw(spriteBatch);
             foreach (var component in components)
             {
-                if(component.GetType() == typeof(Spinner))
+                if (component.GetType() == typeof(Spinner))
                 {
                     Spinner spinner = component as Spinner;
                     spinner.setSprite(spriteBatch);

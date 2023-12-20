@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using SwordsAndSandals.Mediator;
 using System;
 
 namespace SwordsAndSandals.UI
@@ -30,7 +30,7 @@ namespace SwordsAndSandals.UI
         {
             get
             {
-                if(data == null)
+                if (data == null)
                 {
                     data = new Color[_texture.Width * _texture.Height];
                     _texture.GetData(data);
@@ -47,8 +47,9 @@ namespace SwordsAndSandals.UI
         }
         public float Layer { get; set; }
         public string Text { get; set; }
+        private IMediator mediator;
 
-        public Button(Texture2D texture, float scale, SpriteEffects flip)
+        public Button(Texture2D texture, float scale, SpriteEffects flip, IMediator mediator) : base(mediator)
         {
             _texture = texture;
             Position = new Vector2(-1, -1);
@@ -56,9 +57,11 @@ namespace SwordsAndSandals.UI
             this.flip = flip;
             Scale = scale;
             PenColour = Color.Black;
+
+            this.mediator = mediator;
         }
 
-        public Button(Texture2D texture, SpriteFont font, string text, float scale, SpriteEffects flip)
+        public Button(Texture2D texture, SpriteFont font, string text, float scale, SpriteEffects flip, IMediator mediator) : base(mediator)
         {
             _texture = texture;
             Position = new Vector2(-1, -1);
@@ -68,6 +71,8 @@ namespace SwordsAndSandals.UI
             this.flip = flip;
             Scale = scale;
             PenColour = Color.Black;
+
+            this.mediator = mediator;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -109,6 +114,12 @@ namespace SwordsAndSandals.UI
         public void RemoveAllHandlers()
         {
             Click = null;
+        }
+
+        public void Invoke(string state, object obj)
+        {
+            mediator = new ConcreteMediator();
+            mediator.Interaction(state, obj);
         }
     }
 }

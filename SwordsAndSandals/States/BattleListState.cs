@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Command;
 using SwordsAndSandals.InfoStructs;
+using SwordsAndSandals.Mediator;
 using SwordsAndSandals.Music;
 using SwordsAndSandals.UI;
 using SwordsAndSandals.UI.Grid;
@@ -28,6 +29,7 @@ namespace SwordsAndSandals.States
         private Text text;
         public event EventHandler UpdateNeeded;
         public bool InfoAvailable { get; set; }
+        private IMediator mediator;
 
         public BattleListState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
         {
@@ -51,7 +53,7 @@ namespace SwordsAndSandals.States
             music = new MusicPlayer(content);
             music.stopSong();
 
-            text = new Text(font)
+            text = new Text(font, mediator)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 8),
                 TextString = "Battle list",
@@ -59,7 +61,7 @@ namespace SwordsAndSandals.States
                 PenColour = Color.Orange,
                 OutlineColor = Color.Black,
             };
-            Button backbutton = new Button(buttonTexture, font, "Back", 2f, SpriteEffects.None)
+            Button backbutton = new Button(buttonTexture, font, "Back", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 6, 7 * screenHeight / 8),
             };

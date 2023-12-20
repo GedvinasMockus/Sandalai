@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using SwordsAndSandals.Mediator;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -33,8 +33,9 @@ namespace SwordsAndSandals.UI
                 return new Rectangle((int)Position.X - TextureInput.Width, (int)Position.Y - TextureInput.Height, TextureInput.Width * 2, TextureInput.Height * 2);
             }
         }
+        private IMediator mediator;
 
-        public TextBox(Vector2 position, Vector2 currentTextPosition, Vector2 cursorPosition, GameWindow gw, Texture2D textureInput, Texture2D textureCursor, SpriteFont font, Color penColour, float textSize, float inputScale)
+        public TextBox(Vector2 position, Vector2 currentTextPosition, Vector2 cursorPosition, GameWindow gw, Texture2D textureInput, Texture2D textureCursor, SpriteFont font, Color penColour, float textSize, float inputScale, IMediator mediator) : base(mediator)
         {
             Position = position;
             CurrentTextPosition = currentTextPosition;
@@ -49,6 +50,8 @@ namespace SwordsAndSandals.UI
             InputScale = inputScale;
             CursorScale = (textureInput.Height - 14f) / textureCursor.Height * inputScale;
             cursorTime = 0;
+
+            this.mediator = mediator;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -95,6 +98,12 @@ namespace SwordsAndSandals.UI
                 TextString.Remove(TextString.Length - 1, 1);
             }
 
+        }
+
+        public void Invoke(string state, object obj)
+        {
+            mediator = new ConcreteMediator();
+            mediator.Interaction(state, obj);
         }
     }
 }

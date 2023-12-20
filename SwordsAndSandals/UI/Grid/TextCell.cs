@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SwordsAndSandals.Mediator;
 
 namespace SwordsAndSandals.UI.Grid
 {
@@ -10,6 +11,7 @@ namespace SwordsAndSandals.UI.Grid
         public Color TextColor { get; private set; }
         public SpriteFont TextFont { get; private set; }
         public float TextSize { get; set; }
+        private IMediator mediator;
         public TextCell(SpriteFont font, Color color, string text)
         {
             CellText = text;
@@ -26,7 +28,7 @@ namespace SwordsAndSandals.UI.Grid
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Text text = new Text(TextFont)
+            Text text = new Text(TextFont, mediator)
             {
                 Position = Position,
                 TextString = CellText,

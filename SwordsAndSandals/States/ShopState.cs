@@ -12,6 +12,7 @@ using SwordsAndSandals.Memento;
 
 using System;
 using System.Collections.Generic;
+using SwordsAndSandals.Mediator;
 
 namespace SwordsAndSandals.States
 {
@@ -30,6 +31,7 @@ namespace SwordsAndSandals.States
 
         private int screenWidth;
         private int screenHeight;
+        private IMediator mediator;
 
         public ShopState(GraphicsDeviceManager graphicsDevice, string playerClass, Caretaker caretaker) : base(graphicsDevice)
         {
@@ -138,10 +140,11 @@ namespace SwordsAndSandals.States
             music = new MusicPlayer(content);
             music.stopSong();
 
-            Button leaveShop = new Button(buttonTexture, buttonFont, "Leave shop", 2f, SpriteEffects.None)
+            Button leaveShop = new Button(buttonTexture, buttonFont, "Leave shop", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(225f, 900f)
             };
+            leaveShop.Invoke("ShopState", leaveShop.GetType().ToString());
             leaveShop.Click += LeaveShopButton_Click;
             buttons = new List<Button>()
             {
@@ -151,21 +154,23 @@ namespace SwordsAndSandals.States
             float xPosition = 525f;
             for (int i = 0; i < buyNames.Count; i++)
             {
-                Button button = new Button(buttonTexture, buttonFont, "Buy " + buyNames[i], 2f, SpriteEffects.None)
+                Button button = new Button(buttonTexture, buttonFont, "Buy " + buyNames[i], 2f, SpriteEffects.None, mediator)
                 {
                     Position = new Vector2(xPosition, 250f)
                 };
                 buttons.Add(button);
                 button.Click += BuyItem_Click;
                 xPosition += 325f;
+                button.Invoke("ShopState", button.GetType().ToString());
             }
 
-            armourText = new Text(content.Load<SpriteFont>("Fonts/vinque"))
+            armourText = new Text(content.Load<SpriteFont>("Fonts/vinque"), mediator)
             {
                 TextString = "Armour: " + attributes.ArmourRating,
                 PenColour = Color.Orange,
                 Position = new Vector2(1600f, 800f)
             };
+            armourText.Invoke("ShopState", armourText.GetType().ToString());
         }
 
         public override void Draw(SpriteBatch spriteBatch)

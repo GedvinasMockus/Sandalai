@@ -6,6 +6,7 @@ using SwordsAndSandals.Classes;
 using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.Items;
 using SwordsAndSandals.Iterators;
+using SwordsAndSandals.Mediator;
 using SwordsAndSandals.Music;
 using SwordsAndSandals.Sprites;
 using SwordsAndSandals.Stats;
@@ -37,6 +38,8 @@ namespace SwordsAndSandals.States
 
         private int screenWidth;
         private int screenHeight;
+        private IMediator mediator;
+
         public GameState(GraphicsDeviceManager graphicsDevice, BattleInfo bInfo) : base(graphicsDevice)
         {
             p1sprites = new List<Sprite>();
@@ -102,7 +105,7 @@ namespace SwordsAndSandals.States
             opponent.AddAbilityDoneHandler(OnAbilityDone);
 
 
-            Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Leave battle", 2f, SpriteEffects.None)
+            Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Leave battle", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 8, screenHeight / 12)
             };
@@ -172,20 +175,20 @@ namespace SwordsAndSandals.States
                 UpdateBattleInfo();
             }
 
-            for(int i = 0; i < p1sprites.Count; i++)
+            for (int i = 0; i < p1sprites.Count; i++)
             {
                 Sprite s = p1sprites[i];
-                if(s.Rectangle.Intersects(opponent.Rectangle))
+                if (s.Rectangle.Intersects(opponent.Rectangle))
                 {
                     p1sprites.RemoveAt(i);
                     i--;
                 }
                 s.Update(gameTime);
             }
-            for(int i = 0; i < p2sprites.Count; i++)
+            for (int i = 0; i < p2sprites.Count; i++)
             {
                 Sprite s = p2sprites[i];
-                if(s.Rectangle.Intersects(player.Rectangle))
+                if (s.Rectangle.Intersects(player.Rectangle))
                 {
                     p2sprites.RemoveAt(i);
                     i--;
