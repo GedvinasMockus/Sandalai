@@ -7,7 +7,7 @@ namespace SwordsAndSandals.UI.Grid
 {
     public class GridRow : GridComponent
     {
-        public override List<GridComponent> Component { get; set; }
+        public List<GridComponent> Component { get; set; }
         public int RowNum { get; set; }
         public GridRow(int rowNum)
         {
