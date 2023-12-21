@@ -16,7 +16,7 @@ namespace SwordsAndSandals.States
     public class BattleListState : State
     {
         private List<Button> buttons;
-        private List<GridComponent> components = new List<GridComponent>();
+        private GridComponent component;
         private Background background;
 
         private int screenWidth;
@@ -75,10 +75,8 @@ namespace SwordsAndSandals.States
             spriteBatch.Begin();
             background.Draw(spriteBatch);
             text.Draw(spriteBatch);
-            foreach (var component in components)
-            {
+            if (component != null)
                 component.Draw(spriteBatch);
-            }
             foreach (var b in buttons)
             {
                 b.Draw(spriteBatch);
@@ -92,10 +90,8 @@ namespace SwordsAndSandals.States
 
         public override void Update(GameTime gameTime)
         {
-            foreach (var component in components)
-            {
+            if (component != null)
                 component.Update(gameTime);
-            }
             foreach (var b in buttons)
             {
                 b.Update(gameTime);
@@ -109,7 +105,7 @@ namespace SwordsAndSandals.States
 
         public void UpdateGrid(List<BattleInfo> info)
         {
-            components.Clear();
+            component = null;
             if (info.Count > 0)
             {
                 GridComponent gridTable = new GridTable(font, dotTexture, Color.Orange, new Vector2(screenWidth / 2, screenHeight / 2), 300, 6);
@@ -137,7 +133,7 @@ namespace SwordsAndSandals.States
                     row.Add(cell);
                     gridTable.Add(row);
                 }
-                components.Add(gridTable);
+                component = gridTable;
 
             }
             else
@@ -147,7 +143,7 @@ namespace SwordsAndSandals.States
                 GridComponent gridRow = new GridRow(rowNum);
                 gridRow.Add(new TextCell(font, Color.White, "No matches to watch!"));
                 gridTable.Add(gridRow);
-                components.Add(gridTable);
+                component = gridTable;
             }
             UpdateNeeded = null;
         }

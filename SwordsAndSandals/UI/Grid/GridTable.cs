@@ -7,7 +7,7 @@ namespace SwordsAndSandals.UI.Grid
 {
     public class GridTable : GridComponent
     {
-        public override List<GridComponent> Component { get; set; }
+        public List<GridComponent> Component { get; set; }
         private Vector2 position;
         private Texture2D dot;
         private Texture2D background;
@@ -37,7 +37,7 @@ namespace SwordsAndSandals.UI.Grid
         public override void Draw(SpriteBatch spriteBatch)
         {
 
-            float tableWidth = Component[0].Component.Count * width;
+            float tableWidth = (Component[0] as GridRow).Component.Count * width;
             float tableHeight = (Component.Count) * (font.LineSpacing + padding * 2);
 
             float x = position.X - tableWidth / 2;
@@ -58,7 +58,7 @@ namespace SwordsAndSandals.UI.Grid
             }
 
             float lineX = x;
-            for (int i = 0; i <= Component[0].Component.Count; i++)
+            for (int i = 0; i <= (Component[0] as GridRow).Component.Count; i++)
             {
                 spriteBatch.Draw(dot, new Rectangle((int)lineX, (int)y, LineThickness, (int)tableHeight), lineColor);
                 lineX += width;
