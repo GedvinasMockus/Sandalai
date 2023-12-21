@@ -1,10 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GeonBit.UI;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using SwordsAndSandals.Command;
 using SwordsAndSandals.Command.StateChangeCommand;
 using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.States;
+using SwordsAndSandals.UI.Console;
 
 using System;
 using System.Collections.Generic;
@@ -17,6 +20,7 @@ namespace SwordsAndSandals
         private SpriteBatch _spriteBatch;
         private const int _screenHeight = 1080;
         private const int _screenWidth = 1920;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -26,6 +30,8 @@ namespace SwordsAndSandals
 
         protected override void Initialize()
         {
+            UserInterface.Initialize(Content, BuiltinThemes.editor);
+            UserInterface.Active.ShowCursor = false;
             ConnectionManager.Instance.AddHub("MainHub");
             ConnectionManager.Instance.AddHandler<BattleInfo>("OpponentFound", (info) =>
             {
@@ -107,6 +113,8 @@ namespace SwordsAndSandals
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            GameConsole.Instance.CreateConsole(_screenWidth, _screenHeight);
+            GameConsole.Instance.CreateUI();
             StateManager.Instance.SetContentManager(Content);
             CommandHelper.ExecuteCommand(new MenuStateCommand(_graphics));
         }
@@ -114,7 +122,10 @@ namespace SwordsAndSandals
         protected override void Update(GameTime gameTime)
         {
             if (StateManager.Instance.NotInAState()) this.Exit();
-            StateManager.Instance.Update(gameTime);
+            if (!GameConsole.Instance.IsVisible())
+                StateManager.Instance.Update(gameTime);
+            GameConsole.Instance.Update(gameTime);
+            UserInterface.Active.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -122,6 +133,8 @@ namespace SwordsAndSandals
         {
             GraphicsDevice.Clear(Color.SkyBlue);
             StateManager.Instance.Draw(_spriteBatch);
+            UserInterface.Active.Draw(_spriteBatch);
+            GameConsole.Instance.Draw(_spriteBatch, Content);
             base.Draw(gameTime);
         }
         protected override void OnExiting(object sender, EventArgs args)
