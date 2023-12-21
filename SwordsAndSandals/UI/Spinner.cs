@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SwordsAndSandals.Mediator;
 using SwordsAndSandals.Visitor;
 using System;
 
@@ -15,7 +16,9 @@ namespace SwordsAndSandals.UI
         private float rotation;
         public GameTime GameTime { get; set; }
         public SpriteBatch SpriteBatch { get; set; }
-        public Spinner(Texture2D texture, Color color, Vector2 position, float scale, float angularVelocity)
+        private IMediator mediator;
+
+        public Spinner(Texture2D texture, Color color, Vector2 position, float scale, float angularVelocity, IMediator mediator) : base(mediator)
         {
             this.texture = texture;
             this.position = position;
@@ -23,6 +26,13 @@ namespace SwordsAndSandals.UI
             this.angularVelocity = angularVelocity;
             this.color = color;
             rotation = 0;
+
+            this.mediator = mediator;
+        }
+
+        public Spinner(IMediator mediator) : base(mediator)
+        {
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -53,6 +63,12 @@ namespace SwordsAndSandals.UI
         public void Accept(IVisitor Visitor)
         {
             Visitor.VisitSpinner(this);
+        }
+
+        public void Invoke(string state, object obj)
+        {
+            mediator = new ConcreteMediator(mediator);
+            mediator.Interaction(state, obj);
         }
     }
 }

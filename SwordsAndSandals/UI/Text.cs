@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using SwordsAndSandals.Mediator;
 using System;
 
 namespace SwordsAndSandals.UI
@@ -13,12 +13,21 @@ namespace SwordsAndSandals.UI
         public string TextString { get; set; }
         public float TextSize { get; set; }
         public Color OutlineColor { get; set; }
-        public Text(SpriteFont font)
+        private IMediator mediator;
+
+        public Text(SpriteFont font, IMediator mediator) : base(mediator)
         {
             Font = font;
             PenColour = Color.Black;
             OutlineColor = Color.Black;
             TextSize = 1.0f;
+
+            this.mediator = mediator;
+        }
+
+        public Text(IMediator mediator) : base(mediator)
+        {
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -45,6 +54,12 @@ namespace SwordsAndSandals.UI
         public override void Update(GameTime gameTime)
         {
 
+        }
+
+        public void Invoke(string state, object obj)
+        {
+            mediator = new ConcreteMediator(mediator);
+            mediator.Interaction(state, obj);
         }
     }
 }

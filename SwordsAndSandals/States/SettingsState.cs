@@ -6,6 +6,7 @@ using SwordsAndSandals.UI;
 using SwordsAndSandals.Music;
 using System;
 using System.Collections.Generic;
+using SwordsAndSandals.Mediator;
 
 namespace SwordsAndSandals
 {
@@ -17,6 +18,8 @@ namespace SwordsAndSandals
 
         private int screenWidth;
         private int screenHeight;
+        private IMediator mediator;
+                
         public SettingsState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
         {
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
@@ -37,7 +40,7 @@ namespace SwordsAndSandals
             music = new MusicPlayer(content);
             music.stopSong();
 
-            Text text = new Text(buttonFont)
+            Text text = new Text(buttonFont, mediator)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 8),
                 TextString = "Edit settings",
@@ -45,7 +48,7 @@ namespace SwordsAndSandals
                 PenColour = Color.Orange,
                 OutlineColor = Color.Black,
             };
-            Button backbutton = new Button(buttonTexture, buttonFont, "Back", 2f, SpriteEffects.None)
+            Button backbutton = new Button(buttonTexture, buttonFont, "Back", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 6, 7 * screenHeight / 8),
             };

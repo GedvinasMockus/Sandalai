@@ -9,6 +9,7 @@ using SwordsAndSandals.Music;
 
 using System;
 using System.Collections.Generic;
+using SwordsAndSandals.Mediator;
 
 namespace SwordsAndSandals
 {
@@ -19,6 +20,8 @@ namespace SwordsAndSandals
 
         private int screenWidth;
         private int screenHeight;
+        private IMediator mediator;
+
         public MenuState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
         {
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
@@ -59,27 +62,27 @@ namespace SwordsAndSandals
             music = new MusicPlayer(content);
             music.stopSong();
 
-            Button CharacterSelectionButton = new Button(buttonTexture, buttonFont, "Select character", 2f, SpriteEffects.None)
+            Button CharacterSelectionButton = new Button(buttonTexture, buttonFont, "Select character", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 100)
             };
             CharacterSelectionButton.Click += CharacterSelection_Click;
-            Button settingsButton = new Button(buttonTexture, buttonFont, "Settings", 2f, SpriteEffects.None)
+            Button settingsButton = new Button(buttonTexture, buttonFont, "Settings", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 200)
             };
             settingsButton.Click += SettingButton_Click;
-            Button benchmarkButton = new Button(buttonTexture, buttonFont, "Benchmark", 2f, SpriteEffects.None)
+            Button benchmarkButton = new Button(buttonTexture, buttonFont, "Benchmark", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 300),
             };
             benchmarkButton.Click += BenchmarkButton_Click;
-            Button exitButton = new Button(buttonTexture, buttonFont, "Exit", 2f, SpriteEffects.None)
+            Button exitButton = new Button(buttonTexture, buttonFont, "Exit", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 400)
             };
             exitButton.Click += ExitButton_Click;
-            Button spectateBattleButton = new Button(buttonTexture, buttonFont, "Spectate battles", 2.0f, SpriteEffects.None)
+            Button spectateBattleButton = new Button(buttonTexture, buttonFont, "Spectate battles", 2.0f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(10 * screenWidth / 11, screenHeight / 15)
             };

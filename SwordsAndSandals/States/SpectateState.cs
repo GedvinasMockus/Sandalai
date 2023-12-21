@@ -6,6 +6,7 @@ using SwordsAndSandals.Classes;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.InfoStructs;
 using SwordsAndSandals.Items;
+using SwordsAndSandals.Mediator;
 using SwordsAndSandals.Music;
 using SwordsAndSandals.Sprites;
 using SwordsAndSandals.Stats;
@@ -35,6 +36,8 @@ namespace SwordsAndSandals.States
 
         private Player opponent;
         private List<Sprite> p2sprites;
+        private IMediator mediator;
+                
         public SpectateState(GraphicsDeviceManager graphicsDevice, BattleInfo bInfo) : base(graphicsDevice)
         {
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
@@ -76,7 +79,7 @@ namespace SwordsAndSandals.States
             opponent.AddAbilityDoneHandler(OnAbilityDone);
 
 
-            Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Leave battle", 2f, SpriteEffects.None)
+            Button logoutButton = new Button(content.Load<Texture2D>("Views/Button"), content.Load<SpriteFont>("Fonts/vinque"), "Leave battle", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 8, screenHeight / 12)
             };

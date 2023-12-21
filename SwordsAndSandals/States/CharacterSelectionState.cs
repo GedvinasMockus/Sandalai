@@ -16,6 +16,8 @@ using SwordsAndSandals.Logging;
 using System.IO;
 using System.Diagnostics;
 using SwordsAndSandals.Iterators;
+using SwordsAndSandals.Memento;
+using SwordsAndSandals.Mediator;
 
 namespace SwordsAndSandals.States
 {
@@ -29,6 +31,8 @@ namespace SwordsAndSandals.States
         private int screenWidth;
         private int screenHeight;
         private int spriteIndex;
+        private IMediator mediator;
+
         public CharacterSelectionState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
         {
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
@@ -48,7 +52,8 @@ namespace SwordsAndSandals.States
         }
         private void SelectCharacterButton_Click(object sender, EventArgs e)
         {
-            CommandHelper.ExecuteCommand(new TownStateCommand(graphicsDevice, classes[spriteIndex]));
+            Caretaker caretaker = new(graphicsDevice, classes[spriteIndex]);
+            CommandHelper.ExecuteCommand(new TownStateCommand(graphicsDevice, classes[spriteIndex], caretaker));
             LogHandler logs = new LogHandler();
             logs.process(new Log("INFO", "New Character Created"));
             logs.process(new Log("DEBUG", "New Character Created"));
@@ -87,22 +92,22 @@ namespace SwordsAndSandals.States
                 "Samurai",
                 "Skeleton"
             };
-            Button switchLeftButton = new Button(arrowTexture, 0.15f, SpriteEffects.FlipHorizontally)
+            Button switchLeftButton = new Button(arrowTexture, 0.15f, SpriteEffects.FlipHorizontally, mediator)
             {
                 Position = new Vector2(3 * screenWidth / 8, screenHeight / 2)
             };
             switchLeftButton.Click += SwitchLeftButton_Click;
-            Button switchRightButton = new Button(arrowTexture, 0.15f, SpriteEffects.None)
+            Button switchRightButton = new Button(arrowTexture, 0.15f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(5 * screenWidth / 8, screenHeight / 2)
             };
             switchRightButton.Click += SwitchRightButton_Click;
-            Button selectCharacterButton = new Button(buttonTexture, buttonFont, "Select character", 2f, SpriteEffects.None)
+            Button selectCharacterButton = new Button(buttonTexture, buttonFont, "Select character", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 200)
             };
             selectCharacterButton.Click += SelectCharacterButton_Click;
-            Button leaveSelection = new Button(buttonTexture, buttonFont, "Main menu", 2f, SpriteEffects.None)
+            Button leaveSelection = new Button(buttonTexture, buttonFont, "Main menu", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 8, screenHeight / 12)
             };

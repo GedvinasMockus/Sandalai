@@ -6,6 +6,7 @@ using SwordsAndSandals.UI;
 using SwordsAndSandals.Music;
 using System;
 using System.Collections.Generic;
+using SwordsAndSandals.Mediator;
 
 namespace SwordsAndSandals.States
 {
@@ -15,6 +16,7 @@ namespace SwordsAndSandals.States
         private List<Component> components;
         private Background background;
         private GameWindow gw;
+        private IMediator mediator;
 
         private int screenWidth;
         private int screenHeight;
@@ -39,7 +41,7 @@ namespace SwordsAndSandals.States
             music = new MusicPlayer(content);
             music.stopSong();
 
-            Text text = new Text(font)
+            Text text = new Text(font, mediator)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 8),
                 TextString = "Login",
@@ -47,12 +49,12 @@ namespace SwordsAndSandals.States
                 PenColour = Color.Orange,
                 OutlineColor = Color.Black,
             };
-            Button backbutton = new Button(buttonTexture, font, "Back", 2f, SpriteEffects.None)
+            Button backbutton = new Button(buttonTexture, font, "Back", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 6, 7 * screenHeight / 8),
             };
-            TextBox username = new TextBox(new Vector2(screenWidth / 2, screenHeight / 2), new Vector2(screenWidth / 2, screenHeight / 2), new Vector2(screenWidth / 2, screenHeight / 2), gw, inputBoxTexture, cursorTexture, font, Color.White, 1.5f, 1.5f);
-            TextBox password = new TextBox(new Vector2(screenWidth / 2, screenHeight / 2 + 100), new Vector2(screenWidth / 2, screenHeight / 2), new Vector2(screenWidth / 2, screenHeight / 2), gw, inputBoxTexture, cursorTexture, font, Color.White, 1.5f, 1.5f);
+            TextBox username = new TextBox(new Vector2(screenWidth / 2, screenHeight / 2), new Vector2(screenWidth / 2, screenHeight / 2), new Vector2(screenWidth / 2, screenHeight / 2), gw, inputBoxTexture, cursorTexture, font, Color.White, 1.5f, 1.5f, mediator);
+            TextBox password = new TextBox(new Vector2(screenWidth / 2, screenHeight / 2 + 100), new Vector2(screenWidth / 2, screenHeight / 2), new Vector2(screenWidth / 2, screenHeight / 2), gw, inputBoxTexture, cursorTexture, font, Color.White, 1.5f, 1.5f, mediator);
             backbutton.Click += BackButton_Click;
             buttons = new List<Button>()
             {

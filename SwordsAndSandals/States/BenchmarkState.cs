@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Classes;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.Command.StateChangeCommand;
+using SwordsAndSandals.Mediator;
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
 using System;
@@ -28,6 +29,8 @@ namespace SwordsAndSandals.States
 
         private bool running;
         private Random rng;
+        private IMediator mediator;
+        
         public BenchmarkState(GraphicsDeviceManager graphicsDevice) : base(graphicsDevice)
         {
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
@@ -64,23 +67,23 @@ namespace SwordsAndSandals.States
                 "Skeleton"
             };
 
-            ramUsed = new Text(buttonFont)
+            ramUsed = new Text(buttonFont, mediator)
             {
                 PenColour = Color.Orange,
                 TextSize = 1.5f,
-                Position = new Vector2(screenWidth/2, screenHeight / 2 - 100),
+                Position = new Vector2(screenWidth / 2, screenHeight / 2 - 100),
             };
-            Button startBenchmarkWithCache = new Button(buttonTexture, buttonFont, "Start benchmark (wc)", 2f, SpriteEffects.None)
+            Button startBenchmarkWithCache = new Button(buttonTexture, buttonFont, "Start benchmark (wc)", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2),
             };
             startBenchmarkWithCache.Click += StartBenchmarkWithCacheButton_Click;
-            Button startBenchmarkWithoutCache = new Button(buttonTexture, buttonFont, "Start benchmark (nc)", 2f, SpriteEffects.None)
+            Button startBenchmarkWithoutCache = new Button(buttonTexture, buttonFont, "Start benchmark (nc)", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 100),
             };
             startBenchmarkWithoutCache.Click += StartBenchmarkWithoutCacheButton_click;
-            Button backButton = new Button(buttonTexture, buttonFont, "Back", 2f, SpriteEffects.None)
+            Button backButton = new Button(buttonTexture, buttonFont, "Back", 2f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(screenWidth / 2, screenHeight / 2 + 200),
             };
@@ -98,7 +101,7 @@ namespace SwordsAndSandals.States
             spriteBatch.Begin();
             if (running)
             {
-                foreach(var p in players)
+                foreach (var p in players)
                 {
                     p.Draw(spriteBatch);
                 }
@@ -157,7 +160,7 @@ namespace SwordsAndSandals.States
         }
         public override void UnloadContent()
         {
-            
+
         }
 
     }

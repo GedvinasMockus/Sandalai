@@ -5,7 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Classes;
 using SwordsAndSandals.Command;
 using SwordsAndSandals.Command.StateChangeCommand;
-
+using SwordsAndSandals.Mediator;
+using SwordsAndSandals.Memento;
 using SwordsAndSandals.Music;
 
 using SwordsAndSandals.Stats;
@@ -23,20 +24,24 @@ namespace SwordsAndSandals.States
         private Player player;
         private IMusic music;
         public string playerClass;
+        private Caretaker caretaker;
 
         private int screenWidth;
         private int screenHeight;
+        private IMediator mediator;
+                
 
-        public TownState(GraphicsDeviceManager graphicsDevice, string className) : base(graphicsDevice)
+        public TownState(GraphicsDeviceManager graphicsDevice, string className, Caretaker caretaker) : base(graphicsDevice)
         {
             screenWidth = graphicsDevice.PreferredBackBufferWidth;
             screenHeight = graphicsDevice.PreferredBackBufferHeight;
             playerClass = className;
+            this.caretaker = caretaker;
         }
 
         private void EnterShop_Click(object sender, EventArgs e)
         {
-            CommandHelper.ExecuteCommand(new ShopStateCommand(graphicsDevice));
+            CommandHelper.ExecuteCommand(new ShopStateCommand(graphicsDevice, playerClass, caretaker));
         }
 
         private void FindBattleButton_Click(object sender, EventArgs e)
@@ -65,12 +70,12 @@ namespace SwordsAndSandals.States
             music = new MusicPlayer(content);
             music.stopSong();
 
-            Button enterShop = new Button(shopTexture, 1f, SpriteEffects.None)
+            Button enterShop = new Button(shopTexture, 1f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(325f, 300f)
             };
             enterShop.Click += EnterShop_Click;
-            Button enterArena = new Button(arenaTexture, 1f, SpriteEffects.None)
+            Button enterArena = new Button(arenaTexture, 1f, SpriteEffects.None, mediator)
             {
                 Position = new Vector2(1580f, 280f)
             };

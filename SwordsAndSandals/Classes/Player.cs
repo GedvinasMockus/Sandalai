@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Abilities;
 using SwordsAndSandals.Animations;
 using SwordsAndSandals.Items;
+using SwordsAndSandals.Mediator;
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
 using System;
@@ -18,6 +19,7 @@ namespace SwordsAndSandals.Classes
         public virtual Attributes BaseAttributes { get; set; }
         public virtual int CorrectionY { get; set; }
         public virtual Ability Active { get; set; }
+        private IMediator mediator;
 
         protected Dictionary<string, Button> Buttons = new Dictionary<string, Button>();
         protected Dictionary<string, Ability> Abilities = new Dictionary<string, Ability>();
@@ -38,7 +40,7 @@ namespace SwordsAndSandals.Classes
 
         public virtual void AddButton(string name, Texture2D texture, float scale, SpriteEffects flip)
         {
-            Button button = new Button(texture, scale, flip);
+            Button button = new Button(texture, scale, flip, mediator);
             button.Click += (o, e) =>
             {
                 ConnectionManager.Instance.Invoke("AbilityUsed", name);

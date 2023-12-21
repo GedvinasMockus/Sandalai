@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using SwordsAndSandals.Mediator;
 using System;
 
 namespace SwordsAndSandals.UI.Grid
@@ -9,10 +9,11 @@ namespace SwordsAndSandals.UI.Grid
     {
         public Button CellButton { get; private set; }
         public SpriteFont Font { get; private set; }
+        private IMediator mediator;
 
         public ButtonCell(SpriteFont font, Texture2D texture, string text, float scale)
         {
-            CellButton = new Button(texture, font, text, scale, SpriteEffects.None);
+            CellButton = new Button(texture, font, text, scale, SpriteEffects.None, mediator);
             Font = font;
         }
         public override void AddPosition(Vector2 position, float width, float wPadding, float hPadding)

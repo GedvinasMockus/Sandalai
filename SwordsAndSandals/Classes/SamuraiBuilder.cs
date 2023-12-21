@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SwordsAndSandals.Abilities;
 using SwordsAndSandals.Animations;
 using SwordsAndSandals.Classes.PlayerDecorators;
+using SwordsAndSandals.Mediator;
 using SwordsAndSandals.Sprites;
 using SwordsAndSandals.Stats;
 using SwordsAndSandals.UI;
@@ -14,6 +15,8 @@ namespace SwordsAndSandals.Classes
 {
     public class SamuraiBuilder : PlayerBuilder
     {
+        private IMediator mediator;
+
         public SamuraiBuilder(ContentManager content, AnimationFactory factory)
         {
             this.content = content;
@@ -32,7 +35,7 @@ namespace SwordsAndSandals.Classes
         }
         public override PlayerBuilder SetName(string name)
         {
-            Text text = new Text(content.Load<SpriteFont>("Fonts/vinque"))
+            Text text = new Text(content.Load<SpriteFont>("Fonts/vinque"), mediator)
             {
                 PenColour = Color.Orange,
                 TextSize = 0.75f,
@@ -46,13 +49,13 @@ namespace SwordsAndSandals.Classes
         public override PlayerBuilder SetAttributes(Attributes attributes)
         {
             product.BaseAttributes = attributes;
-            Text text = new Text(content.Load<SpriteFont>("Fonts/vinque"))
+            Text text = new Text(content.Load<SpriteFont>("Fonts/vinque"), mediator)
             {
                 PenColour = Color.DarkRed,
                 TextSize = 0.75f,
                 TextString = "HP:" + attributes.CurrHealth + "/" + attributes.MaxHealth,
             };
-            PlayerHPDecorator decorator = new PlayerHPDecorator(product,text);
+            PlayerHPDecorator decorator = new PlayerHPDecorator(product, text);
             product = decorator;
             return this;
         }
