@@ -1,11 +1,7 @@
-﻿using Microsoft.Xna.Framework.Input;
-using SwordsAndSandals.UI;
+﻿using SwordsAndSandals.UI;
+
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SwordsAndSandals.Iterators
 {
@@ -60,8 +56,6 @@ namespace SwordsAndSandals.Iterators
 
             Button button = buttons[index];
             used.Add(button);
-
-            Debug.WriteLine("Button: " + button.Position);
 
             return button;
         }
